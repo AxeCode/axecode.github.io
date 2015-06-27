@@ -1,0 +1,75 @@
+table.tablesaw {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1.5em;
+
+  > thead,
+  > tbody,
+  > tfoot {
+    > tr {
+      > th,
+      > td {
+        font-size: 1em;
+        line-height: 1.2em;
+        border-top: 1px solid #ddd;
+        font-weight: lighter;
+        padding: 8px;
+        max-width: 100%;
+        word-break: hyphenate;
+        vertical-align: top;
+      }
+    }
+  }
+
+  > thead > tr > th {
+    font-weight: bold;
+    vertical-align: bottom;
+    border-bottom: 2px solid #ddd;
+  }
+
+  @media only screen and (min-width: 992px) {
+    > thead > tr > th {
+      white-space: nowrap;
+    }
+  }
+
+  > caption + thead,
+  > colgroup + thead,
+  > thead:first-child {
+    > tr:first-child {
+      > th,
+      > td {
+        border-top: 0;
+      }
+    }
+  }
+
+  > tbody + tbody {
+    border-top: 2px solid #ddd;
+  }
+
+  > tbody > tr:nth-of-type(odd) {
+    background-color: $gray-lighter;
+  }
+}
+
+th {
+  text-align: left;
+}
+
+table col[class*="col-"] {
+  position: static; // Prevent border hiding in Firefox and IE9-11 (see https://github.com/twbs/bootstrap/issues/11623)
+  float: none;
+  display: table-column;
+}
+
+table {
+  td,
+  th {
+    &[class*="col-"] {
+      position: static; // Prevent border hiding in Firefox and IE9-11 (see https://github.com/twbs/bootstrap/issues/11623)
+      float: none;
+      display: table-cell;
+    }
+  }
+}
