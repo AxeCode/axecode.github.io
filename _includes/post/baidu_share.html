@@ -1,0 +1,39 @@
+<div class="bdsharebuttonbox" data-tag="share_1">
+  <a class="fa fa-weibo"  data-cmd="tsina"></a>
+  <a class="fa fa-weixin" data-cmd="weixin"></a>
+  <a class="fa fa-copy"   data-cmd="copy"></a>
+</div>
+<script>
+  window._bd_share_config = {
+    common : {
+      bdText : document.title,
+      bdDesc : (function () {
+        var meta = document.querySelector("meta[name=\'description\']"),
+            description;
+
+        if (meta) meta = meta.getAttribute("content");
+        description = meta || "";
+
+        return description;
+      })(),
+      bdUrl  : document.location.href,
+      bdPic  : (function () {
+        var imgs = document.getElementsByTagName('img'),
+            img_srcs = [];
+
+        for (var i = 0; i < imgs.length; i++) {
+          var img = imgs[i];
+          // 因为使用了延迟加载，图片没有src属性
+          img_srcs.push(window.location.host + img.getAttribute('data-original'));
+        }
+
+        return img_srcs.join("||");
+      })()
+    },
+    share : [{
+      "bdSize" : 32,
+      "bdCustomStyle" : "/stylesheets/screen.css"
+    }],
+  }
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
