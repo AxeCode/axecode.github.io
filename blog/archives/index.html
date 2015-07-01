@@ -1,0 +1,522 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="zh-CN"><!--<![endif]-->
+<head>
+  <meta charset="UTF-8">
+  <title>Blog Archive - 乐正</title>
+  <meta name="author" content="乐正">
+  <meta name="renderer" content="webkit">
+
+  
+  <meta name="description" content="Blog Archive 2015 什么是线程
+Jun 01 2015 posted in 技术 第一次与 Arduino 交互
+May 31 2015 posted in 技术 Arduino 学习笔记——LED 闪烁实验中隐含的简单原理
+May 27 2015 posted in 技术 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+
+  <link rel="canonical" href="http://yuez.me/blog/archives/">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="乐正" type="application/atom+xml">
+  <script src="/javascripts/jquery.min.js" type="text/javascript"></script>
+  <meta name="baidu-site-verification" content="jec8U3uPUi" />
+
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+<script>
+  // Jqquery image lazy load
+  $(function () { $('img.lazy').lazyload(); });
+</script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-58537045-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">乐正</a></h1>
+  
+    <h2>Actions speak louder than words.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="yuez.me">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">BLOG</a></li>
+  <li><a href="/blog/archives">ARCHIVES</a></li>
+  <li><a href="/friend-links">FRIENDS</a></li>
+  <li><a href="/read-me">README</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Blog Archive</h1>
+    
+  </header>
+  
+  <div id="blog-archives">
+
+
+
+  
+  <h2>2015</h2>
+
+<article>
+  
+<h1><a href="/shen-me-shi-xian-cheng/">什么是线程</a></h1>
+<time datetime="2015-06-01T21:44:33+08:00" pubdate><span class='month'>Jun</span> <span class='day'>01</span> <span class='year'>2015</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/ji-zhu/'>技术</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/di-yi-ci-yu-arduino-jiao-hu/">第一次与 Arduino 交互</a></h1>
+<time datetime="2015-05-31T21:01:21+08:00" pubdate><span class='month'>May</span> <span class='day'>31</span> <span class='year'>2015</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/ji-zhu/'>技术</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/arduino-xue-xi-bi-ji-led-shan-shuo-shi-yan-zhong-yin-han-de-jian-dan-yuan-li/">Arduino 学习笔记——LED 闪烁实验中隐含的简单原理</a></h1>
+<time datetime="2015-05-27T08:52:24+08:00" pubdate><span class='month'>May</span> <span class='day'>27</span> <span class='year'>2015</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/ji-zhu/'>技术</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/redis-ji-chu-jiao-cheng/">Redis 基础教程</a></h1>
+<time datetime="2015-05-26T10:46:25+08:00" pubdate><span class='month'>May</span> <span class='day'>26</span> <span class='year'>2015</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/ji-zhu/'>技术</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/jiang-ni-de-vim-da-zao-cheng-qing-qiao-qiang-da-de-ide/">将你的Vim 打造成轻巧强大的IDE</a></h1>
+<time datetime="2015-04-20T21:51:01+08:00" pubdate><span class='month'>Apr</span> <span class='day'>20</span> <span class='year'>2015</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/ji-zhu/'>技术</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/jin-cheng-miao-shu-he-kong-zhi/">进程描述和控制</a></h1>
+<time datetime="2015-04-16T15:16:59+08:00" pubdate><span class='month'>Apr</span> <span class='day'>16</span> <span class='year'>2015</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/ji-zhu/'>技术</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/yi-ming-cai-niao-itxiang-mu-jing-li-de-cheng-chang-bi-ji/">一名菜鸟IT项目经理的成长笔记</a></h1>
+<time datetime="2015-04-13T17:22:25+08:00" pubdate><span class='month'>Apr</span> <span class='day'>13</span> <span class='year'>2015</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/ji-zhu/'>技术</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/cong-ling-da-jian-he-pei-zhi-osxkai-fa-huan-jing/">从零搭建和配置OSX开发环境</a></h1>
+<time datetime="2015-04-03T22:52:14+08:00" pubdate><span class='month'>Apr</span> <span class='day'>03</span> <span class='year'>2015</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/ji-zhu/'>技术</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/tuan-dui-xiao-huo-ban-shang-di-yi-cai-jing/">团队小伙伴上第一财经</a></h1>
+<time datetime="2015-03-27T11:43:57+08:00" pubdate><span class='month'>Mar</span> <span class='day'>27</span> <span class='year'>2015</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/sheng-huo/'>生活</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/she-and-me/">She and Me</a></h1>
+<time datetime="2015-03-26T22:46:13+08:00" pubdate><span class='month'>Mar</span> <span class='day'>26</span> <span class='year'>2015</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/sheng-huo/'>生活</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/http-cache/">HTTP Cache</a></h1>
+<time datetime="2015-03-17T21:01:48+08:00" pubdate><span class='month'>Mar</span> <span class='day'>17</span> <span class='year'>2015</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/ji-zhu/'>技术</a></span>
+</footer>
+
+
+</article>
+
+
+
+  
+  <h2>2014</h2>
+
+<article>
+  
+<h1><a href="/cheng-du-jin-fu-ren-cong-ling-bu-shu-ji-lu/">成都金夫人从零部署记录</a></h1>
+<time datetime="2014-12-02T09:48:59+08:00" pubdate><span class='month'>Dec</span> <span class='day'>02</span> <span class='year'>2014</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/ji-zhu/'>技术</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/the-meta-programming-in-ruby/">The Meta Programming in Ruby</a></h1>
+<time datetime="2014-11-06T10:05:34+08:00" pubdate><span class='month'>Nov</span> <span class='day'>06</span> <span class='year'>2014</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/ji-zhu/'>技术</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/jun-zi-gu-you-qiong-hu/">君子固有穷乎?</a></h1>
+<time datetime="2014-07-27T08:56:43+08:00" pubdate><span class='month'>Jul</span> <span class='day'>27</span> <span class='year'>2014</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/sheng-huo/'>生活</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/sou-suo-yin-qing-you-hua-yao-dian/">搜索引擎优化要点</a></h1>
+<time datetime="2014-07-27T08:50:09+08:00" pubdate><span class='month'>Jul</span> <span class='day'>27</span> <span class='year'>2014</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/ji-zhu/'>技术</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/hai-bian-de-qia-fu-qia-he-jiao-wu-ya-de-shao-nian/">海边的卡夫卡和叫乌鸦的少年</a></h1>
+<time datetime="2014-06-22T09:02:39+08:00" pubdate><span class='month'>Jun</span> <span class='day'>22</span> <span class='year'>2014</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/sheng-huo/'>生活</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/chong-xin-ren-shi-java,fa-xian-ni-de-xi-jie/">重新认识Java，发现你的细节</a></h1>
+<time datetime="2014-01-25T09:08:34+08:00" pubdate><span class='month'>Jan</span> <span class='day'>25</span> <span class='year'>2014</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/ji-zhu/'>技术</a></span>
+</footer>
+
+
+</article>
+
+
+
+  
+  <h2>2013</h2>
+
+<article>
+  
+<h1><a href="/cas-ji-cheng-xiao-zhan/">CAS 集成小战</a></h1>
+<time datetime="2013-12-06T11:32:25+08:00" pubdate><span class='month'>Dec</span> <span class='day'>06</span> <span class='year'>2013</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/ji-zhu/'>技术</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/http-xie-yi-jie-xi/">HTTP 协议解析</a></h1>
+<time datetime="2013-11-21T11:15:21+08:00" pubdate><span class='month'>Nov</span> <span class='day'>21</span> <span class='year'>2013</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/ji-zhu/'>技术</a></span>
+</footer>
+
+
+</article>
+
+</div>
+
+  
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/shen-me-shi-xian-cheng/">什么是线程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/di-yi-ci-yu-arduino-jiao-hu/">第一次与 Arduino 交互</a>
+      </li>
+    
+      <li class="post">
+        <a href="/arduino-xue-xi-bi-ji-led-shan-shuo-shi-yan-zhong-yin-han-de-jian-dan-yuan-li/">Arduino 学习笔记——LED 闪烁实验中隐含的简单原理</a>
+      </li>
+    
+      <li class="post">
+        <a href="/redis-ji-chu-jiao-cheng/">Redis 基础教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/jiang-ni-de-vim-da-zao-cheng-qing-qiao-qiang-da-de-ide/">将你的Vim 打造成轻巧强大的IDE</a>
+      </li>
+    
+      <li class="post">
+        <a href="/jin-cheng-miao-shu-he-kong-zhi/">进程描述和控制</a>
+      </li>
+    
+      <li class="post">
+        <a href="/yi-ming-cai-niao-itxiang-mu-jing-li-de-cheng-chang-bi-ji/">一名菜鸟IT项目经理的成长笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/cong-ling-da-jian-he-pei-zhi-osxkai-fa-huan-jing/">从零搭建和配置OSX开发环境</a>
+      </li>
+    
+      <li class="post">
+        <a href="/tuan-dui-xiao-huo-ban-shang-di-yi-cai-jing/">团队小伙伴上第一财经</a>
+      </li>
+    
+      <li class="post">
+        <a href="/she-and-me/">She and Me</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/ji-zhu/'>技术 (15)</a></li>
+<li class='category'><a href='/blog/categories/sheng-huo/'>生活 (4)</a></li>
+
+  </ul>
+</section>
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/zgs225">@zgs225</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'zgs225',
+            count: 5,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - 乐正 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> -
+  <a href="http://www.miitbeian.gov.cn/" target="_blank">晥ICP备15005635号</a>
+</p>
+
+<script src="/javascripts/dist.min.js" type="text/javascript"></script>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'yuezme';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<!-- 
+ -->
+<!-- 
+ -->
+<!-- 
+ -->
+
+
+
+</body>
+</html>

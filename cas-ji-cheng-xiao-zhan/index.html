@@ -1,0 +1,635 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="zh-CN"><!--<![endif]-->
+<head>
+  <meta charset="UTF-8">
+  <title>CAS 集成小战 - 乐正</title>
+  <meta name="author" content="乐正">
+  <meta name="renderer" content="webkit">
+
+  
+  <meta name="description" content="近来，项目中需要整合单点登录系统。按照项目要求，工程中原先的单点登录无法完成任务，需要重新加工。于
+是选用JA-SIG的CAS系统整合项目中。 在这开始之前需要明白什么是单点登录。 什么是单点登录系统 在企业中，随着系统中使用工程数量的增加，一个显而易见的问题就出现在眼前——在各个系统之间切换时， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+
+  <link rel="canonical" href="http://yuez.me/cas-ji-cheng-xiao-zhan/">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="乐正" type="application/atom+xml">
+  <script src="/javascripts/jquery.min.js" type="text/javascript"></script>
+  <meta name="baidu-site-verification" content="jec8U3uPUi" />
+
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+<script>
+  // Jqquery image lazy load
+  $(function () { $('img.lazy').lazyload(); });
+</script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-58537045-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">乐正</a></h1>
+  
+    <h2>Actions speak louder than words.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="yuez.me">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">BLOG</a></li>
+  <li><a href="/blog/archives">ARCHIVES</a></li>
+  <li><a href="/friend-links">FRIENDS</a></li>
+  <li><a href="/read-me">README</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">CAS 集成小战</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-12-06T11:32:25+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>11:32 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><blockquote><p>近来，项目中需要整合单点登录系统。按照项目要求，工程中原先的单点登录无法完成任务，需要重新加工。于
+是选用<a href="http://www.jasig.org/">JA-SIG</a>的<code>CAS</code>系统整合项目中。</p></blockquote>
+
+<p>在这开始之前需要明白什么是单点登录。</p>
+
+<h3>什么是单点登录系统</h3>
+
+<p>在企业中，随着系统中使用工程数量的增加，一个显而易见的问题就出现在眼前——在各个系统之间切换时，总是需要频繁的切换登陆，这浪费了大量的时间，严重降低了用户体验。于是我们需要一套方案可以使得一名信任用户在A系统登录之后，在B、C等系统中也将被视为已登录用户，从而避免重复登录。</p>
+
+<p>我们都知道，在游玩公园时，只需要在售票处购买一张门票，就可以游玩公园内的所有景点而不需要在每个景点前重复购票。单点登录系统也好比这样，设置一个所有系统的统一入口，当用户登录之后，生成一个Ticket交给这名用户，随后用户携带这个Ticket访问各个系统，验证Ticket合法后，即可认为该用户已经登录。</p>
+
+<h4>Ticket储存</h4>
+
+<ul>
+<li>Cookie-based</li>
+<li>Broker-based</li>
+<li>Agent-based</li>
+<li>Token-based</li>
+<li>Agent and Broker-based</li>
+<li>SAML. SAML(Security Assertion Markup Language，安全断言标记语言）的出现大大简化了SSO，并被OASIS批准为SSO的执行标准。开源组织OpenSAML 实现了SAML规范。</li>
+</ul>
+
+
+<p>在集成CAS系统之前，还需要为开启TOMCAT的SSL功能，并且是使用<code>keytool</code>生成安全证书，导入安全证书。</p>
+
+<h3>开启SSL</h3>
+
+<p><a href="http://docs.oracle.com/javase/6/docs/technotes/tools/solaris/keytool.html" title="keytool api">keytool api</a></p>
+
+<ol>
+<li>创建keystore</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>keytool -genkey -alias Example -keyalg RSA -validity <span class="m">3600</span> -keystore example.keystore -storepass changeit
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>CN需要与你访问的域名相同</strong></p>
+
+<ol>
+<li>导出crt</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>keytool -export -alias Example -file example.crt -keystore example.keystore -storepass changeit
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>将crt导出Java证书库中($JAVA_HOME/jre/lib/security/cacerts)</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>keytool -import -alias Example -file example.crt -keystore <span class="nv">$JAVA_HOME</span>/jre/lib/security/cacerts
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>配置tomcat的server.xml文件，开启ssl</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;Connector</span> <span class="na">port=</span><span class="s">&quot;8443&quot;</span> <span class="na">protocol=</span><span class="s">&quot;HTTP/1.1&quot;</span> <span class="na">SSLEnable=</span><span class="s">&quot;true&quot;</span>
+</span><span class='line'>    <span class="na">maxThreads=</span><span class="s">&quot;150&quot;</span> <span class="na">scheme=</span><span class="s">&quot;https&quot;</span> <span class="na">secure=</span><span class="s">&quot;true&quot;</span>
+</span><span class='line'>    <span class="na">clientAuth=</span><span class="s">&quot;false&quot;</span> <span class="na">sslProtocol=</span><span class="s">&quot;TLS&quot;</span>
+</span><span class='line'>    <span class="na">keystoreFile=</span><span class="s">&quot;PATH/TO/KEYSTORE&quot;</span>
+</span><span class='line'>    <span class="na">keystorePass=</span><span class="s">&quot;changeit&quot;</span>
+</span><span class='line'>    <span class="na">truststoreFile=</span><span class="s">&quot;$JAVA_HOME/jre/lib/security/cacerts&quot;</span>
+</span><span class='line'>    <span class="na">truststorePass=</span><span class="s">&quot;changeit&quot;</span> <span class="nt">/&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这时，运行tomcat，访问<code>https://localhost:8443</code>如果在浏览器窗口出现安全锁，即已经成功打开tomcat的ssl功能。</p>
+
+<p>以上准备工作完成之后，就可以开始将CAS系统集成到我们的项目中了</p>
+
+<hr />
+
+<p>需要集成进系统中的CAS又是什么呢？</p>
+
+<h3>简介CAS</h3>
+
+<p><em>CAS Version 3.5.2， CAS Client Version 3.1.10</em></p>
+
+<p><a href="https://wiki.jasig.org/display/CASUM/Home" title="CAS User Manual">CAS User Manual</a></p>
+
+<p>CAS是一套由耶鲁大学开发的企业级单点登录服务。</p>
+
+<ul>
+<li>公开、文档式协议</li>
+<li>开源Java Server容器</li>
+<li>客户端支持JAVA、.NET、PHP、Perl、Apache等集成</li>
+<li>社区型文档</li>
+<li>大型讨论社区</li>
+</ul>
+
+
+<p>这次集成的目标是基于JDBC数据库验证。如果需要其他验证方式，请参看用户手册。CAS的配置分为客户端和服务器端，先从客户端的配置开始。</p>
+
+<h3>CAS客户端配置</h3>
+
+<p>客户端即我们需要集成的系统。</p>
+
+<p>添加cas-client-core.jar文件</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;groupId&gt;</span>org.jasig.cas<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;artifactId&gt;</span>cas-client-core<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;version&gt;</span>3.1.10<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'><span class="nt">&lt;/dependency&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在<code>web.xml</code>文件中添加<code>CAS Authentication Filter</code>和<code>CAS Validation Filter</code>，具体配置如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;filter&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;filter-name&gt;</span>CAS Authentication Filter<span class="nt">&lt;/filter-name&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;filter-class&gt;</span>org.jasig.cas.client.authentication.AuthenticationFilter<span class="nt">&lt;/filter-class&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;init-param&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;param-name&gt;</span>casServerLoginUrl<span class="nt">&lt;/param-name&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;param-value&gt;</span>https://exmaple.com:8443/cas/login<span class="nt">&lt;/param-value&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/init-param&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;init-param&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;param-name&gt;</span>serverName<span class="nt">&lt;/param-name&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;param-value&gt;</span>http://example.com:8080<span class="nt">&lt;/param-value&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/init-param&gt;</span>
+</span><span class='line'><span class="nt">&lt;/filter&gt;</span>
+</span><span class='line'><span class="nt">&lt;filter&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;filter-name&gt;</span>CAS Validation Filter<span class="nt">&lt;/filter-name&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;filter-class&gt;</span>org.jasig.cas.client.validation.Saml11TicketValidationFilter<span class="nt">&lt;/filter-class&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;init-param&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;param-name&gt;</span>casServerUrlPrefix<span class="nt">&lt;/param-name&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;param-value&gt;</span>https://exmaple.com:8443/cas<span class="nt">&lt;/param-value&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/init-param&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;init-param&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;param-name&gt;</span>serverName<span class="nt">&lt;/param-name&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;param-value&gt;</span>http://example.com:8080<span class="nt">&lt;/param-value&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/init-param&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;init-param&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;param-name&gt;</span>redirectAfterValidation<span class="nt">&lt;/param-name&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;param-value&gt;</span>true<span class="nt">&lt;/param-value&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/init-param&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;init-param&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;param-name&gt;</span>useSession<span class="nt">&lt;/param-name&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;para-value&gt;</span>true<span class="nt">&lt;/param-value&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/init-param&gt;</span>
+</span><span class='line'><span class="nt">&lt;/filter&gt;</span>
+</span><span class='line'><span class="nt">&lt;filter-mapping&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;filter-name&gt;</span>CAS Authentication Filter<span class="nt">&lt;/filter-name&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;url-pattern&gt;</span>/*<span class="nt">&lt;/url-pattern&gt;</span>
+</span><span class='line'><span class="nt">&lt;/filter-mapping&gt;</span>
+</span><span class='line'><span class="nt">&lt;filter-mapping&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;filter-name&gt;</span>CAS Validation Filter<span class="nt">&lt;/filter-name&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;url-pattern&gt;</span>/*<span class="nt">&lt;/url-pattern&gt;</span>
+</span><span class='line'><span class="nt">&lt;/filter-mapping&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这些配置是使用CAS的最小配置，Validation
+Filter可以有多种，如果需要使用使用其他Filter可以参考用户手册。在这里使用
+<code>Saml11TicketValidatioFilter</code>是为了在CAS验证登陆的时候在<code>HttpServletRequest</code>
+中添加更多可以使用的用户信息（从数据库中取出来的）</p>
+
+<p>客户端的配置就这样完成了，很简单吧。下面进入服务器端的配置。</p>
+
+<h3>服务器端配置</h3>
+
+<p>服务器端即CAS Server</p>
+
+<p>为了支持集成jdbc验证，需要添加jar文件</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;groupId&gt;</span>org.jasig.cas<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;artifactId&gt;</span>cas-server-support-jdbc <span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;version&gt;</span>${cas.version} <span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;dependency&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>服务器端的配置集中在<code>deployerConfigContext.xml</code>文件中。</p>
+
+<p>首先配置<code>authenticationHandlers</code>，这里支持配置多个handler，使用多种验证方式。我们只用jdbc一种。</p>
+
+<p>在list中添加bean</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">&quot;org.jasig.cas.adaptors.jdbc.QueryDatabaseAuthenticationHandler&quot;</span>
+</span><span class='line'>    <span class="na">p:dataSource-ref=</span><span class="s">&quot;dataSource&quot;</span>
+</span><span class='line'>    <span class="na">p:passwordEncoder-ref=</span><span class="s">&quot;passwordEncoder&quot;</span>
+</span><span class='line'>    <span class="na">p:sql=</span><span class="s">&quot;select password from T where username = ?&quot;</span><span class="nt">/&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>list中有一个simpleAuthenticationHanlder需要删除，它是测试时使用，只要用户名密码相同即通过验证</strong></p>
+
+<p>其中dataSource为必须属性。passwordEncoder是可选属性，它表示了密码的加密方式，CAS提供MD5和SHA1两种，当然你也可以自定义你的加密方式——实现org.jasig.cas.authentication.handler.PasswordEncoder接口。看了上面的配置很清楚的就知道了还需要配置dataSource和passwordEncoder。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&quot;dataSource&quot;</span> <span class="na">class=</span><span class="s">&quot;org.apache.commons.dbcp.BasicDataSource&quot;</span>
+</span><span class='line'>    <span class="na">p:driverClassName=</span><span class="s">&quot;org.postgresql.Driver&quot;</span>
+</span><span class='line'>    <span class="na">p:url=</span><span class="s">&quot;jdbc:postgresql://127.0.0.1:5432/exmaple_db&quot;</span>
+</span><span class='line'>    <span class="na">p:username=</span><span class="s">&quot;foo&quot;</span>
+</span><span class='line'>    <span class="na">p:password=</span><span class="s">&quot;bar&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&quot;passwordEncoder&quot;</span> <span class="na">class=</span><span class="s">&quot;org.jasig.cas.authentication.Handler.DefaultPasswordEncoder&quot;</span>
+</span><span class='line'>    <span class="na">p:characterEncoding=</span><span class="s">&quot;UTF-8&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;constructor-arg</span> <span class="na">index=</span><span class="s">&quot;0&quot;</span> <span class="na">value=</span><span class="s">&quot;MD5&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;/bean&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上，我们所需要的最低配置就已经完成了。如果在启动的时候报一些NoSuchMethod之类的错误，请检查jar是否有所缺失。</p>
+
+<h3>总结</h3>
+
+<p><code>CAS</code>是一个异常强大的单点登录系统。以上使用的都只是其中最基本的功能。如果需要使用更高级的功能，请参考用户手册0 0.)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">乐正</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2013-12-06T11:32:25+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>11:32 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ji-zhu/'>技术</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+
+  
+    <div class="bdsharebuttonbox" data-tag="share_1">
+  <a class="fa fa-weibo"  data-cmd="tsina"></a>
+  <a class="fa fa-weixin" data-cmd="weixin"></a>
+  <a class="fa fa-copy"   data-cmd="copy"></a>
+</div>
+<script>
+  window._bd_share_config = {
+    common : {
+      bdText : document.title,
+      bdDesc : (function () {
+        var meta = document.querySelector("meta[name=\'description\']"),
+            description;
+
+        if (meta) meta = meta.getAttribute("content");
+        description = meta || "";
+
+        return description;
+      })(),
+      bdUrl  : document.location.href,
+      bdPic  : (function () {
+        var imgs = document.getElementsByTagName('img'),
+            img_srcs = [];
+
+        for (var i = 0; i < imgs.length; i++) {
+          var img = imgs[i];
+          // 因为使用了延迟加载，图片没有src属性
+          img_srcs.push(window.location.host + img.getAttribute('data-original'));
+        }
+
+        return img_srcs.join("||");
+      })()
+    },
+    share : [{
+      "bdSize" : 32,
+      "bdCustomStyle" : "/stylesheets/screen.css"
+    }],
+  }
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/http-xie-yi-jie-xi/" title="Previous Post: HTTP 协议解析">&laquo; HTTP 协议解析</a>
+      
+      
+        <a class="basic-alignment right" href="/chong-xin-ren-shi-java,fa-xian-ni-de-xi-jie/" title="Next Post: 重新认识Java，发现你的细节">重新认识Java，发现你的细节 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/shen-me-shi-xian-cheng/">什么是线程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/di-yi-ci-yu-arduino-jiao-hu/">第一次与 Arduino 交互</a>
+      </li>
+    
+      <li class="post">
+        <a href="/arduino-xue-xi-bi-ji-led-shan-shuo-shi-yan-zhong-yin-han-de-jian-dan-yuan-li/">Arduino 学习笔记——LED 闪烁实验中隐含的简单原理</a>
+      </li>
+    
+      <li class="post">
+        <a href="/redis-ji-chu-jiao-cheng/">Redis 基础教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/jiang-ni-de-vim-da-zao-cheng-qing-qiao-qiang-da-de-ide/">将你的Vim 打造成轻巧强大的IDE</a>
+      </li>
+    
+      <li class="post">
+        <a href="/jin-cheng-miao-shu-he-kong-zhi/">进程描述和控制</a>
+      </li>
+    
+      <li class="post">
+        <a href="/yi-ming-cai-niao-itxiang-mu-jing-li-de-cheng-chang-bi-ji/">一名菜鸟IT项目经理的成长笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/cong-ling-da-jian-he-pei-zhi-osxkai-fa-huan-jing/">从零搭建和配置OSX开发环境</a>
+      </li>
+    
+      <li class="post">
+        <a href="/tuan-dui-xiao-huo-ban-shang-di-yi-cai-jing/">团队小伙伴上第一财经</a>
+      </li>
+    
+      <li class="post">
+        <a href="/she-and-me/">She and Me</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/ji-zhu/'>技术 (15)</a></li>
+<li class='category'><a href='/blog/categories/sheng-huo/'>生活 (4)</a></li>
+
+  </ul>
+</section>
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/zgs225">@zgs225</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'zgs225',
+            count: 5,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - 乐正 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> -
+  <a href="http://www.miitbeian.gov.cn/" target="_blank">晥ICP备15005635号</a>
+</p>
+
+<script src="/javascripts/dist.min.js" type="text/javascript"></script>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'yuezme';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://yuez.me/cas-ji-cheng-xiao-zhan/';
+        var disqus_url = 'http://yuez.me/cas-ji-cheng-xiao-zhan/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<!-- 
+ -->
+<!-- 
+ -->
+<!-- 
+ -->
+
+
+
+</body>
+</html>

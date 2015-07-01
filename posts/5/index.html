@@ -1,0 +1,972 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="zh-CN"><!--<![endif]-->
+<head>
+  <meta charset="UTF-8">
+  <title>乐正</title>
+  <meta name="author" content="乐正">
+  <meta name="renderer" content="webkit">
+
+  
+  <meta name="description" content="The machine could be used to create new programming that
+it could then execute. And that would be meta programming
+&ndash;writing code that writes &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+
+  <link rel="canonical" href="http://yuez.me/posts/5/">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="乐正" type="application/atom+xml">
+  <script src="/javascripts/jquery.min.js" type="text/javascript"></script>
+  <meta name="baidu-site-verification" content="jec8U3uPUi" />
+
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+<script>
+  // Jqquery image lazy load
+  $(function () { $('img.lazy').lazyload(); });
+</script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-58537045-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">乐正</a></h1>
+  
+    <h2>Actions speak louder than words.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="yuez.me">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">BLOG</a></li>
+  <li><a href="/blog/archives">ARCHIVES</a></li>
+  <li><a href="/friend-links">FRIENDS</a></li>
+  <li><a href="/read-me">README</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/the-meta-programming-in-ruby/">The Meta Programming in Ruby</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-11-06T10:05:34+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:05 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The machine could be used to create new programming that
+it could then execute. And that would be meta programming
+&ndash;writing code that writes code.</p>
+
+<h2>Base</h2>
+
+<p>The basement of meta programming.</p>
+
+<h3>Objects and Classes</h3>
+
+<p>In reality, however, Ruby has just a single underline
+class and object structure.</p>
+
+<p>A Ruby object has three components: a set of flags, some
+instance variables, and an associated class.</p>
+
+<h4>self and Method calling</h4>
+
+<p><code>self</code> has two significant roles in running Ruby program.</p>
+
+<ul>
+<li><code>self</code> control how Ruby finds instance variables.</li>
+<li><code>self</code> plays a vital role in method calling. If there
+is no explicit reciever, Ruby uses <code>self</code> as default
+reciever.</li>
+</ul>
+
+
+<p>Inside a class definition, <code>self</code> is set to the class
+object of the class being defined.</p>
+
+<h4>Singletons</h4>
+
+<p>Ruby lets you define methods that are specific to a
+particular object. These are called <code>singleton methods</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">animal</span> <span class="o">=</span> <span class="s1">&#39;cat&#39;</span>
+</span><span class='line'><span class="k">def</span> <span class="nc">animal</span><span class="o">.</span><span class="nf">speak</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;The </span><span class="si">#{</span> <span class="nb">self</span> <span class="si">}</span><span class="s2"> says miaow.&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">animal</span><span class="o">.</span><span class="n">speak</span> <span class="c1"># =&gt; &quot;The animal says miaow.&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When we defined singleton method for the <code>animal</code> object，
+Ruby create a new anonymous class and defined the <code>speak</code>.</p>
+
+<h4>Singletons and Classes</h4>
+
+<p>Newcomers to Ruby commonly make the mistake of setting
+instance variables inline in the class definition and
+then attempting to access these variables from instance
+methods.</p>
+
+<p><strong>Instance variables defined in the class body are
+associated with the class object, not the instance
+of the class.</strong></p>
+
+<h4>Another way to access the singleton class</h4>
+
+<p>You can do the same thing Ruby&rsquo;s Class &lt;&lt; an_object
+notation.</p>
+
+<p>You can&rsquo;t create a new instance of a singleton class.</p>
+
+<p>To make <code>attr_accessor</code> work with class level instance
+variables, you must have to invoke <code>attr_accessor</code> in
+singleton class.</p>
+
+<h4>Inheritance and Visibility</h4>
+
+<p>Within a class definition, you can change the visibility
+of a method in an ancestor class.</p>
+
+<p>If a subclass changes the visibility of a method in a
+parent, Ruby effectively inserts a hidden proxy method in
+the subclass that invoke the original method using
+<code>super</code>.</p>
+
+<p>The call of <code>super</code> can access the parent&rsquo;s methods
+regardless of its visibility.</p>
+
+<h3>Modules and Mixins</h3>
+
+<p>The module that you include is effectively added as a
+superclass of the class being defined.</p>
+
+<p>When you include a module in class <code>Example</code>, Ruby Constructs
+a new class object, makes it the superclass of <code>Example</code>,
+and then set the superclass of the new class to be the
+original superclass of <code>Example</code>.</p>
+
+<p>Ruby will include a module only <strong>once</strong> in a
+inheritance chain.</p>
+
+<h4>prepend</h4>
+
+<blockquote><p>New feature in 2.0</p></blockquote>
+
+<p>If a method inside a prepended module has the same name
+as one in the original class, it will be invoked instead
+of the original. The prepended module can then call the
+original using <code>super</code>.</p>
+
+<h4>extend</h4>
+
+<p>Add the instance methods to a particular object.If you
+use it in a class definition, the module&rsquo;s methods
+become class methods.</p>
+
+<h4>Refinements</h4>
+
+<blockquote><p>New feature in 2.0</p></blockquote>
+
+<p>A refinement is a way of packaging a set of changes to
+one or more classes. These refinements are defined
+within a module.</p>
+
+<h3>Meta programming Class-Level Macros</h3>
+
+<p>Because of the way they expand into something bigger,
+folks sometimes call these kinds of methods <code>macros</code>.</p>
+
+<p>A <code>class method</code> is defined in the class object&rsquo;s
+singleton class. That means we can call it later in the
+class definition without an explicit receiver.</p>
+
+<p>Use <code>define_method</code> to define a log method on the fly.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Logger</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">add_logging</span><span class="p">(</span><span class="n">id_string</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">define_method</span><span class="p">(</span><span class="ss">:log</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">msg</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">now</span> <span class="o">=</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H:%M:%S&quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="no">STDERR</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;</span><span class="si">#{</span> <span class="n">now</span> <span class="si">}</span><span class="s2">-</span><span class="si">#{</span> <span class="n">id_string</span> <span class="si">}</span><span class="s2">: </span><span class="si">#{</span> <span class="nb">self</span> <span class="si">}</span><span class="s2"> </span><span class="si">#{</span> <span class="n">msg</span> <span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Song</span> <span class="o">&lt;</span> <span class="no">Logger</span>
+</span><span class='line'>  <span class="n">add_logging</span><span class="p">(</span><span class="s1">&#39;Tune&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As well as passing parameters from the class method into
+the body of the method being defined, we can also use
+the parameter to determine the name of the method or
+methods to create.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">AttrLogger</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">attr_logger</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>    <span class="kp">attr_reader</span> <span class="nb">name</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">define_method</span><span class="p">(</span><span class="s2">&quot;@</span><span class="si">#{</span> <span class="nb">name</span> <span class="si">}</span><span class="s2">=&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">val</span><span class="o">|</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;Assigning </span><span class="si">#{</span> <span class="n">val</span><span class="o">.</span><span class="n">inspect</span> <span class="si">}</span><span class="s2"> to </span><span class="si">#{</span> <span class="nb">name</span> <span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>      <span class="nb">instance_variable_set</span><span class="p">(</span><span class="s2">&quot;@</span><span class="si">#{</span> <span class="nb">name</span> <span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We use <code>instance_variable_set</code> to set the value of an
+instance variable. There&rsquo;s a corresponding <code>_get</code> method
+that fetches the value of a named instance variable.</p>
+
+<h4>Class Methods And Modules</h4>
+
+<p>You can use module to hold your meta programming
+implementation. In this case, using <code>extend</code> inside a
+class definition will add the methods in a module as
+class methods to the class being defined.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">AttrLogger</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">attr_logger</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>    <span class="kp">attr_reader</span> <span class="nb">name</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">define_method</span> <span class="s2">&quot;@</span><span class="si">#{</span> <span class="nb">name</span> <span class="si">}</span><span class="s2">&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">val</span><span class="o">|</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;Assigning </span><span class="si">#{</span> <span class="n">val</span><span class="o">.</span><span class="n">inspect</span> <span class="si">}</span><span class="s2">&quot;</span> <span class="n">to</span> <span class="c1">#{ name }</span>
+</span><span class='line'>      <span class="nb">instance_variable_set</span> <span class="s2">&quot;@</span><span class="si">#{</span> <span class="nb">name</span> <span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">val</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Example</span>
+</span><span class='line'>  <span class="kp">extend</span> <span class="no">AttrLogger</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">attr_logger</span> <span class="ss">:value</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here&rsquo;s one technique, make us to add both class methods
+and instance methods into the class being defined.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">GeneralLogger</span>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">ClassMethods</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">attr_logger</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>      <span class="kp">attr_reader</span> <span class="nb">name</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">define_method</span> <span class="s2">&quot;</span><span class="si">#{</span> <span class="nb">name</span> <span class="si">}</span><span class="s2">=&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">val</span><span class="o">|</span>
+</span><span class='line'>        <span class="nb">puts</span> <span class="s2">&quot;Assigning </span><span class="si">#{</span> <span class="n">val</span><span class="o">.</span><span class="n">inspect</span> <span class="si">}</span><span class="s2"> to </span><span class="si">#{</span> <span class="nb">name</span> <span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>        <span class="nb">instance_variable_set</span> <span class="s2">&quot;@</span><span class="si">#{</span> <span class="nb">name</span> <span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">val</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">InstanceMethods</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-%d %H:%M:%S &quot;</span> <span class="o">+</span> <span class="n">msg</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">receiver</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">receiver</span><span class="o">.</span><span class="n">extend</span>         <span class="no">ClassMethods</span>
+</span><span class='line'>    <span class="n">receiver</span><span class="o">.</span><span class="n">send</span> <span class="ss">:include</span><span class="p">,</span> <span class="no">InstanceMethods</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Example</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">GeneralLogger</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">attr_logger</span> <span class="ss">:name</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">ex</span> <span class="o">=</span> <span class="no">Example</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">ex</span><span class="o">.</span><span class="n">log</span> <span class="s2">&quot;A new Example created.&quot;</span>
+</span><span class='line'><span class="c1"># =&gt; 2014-10-31 08:56:56 A new Example created.</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">ex</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Yuez&quot;</span>
+</span><span class='line'><span class="c1"># =&gt; Assigning &quot;Yuez&quot; to name</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">ex</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Lucky&quot;</span>
+</span><span class='line'><span class="c1"># =&gt; Assigning &quot;Lucky&quot; to name</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Creating Singleton Class</h4>
+
+<p>Use <code>Class#new</code> directly to create a singleton class. By
+default this class will be direct decendent of <code>Object</code>.
+You can give them a different parent by passing the
+parent&rsquo;s class as a parameter.</p>
+
+<h3>instance_eval and class_eval</h3>
+
+<ul>
+<li><code>Object#instance_eval</code></li>
+<li><code>Module#class_eval</code></li>
+<li><code>Module#module_eval</code></li>
+</ul>
+
+
+<p><code>instance_eval</code> and <code>class_eval</code> both set <code>self</code> for the
+duration of the block. However, they differ in the way
+they set up the environment for method definition.
+<code>class_eval</code> sets things up as if you were in the body
+of a class definition.</p>
+
+<p>In contrast, calling <code>instance_eval</code> on a class acts as
+if you were working inside the singleton class of <code>self</code></p>
+
+<p>Ruby has variants of these methods.</p>
+
+<ul>
+<li><code>Object#instance_exec</code></li>
+<li><code>Module#class_exec</code></li>
+<li><code>Module#module_exec</code></li>
+</ul>
+
+
+<p>behave identically to there <code>_eval</code> counterparts but take
+only a block(they do not take a string).</p>
+
+<h3>Hook Methods</h3>
+
+<p><code>included</code> is an example of a <em>hood method</em> (sometime
+  called a <em>callback</em>). A hook method is a method that
+  you write but that Ruby calls from within the interpreter
+  when some particular events occurs.</p>
+
+<p>  The interpreter looks for these methods by name&ndash;if
+  you define a method in the right context with an
+  appropriate name, Ruby will call it when the corresponding
+  event happens.</p>
+
+<p>  The methods that can be invoked from within the
+  interpreter are:</p>
+
+<ul>
+<li><p>Method related hooks.</p>
+
+<p><code>method_added</code>, <code>method_missing</code>,  <code>method_removed</code>,
+<code>method_undefined</code>, <code>singleton_method_added</code>,
+<code>singleton_method_removed</code>, <code>singleton_method_undefined</code></p></li>
+<li><p>Class and module related hooks.</p>
+
+<p><code>append_features</code>, <code>const_missing</code>, <code>extend_object</code>,
+<code>extended</code>, <code>included</code>, <code>inherited</code>,
+<code>initialize_clone</code>, <code>initialize_coty</code>,
+<code>initialize_dup</code></p></li>
+<li><p>Object marshaling hooks.</p>
+
+<p><code>marshal_dump</code>, <code>marshal_load</code></p></li>
+<li><p>Coercion hooks.</p>
+
+<p><code>coerce</code>, <code>included_from</code>, <code>to_xxx</code></p></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/jun-zi-gu-you-qiong-hu/">君子固有穷乎?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-07-27T08:56:43+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>8:56 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>匪兕匪虎 率彼旷野</p></blockquote>
+
+<p>“那人在外面不就成了野人吗？”耳边是江河文青特有的幽默，让我想起先贤孔子的
+感慨：“吾等既非野牛，也非猛虎，何以不得不彷徨原野？”</p>
+
+<p>孔子，子路，颜回，子贡师徒一行，坐道陈都三载。不料吴楚二国，以陈地为战场，
+一决雌雄。虽非所愿，可是陈都必然将无逃避之途，是故，孔子一行即日离开陈都，
+前往楚地。</p>
+
+<p>孰料，一行人于野地宿营时，遭吴残兵败部所袭，夺取马车及车上所载粮食。此番
+逃离陈都之行，已有无法描述的险阻艰辛。如此饿着肚腹，蹒跚前进。路途间或分
+得一些陈兵粮食，然而也是所得有限，一经平分，根本无济于事。到了不知第八天
+还是第九天，不折不扣成为了游魂的一行人，挣扎到了某个村落，再也动弹不得。</p>
+
+<p>此时，子路突然趟步走到夫子跟前，掷出一句：</p>
+
+<p>“君子亦有穷乎？”</p>
+
+<p>看似子路真的生气了，如若就此饿死，那么过往所做何为？</p>
+
+<p>“君子亦有穷乎？”子路复问一句。</p>
+
+<p>夫子转向子路，言道：“君子固穷，小人穷斯滥矣。”声音强而有力。</p>
+
+<blockquote><p>君子固穷 小人穷斯滥矣</p></blockquote>
+
+<p>小人一旦陷入窘境，就会动摇心智，无法约束自己。君子却是再如何窘迫，也不至于
+动摇心智。</p>
+
+<p>这一番经历与马浩汉、江河、胡说一行人的平凡之路，再相似不过了。</p>
+
+<p>马浩汉振兴东极村旅游业失败之后，为送江河到西极某地执教，一行三人，收拾行囊，
+驱车离开家乡。三人决定，先是看望青梅竹马的周沫，继而寻找与马浩汉书信互往
+十多年的笔友刘莺莺，最后再前往西极。第一个令我心有感触之地，便是周沫送别马浩汉
+一幕。</p>
+
+<p>周沫是一名替身演员，遵着“小城市的人都是凭借着关系，大城市里或多或少更公平一些”
+的信念，在演员一行中摸爬滚打。见到周沫，几番寒暄，终是送别之际来临。如若没有
+记错的话，应是长桥送别。道别之后，周沫行到片场，这次她饰演的是被日本兵枪决
+的知情少女，“轰”得一声枪响，这是对马浩汉行程至此的终结，也是对借来下行程
+艰难的伏笔。而这意味深藏的一幕——因为送别之后,他们将面临的是</p>
+
+<blockquote><p>波涛汹涌，充满荒谬与悖论的成人世界。</p></blockquote>
+
+<p>——却被故意设定为马浩汉以为听到的枪声是车胎
+破裂，从而下车没头没脑检查，随即演员中一片笑声。这一定又是文青式的幽默——
+刻意设计笑点，将哲理隐藏在幽默中——或许是为了避免“太矫情”。文绉绉的台词
+不如藏起来好了。</p>
+
+<p>于此之后，直到阿吕登场，剧情有些起色。而在周沫后，阿吕前所经历两件事，
+一是“真老师嫖娼不成反被追，假妓女斗智斗勇为讹钱。”，二是马浩汉初见刘
+莺莺，俱是故事平常，人物平庸，刘莺莺一句心灵鸡汤：“喜欢就会放肆，爱就
+是克制”，更是将我雷到不行。所幸，阿吕是一位性格丰满的骗子。</p>
+
+<p>马浩汉和江河是在迷路后偶遇阿吕的。你问胡说？胡说在开场五分钟后便已宣告
+该角色杀青。阿吕原本在一座小镇上经营一家摩托车修理店，为了不被昔日同窗
+小觑，也为了吸引女神注意，他做出小镇上从来没有过的壮举——摩托车骑行中国。
+他成功了，虽然没能得到同窗的尊重，却是赢得了女神的爱情，正如阿吕自己所说：“
+有时，你想证明给一万个人看，最终只得到了一个人的关注，这就够了。”好景不长，
+不去经年，便在一场雨夜骑行中，与妻子阴阳两隔。此后每年，阿吕都会重走与
+妻子的路，以此祭奠。碰到马浩汉两人时，已是第六个年头。</p>
+
+<p>至此，故事与孔子一行的经历更相似了。</p>
+
+<p>阿吕随即与二人同行。</p>
+
+<p>一路之上，阿吕时而追忆陈年往事，时而豪迈放声歌唱；在谈及妻子时是那么真诚，
+在宿营地，激励二人真是鼓舞人心。然而，孰真孰假？阿吕就是村上春树笔下的成
+人世界吧，充满荒谬与悖论的成人世界。</p>
+
+<blockquote><p>我并不怕被欺骗，我怕的是我刚刚信任一个人，就被欺骗。</p></blockquote>
+
+<p>诚如马浩汉所言，辅一得到信任，阿吕便拉勾收网，将这一份情谊以车价贱卖。
+或许，本就没有什么情谊，或许，阿吕便是孔子口中的小人，或许，不是在这
+种环境下他们真的能拥有情谊。</p>
+
+<blockquote><p>狗的寿命只有十四年，但是比情谊长。</p></blockquote>
+
+<p>所幸，马浩汉二人并没有到山穷水尽的地步，阿吕在开走车时，尚且将他们的
+行李留下，还有那条代表情谊的阿拉斯加犬。这时的二人，应是到了比绝境也
+好不了多少的地步。令人起敬的是，马浩汉口中仍是念念不忘事业，江河更是
+从始至终都没有过动摇。正如他们二人的名字，浩汉江河，奔流到海不复回。
+二人收拾行李，复又上路，这次他们用步行走完这最后的平凡之路。最终，二
+人在西极之地的山坡前分别。</p>
+
+<p>故事就此结束，无论如何，我认为故事就此结束。</p>
+
+<h3>三分未满</h3>
+
+<p>洋洋洒洒许多字，看的人头晕脑胀，还是直接给一个评分吧，清晰明了。</p>
+
+<p>若以十分满计，至西极前我给四分，结尾给一分，平均一下，二点五分，我姑
+且算是韩寒半个读者，再加零点五分，最后我给出的得分是三分。缘何会如此
+之低？</p>
+
+<p>一段并不精彩的故事，一位并不高明的讲故事人，中间穿杂着一些并不符合人
+物身份的心灵鸡汤， 配上突兀生硬的结局，三分可能已经很多了。</p>
+
+<blockquote><p>不想写了，先到这里吧。</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/sou-suo-yin-qing-you-hua-yao-dian/">搜索引擎优化要点</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-07-27T08:50:09+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>8:50 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>本文翻译自<a href="http://www.clickminded.com/seo-checklist/">SEO CHECKLIST</a>。
+欢迎各位在<a href="https://github.com/zgs225/SEO-CHECKLIST.git">Github</a>上或者留言中指正错误。</p></blockquote>
+
+<p>每次开始新的网站工作时，为了搭建SEO基础，我发现我总是在一遍一遍做同样的事情。
+令人啼笑皆非的是，我最初写这个SEO要点只是为了我个人的SEO练习，现在却以“SEO
+ Checklist”为关键字，每天获得数百的访问者。</p>
+
+<p>为了让新网站在搜索引擎中生存下来，这些要点覆盖了三十条你最需要考虑的事情。
+这些要点已经为2013年搜索引擎做了更新。我使用了一个简单的脚本去告诉你所有
+需要核对的要点。</p>
+
+<p>在你踏上SEO旅程之前，有一件事情我要重申：在页面优化中，最好的思路就是
+<strong>增量受益</strong>（原文是incrementally beneficial，不知道怎么翻译。）
+人们经常会范的一个大错误，当他们找到一个要点清单，他们就严格执行其中的
+每一条，他们认真地一行一行读每一个要点，还不时发出：“我的天！这条我没做！
+我的搜索排名工作全毁了。”我想，这不是你思考SEO的方式。</p>
+
+<p>如果你能做到下面每一条，那真正儿是极好了（雪姨状）！如果你做到了其中的大
+部分，你也非常棒。但是，通常情况下，如果你想让你的网站对SEO更加友好，你
+大可不必完全按照下面的要点来做。这就是说，做你认为最应该做的事情。</p>
+
+<h2>2014 SEO CHECKLIST</h2>
+
+<blockquote><p>勾选你已经完成的条目。请不要关闭本页面，否则你勾选的条目会重新变成未
+勾选状态。</p>
+
+<p>这些事项，不一定满足你的网站需求。</p></blockquote>
+
+<ul>
+<li><p><input type="checkbox"> 你有为你的网站创建一个google帐号和邮
+箱吗？这不是必须要做的，但是做这件事情很容易。</p></li>
+<li><p><input type="checkbox"> 你有在你的网站中集成
+<a href="http://www.google.com/analytics/">Google Analytics</a>
+吗？这个是<strong>必须</strong>要做的！</p></li>
+<li><p><input type="checkbox"> 你有在你的网站中安装
+<a href="http://www.google.com/webmasters/">Google Webmaster Tools</a>
+吗？这也是<strong>必做</strong>的。</p></li>
+<li><p><input type="checkbox"> 同样的，也请在你的网站中安装
+<a href="http://www.bing.com/toolbox/webmaster/">Bing Webmaster Tools</a>。</p></li>
+<li><p><input type="checkbox"> 使用了<code>WordPress</code>？那么请在你的网站安装
+<a href="http://yoast.com/wordpress/google-analytics/">Google Analytics for WordPress</a>
+和
+<a href="http://yoast.com/wordpress/seo/">SEO for WordPress</a>，
+这些会让你的工作轻松一百倍啊一百倍。</p></li>
+<li><p><input type="checkbox"> 你有检查过Google Webmaster Tools发送
+给你的，关于404、500错误，重复的内容，缺少标题或者其他技术型错误的消息吗？
+请仔细查看Google发送给你的每一条消息。</p></li>
+<li><p><input type="checkbox"> 你有使用<a href="http://www.browseo.net/">Browseo</a>
+去发现更多的技术错误吗？通常，对人们有害的错误还包括301，302重定向。</p></li>
+<li><p><input type="checkbox">
+你有使用<a href="http://home.snafu.de/tilman/xenulink.html">Xemu</a>
+去检查已经失效的链接吗？它是免费而且易用的工具。</p></li>
+<li><p><input type="checkbox"> 你有使用<a href="https://adwords.google.com/KeywordPlanner">Google Keyword Research
+Tool</a>
+吗？请认真思考搜索者会使用的关键字，为每个页面选择一个关键词。刚开始，
+你应该选择一些低容量(low-volume，不知如何翻译)词。</p></li>
+<li><p><input type="checkbox"> 你有看过竞争对手的链接概况吗？这是你构建
+链接时最有效的方式。这样，你可以知道他们在链接中使用了哪些文字，同时，
+你也知道了如何获取并且在哪里获取他们的链接。在
+<a href="http://www.linkdiagnosis.com">Link Diagnosis</a>,
+<a href="http://www.opensiteexplorer.org/">Open Site Explorer</a>,
+<a href="http://ahrefs.com/">Ahrefs</a>,
+<a href="http://www.majesticseo.com/">Majestic SEO</a>,
+<a href="http://links.lipperhey.com/">LipperHey</a>
+中输入竞争对手的域名。</p></li>
+<li><p><input type="checkbox"> 你有为你的每一个页面设置关键词吗？</p></li>
+<li><p><input type="checkbox"> 所有的页面标题少于65个字符吗？多余的
+字符会被搜索引擎截断。</p></li>
+<li><p><input type="checkbox"> 所有的<code>&lt;meta description&gt;</code>信息在
+155个字符以内吗？多余长度的字符会被搜索引擎截断。</p></li>
+<li><p><input type="checkbox"> 你使用了<code>h1</code>标签吗？你的关键词在这个
+标签里面吗？这个标签是否在所有<code>h2, h3...</code>之前？你是否只使用了
+<code>h1</code>标签？</p></li>
+<li><p><input type="checkbox"> 你的网站上是否有一个良好的，字数足够的
+搜索引擎访问文本？我建议这个文本至少100个词以上，因为你需要给搜索
+引擎一个机会去理解你的页面的主旨是什么。为了保证排名，请永远不要在你
+的网站中添加不重要的文本，但是我不建议你为这些不重要的文本创建一个新的
+页面，除非这个文本含有超过100个有价值的词语。</p></li>
+<li><p><input type="checkbox"> 你使用了同义词吗？记住：同义词非常好用。
+使用关键词的同义词是非常推荐的。</p></li>
+<li><p><input type="checkbox"> 你在你的<code>img</code>标签中添加了描述性的
+<code>alt</code>属性和文件名了吗？搜索引擎是通过读<code>alt</code>属性和文件名称去发现
+图片的。试着为你的图片做描述性命名，但是<strong>不要做的太过</strong>。</p></li>
+<li><p><input type="checkbox"> 你使用SEO优化的方式去链接你的页面了吗？
+你有使你的链接语义化吗？这样用户和搜索引擎都能明白你的页面是关于什么的。
+我<strong>不建议</strong>你把全局导航的链接也语义化，这样看起来像是过度优化。请只对
+内容页面链接做语义化。</p></li>
+<li><p><input type="checkbox"> 你有过放下页面优化，开始构造你的链接吗？
+这是SEO一个非常困难但是非常重要的方面。看这篇文章
+<a href="http://www.clickminded.com/link-building-101-handbook/">ClickMinded Link Building Strategy
+Guide</a>
+，开始构建你的链接。</p></li>
+<li><p><input type="checkbox"> 你能确认你的网站上没有任何重复的内容吗？
+利用301跳转，规范的标签或者Google站长工具去修复重复内容可能被重复
+索引，从而给你的网站带来的损失。</p></li>
+<li><p><input type="checkbox"> 你是在你的代码中的链接使用的绝对路径吗？
+一些CMS管理系统会提供这个选项，使用绝对路径去代替相对路径。</p></li>
+<li><p><input type="checkbox"> 你是否使用了
+<a href="https://developers.google.com/speed/pagespeed/">Google Page Speed Tools</a>
+为你的网站加速？</p></li>
+<li><p><input type="checkbox"> 你是否为你的网站创建了一个<code>SiteMap</code>
+xml文件，并且提交给了Google, Bing的站长工具？使用
+<a href="http://www.xml-sitemaps.com/">XML-Sitemaps.com</a>,
+<a href="http://wordpress.org/extend/plugins/google-sitemap-generator/"> Google XML Sitemaps WordPress
+Plugin</a>.</p></li>
+<li><p><input type="checkbox"> 你是否创建了一个<code>robot.txt</code>文件，
+并且将它提交给了Google, Bing的站长工具。</p></li>
+<li><p><input type="checkbox"> 你有申明你的网站在其他主要的网络上做
+知名度经营的理由吗？你不但想确认没有人知道你的账户名，而且如果你是
+一个新的网站或者公司，你可以经常的在你的搜索结果页面上加上你公司的
+品牌。如下所示(注：brand-name是公司的名称)：</p>
+
+<ul>
+<li><a href="http://www.twitter.com/brand-name">http://www.twitter.com/brand-name</a></li>
+<li><a href="http://www.facebook.com/brand-name">http://www.facebook.com/brand-name</a></li>
+<li><a href="http://www.yelp.com/biz/brand-name">http://www.yelp.com/biz/brand-name</a></li>
+<li><a href="http://www.youtube.com/user/brand-name">http://www.youtube.com/user/brand-name</a></li>
+<li><a href="http://www.linkedin.com/in/brand-name">http://www.linkedin.com/in/brand-name</a></li>
+<li><a href="http://brand-name.wordpress.com/">http://brand-name.wordpress.com/</a></li>
+<li><a href="http://brand-name.tumblr.com/">http://brand-name.tumblr.com/</a></li>
+<li><a href="http://pinterest.com/brand-name/">http://pinterest.com/brand-name/</a></li>
+<li><a href="http://www.hulu.com/profiles/brand-name">http://www.hulu.com/profiles/brand-name</a></li>
+<li><a href="http://technorati.com/people/brand-name">http://technorati.com/people/brand-name</a></li>
+<li><a href="http://about.me/brand-name">http://about.me/brand-name</a></li>
+<li><a href="http://brand-name.posterous.com/">http://brand-name.posterous.com/</a></li>
+<li><a href="http://profile.typepad.com/brand-name">http://profile.typepad.com/brand-name</a></li>
+<li><a href="http://www.squidoo.com/lensmasters/brand-name">http://www.squidoo.com/lensmasters/brand-name</a></li>
+<li><a href="http://www.stumbleupon.com/stumbler/brand-name">http://www.stumbleupon.com/stumbler/brand-name</a></li>
+<li><a href="http://www.etsy.com/people/brand-name">http://www.etsy.com/people/brand-name</a></li>
+<li><a href="http://en.gravatar.com/brand-name">http://en.gravatar.com/brand-name</a></li>
+<li><a href="http://www.scribd.com/brand-name">http://www.scribd.com/brand-name</a></li>
+<li><a href="http://brand-name.livejournal.com/">http://brand-name.livejournal.com/</a></li>
+<li><a href="http://brand-name.hubpages.com/">http://brand-name.hubpages.com/</a></li>
+<li><a href="http://www.flickr.com/photos/brand-name/">http://www.flickr.com/photos/brand-name/</a></li>
+<li><a href="http://photobucket.com/user/brand-name/profile/">http://photobucket.com/user/brand-name/profile/</a></li>
+</ul>
+</li>
+<li><p><input type="checkbox"> 你的网站对移动端友好吗？你是否使用
+<a href="http://www.browserstack.com/">BrowserStack</a>
+进行了多浏览器兼容测试？</p></li>
+<li><p><input type="checkbox"> 你有在Facebook, Twitter, LinkedIn,
+Google+等社交网络上为你的网站运维？</p></li>
+<li><p><input type="checkbox"> 你是否为你的网站打上作者标签？使用
+<a href="http://www.clickminded.com/get-on-google-plus-why-authorship-markup-now-matters/">Authorship Markup
+Walkthrough</a>.</p></li>
+<li><p><input type="checkbox"> 你有使用
+<a href="http://mysiteauditor.com/">My Site Auditor Report</a>
+再次检查你网站的一切吗？</p></li>
+<li><p><input type="checkbox"> 你有使用这些
+<a href="http://www.clickminded.com/free-seo-tools/">免费SEO工具</a>，
+在你完成审核之前，再次处理你的网站吗？如果你不懂一些高层次概念，你有
+复习<a href="http://www.clickminded.com/seo-101-handbook/">SEO新手指南</a>
+吗？</p></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/posts/6">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/posts/4">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/shen-me-shi-xian-cheng/">什么是线程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/di-yi-ci-yu-arduino-jiao-hu/">第一次与 Arduino 交互</a>
+      </li>
+    
+      <li class="post">
+        <a href="/arduino-xue-xi-bi-ji-led-shan-shuo-shi-yan-zhong-yin-han-de-jian-dan-yuan-li/">Arduino 学习笔记——LED 闪烁实验中隐含的简单原理</a>
+      </li>
+    
+      <li class="post">
+        <a href="/redis-ji-chu-jiao-cheng/">Redis 基础教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/jiang-ni-de-vim-da-zao-cheng-qing-qiao-qiang-da-de-ide/">将你的Vim 打造成轻巧强大的IDE</a>
+      </li>
+    
+      <li class="post">
+        <a href="/jin-cheng-miao-shu-he-kong-zhi/">进程描述和控制</a>
+      </li>
+    
+      <li class="post">
+        <a href="/yi-ming-cai-niao-itxiang-mu-jing-li-de-cheng-chang-bi-ji/">一名菜鸟IT项目经理的成长笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/cong-ling-da-jian-he-pei-zhi-osxkai-fa-huan-jing/">从零搭建和配置OSX开发环境</a>
+      </li>
+    
+      <li class="post">
+        <a href="/tuan-dui-xiao-huo-ban-shang-di-yi-cai-jing/">团队小伙伴上第一财经</a>
+      </li>
+    
+      <li class="post">
+        <a href="/she-and-me/">She and Me</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/ji-zhu/'>技术 (15)</a></li>
+<li class='category'><a href='/blog/categories/sheng-huo/'>生活 (4)</a></li>
+
+  </ul>
+</section>
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/zgs225">@zgs225</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'zgs225',
+            count: 5,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+</section>
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - 乐正 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> -
+  <a href="http://www.miitbeian.gov.cn/" target="_blank">晥ICP备15005635号</a>
+</p>
+
+<script src="/javascripts/dist.min.js" type="text/javascript"></script>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'yuezme';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<!-- 
+ -->
+<!-- 
+ -->
+<!-- 
+ -->
+
+
+
+</body>
+</html>

@@ -1,28 +1,119 @@
----
-layout: nil
----
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  {% for post in site.posts %}
   <url>
-    <loc>{{ site.url }}{{ post.url }}</loc>
-    {% if post.lastmod == null %}
-    <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
-    {% else %}
-    <lastmod>{{ post.lastmod | date_to_xmlschema }}</lastmod>
-    {% endif %}
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <loc>http://yuez.me/shen-me-shi-xian-cheng/</loc>
+    <lastmod>2015-06-01T21:44:33+08:00</lastmod>
   </url>
-  {% endfor %}
-  {% for page in site.pages %}
-  {% if page.sitemap != null and page.sitemap != empty %}
   <url>
-    <loc>{{ site.url }}{{ page.url }}</loc>
-    <lastmod>{{ page.sitemap.lastmod | date_to_xmlschema }}</lastmod>
-    <changefreq>{{ page.sitemap.changefreq }}</changefreq>
-    <priority>{{ page.sitemap.priority }}</priority>
+    <loc>http://yuez.me/di-yi-ci-yu-arduino-jiao-hu/</loc>
+    <lastmod>2015-05-31T21:01:21+08:00</lastmod>
   </url>
-  {% endif %}
-  {% endfor %}
+  <url>
+    <loc>http://yuez.me/arduino-xue-xi-bi-ji-led-shan-shuo-shi-yan-zhong-yin-han-de-jian-dan-yuan-li/</loc>
+    <lastmod>2015-05-27T08:52:24+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yuez.me/redis-ji-chu-jiao-cheng/</loc>
+    <lastmod>2015-05-26T10:46:25+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yuez.me/jiang-ni-de-vim-da-zao-cheng-qing-qiao-qiang-da-de-ide/</loc>
+    <lastmod>2015-04-20T21:51:01+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yuez.me/jin-cheng-miao-shu-he-kong-zhi/</loc>
+    <lastmod>2015-04-16T15:16:59+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yuez.me/yi-ming-cai-niao-itxiang-mu-jing-li-de-cheng-chang-bi-ji/</loc>
+    <lastmod>2015-04-13T17:22:25+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yuez.me/cong-ling-da-jian-he-pei-zhi-osxkai-fa-huan-jing/</loc>
+    <lastmod>2015-04-03T22:52:14+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yuez.me/tuan-dui-xiao-huo-ban-shang-di-yi-cai-jing/</loc>
+    <lastmod>2015-03-27T11:43:57+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yuez.me/she-and-me/</loc>
+    <lastmod>2015-03-26T22:46:13+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yuez.me/http-cache/</loc>
+    <lastmod>2015-03-17T21:01:48+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yuez.me/cheng-du-jin-fu-ren-cong-ling-bu-shu-ji-lu/</loc>
+    <lastmod>2014-12-02T09:48:59+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yuez.me/the-meta-programming-in-ruby/</loc>
+    <lastmod>2014-11-06T10:05:34+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yuez.me/jun-zi-gu-you-qiong-hu/</loc>
+    <lastmod>2014-07-27T08:56:43+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yuez.me/sou-suo-yin-qing-you-hua-yao-dian/</loc>
+    <lastmod>2014-07-27T08:50:09+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yuez.me/hai-bian-de-qia-fu-qia-he-jiao-wu-ya-de-shao-nian/</loc>
+    <lastmod>2014-06-22T09:02:39+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yuez.me/chong-xin-ren-shi-java,fa-xian-ni-de-xi-jie/</loc>
+    <lastmod>2014-01-25T09:08:34+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yuez.me/cas-ji-cheng-xiao-zhan/</loc>
+    <lastmod>2013-12-06T11:32:25+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yuez.me/http-xie-yi-jie-xi/</loc>
+    <lastmod>2013-11-21T11:15:21+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://yuez.me/blog/archives/</loc>
+  </url>
+  <url>
+    <loc>http://yuez.me/</loc>
+  </url>
+  <url>
+    <loc>http://yuez.me/friend-links/</loc>
+  </url>
+  <url>
+    <loc>http://yuez.me/read-me/</loc>
+  </url>
+  <url>
+    <loc>http://yuez.me/blog/categories/ji-zhu/</loc>
+  </url>
+  <url>
+    <loc>http://yuez.me/blog/categories/sheng-huo/</loc>
+  </url>
+  <url>
+    <loc>http://yuez.me/posts/2/</loc>
+  </url>
+  <url>
+    <loc>http://yuez.me/posts/3/</loc>
+  </url>
+  <url>
+    <loc>http://yuez.me/posts/4/</loc>
+  </url>
+  <url>
+    <loc>http://yuez.me/posts/5/</loc>
+  </url>
+  <url>
+    <loc>http://yuez.me/posts/6/</loc>
+  </url>
+  <url>
+    <loc>http://yuez.me/posts/7/</loc>
+  </url>
+  <url>
+    <loc>http://yuez.me/google95b207230597ea5d.html</loc>
+    <lastmod>2015-06-03T12:07:24+08:00</lastmod>
+  </url>
 </urlset>

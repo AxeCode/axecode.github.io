@@ -1,0 +1,742 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="zh-CN"><!--<![endif]-->
+<head>
+  <meta charset="UTF-8">
+  <title>The Meta Programming in Ruby - 乐正</title>
+  <meta name="author" content="乐正">
+  <meta name="renderer" content="webkit">
+
+  
+  <meta name="description" content="The machine could be used to create new programming that
+it could then execute. And that would be meta programming
+&ndash;writing code that writes &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+
+  <link rel="canonical" href="http://yuez.me/the-meta-programming-in-ruby/">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="乐正" type="application/atom+xml">
+  <script src="/javascripts/jquery.min.js" type="text/javascript"></script>
+  <meta name="baidu-site-verification" content="jec8U3uPUi" />
+
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+<script>
+  // Jqquery image lazy load
+  $(function () { $('img.lazy').lazyload(); });
+</script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-58537045-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">乐正</a></h1>
+  
+    <h2>Actions speak louder than words.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="yuez.me">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">BLOG</a></li>
+  <li><a href="/blog/archives">ARCHIVES</a></li>
+  <li><a href="/friend-links">FRIENDS</a></li>
+  <li><a href="/read-me">README</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">The Meta Programming in Ruby</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-11-06T10:05:34+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:05 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>The machine could be used to create new programming that
+it could then execute. And that would be meta programming
+&ndash;writing code that writes code.</p>
+
+<h2>Base</h2>
+
+<p>The basement of meta programming.</p>
+
+<h3>Objects and Classes</h3>
+
+<p>In reality, however, Ruby has just a single underline
+class and object structure.</p>
+
+<p>A Ruby object has three components: a set of flags, some
+instance variables, and an associated class.</p>
+
+<h4>self and Method calling</h4>
+
+<p><code>self</code> has two significant roles in running Ruby program.</p>
+
+<ul>
+<li><code>self</code> control how Ruby finds instance variables.</li>
+<li><code>self</code> plays a vital role in method calling. If there
+is no explicit reciever, Ruby uses <code>self</code> as default
+reciever.</li>
+</ul>
+
+
+<p>Inside a class definition, <code>self</code> is set to the class
+object of the class being defined.</p>
+
+<h4>Singletons</h4>
+
+<p>Ruby lets you define methods that are specific to a
+particular object. These are called <code>singleton methods</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">animal</span> <span class="o">=</span> <span class="s1">&#39;cat&#39;</span>
+</span><span class='line'><span class="k">def</span> <span class="nc">animal</span><span class="o">.</span><span class="nf">speak</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;The </span><span class="si">#{</span> <span class="nb">self</span> <span class="si">}</span><span class="s2"> says miaow.&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">animal</span><span class="o">.</span><span class="n">speak</span> <span class="c1"># =&gt; &quot;The animal says miaow.&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When we defined singleton method for the <code>animal</code> object，
+Ruby create a new anonymous class and defined the <code>speak</code>.</p>
+
+<h4>Singletons and Classes</h4>
+
+<p>Newcomers to Ruby commonly make the mistake of setting
+instance variables inline in the class definition and
+then attempting to access these variables from instance
+methods.</p>
+
+<p><strong>Instance variables defined in the class body are
+associated with the class object, not the instance
+of the class.</strong></p>
+
+<h4>Another way to access the singleton class</h4>
+
+<p>You can do the same thing Ruby&rsquo;s Class &lt;&lt; an_object
+notation.</p>
+
+<p>You can&rsquo;t create a new instance of a singleton class.</p>
+
+<p>To make <code>attr_accessor</code> work with class level instance
+variables, you must have to invoke <code>attr_accessor</code> in
+singleton class.</p>
+
+<h4>Inheritance and Visibility</h4>
+
+<p>Within a class definition, you can change the visibility
+of a method in an ancestor class.</p>
+
+<p>If a subclass changes the visibility of a method in a
+parent, Ruby effectively inserts a hidden proxy method in
+the subclass that invoke the original method using
+<code>super</code>.</p>
+
+<p>The call of <code>super</code> can access the parent&rsquo;s methods
+regardless of its visibility.</p>
+
+<h3>Modules and Mixins</h3>
+
+<p>The module that you include is effectively added as a
+superclass of the class being defined.</p>
+
+<p>When you include a module in class <code>Example</code>, Ruby Constructs
+a new class object, makes it the superclass of <code>Example</code>,
+and then set the superclass of the new class to be the
+original superclass of <code>Example</code>.</p>
+
+<p>Ruby will include a module only <strong>once</strong> in a
+inheritance chain.</p>
+
+<h4>prepend</h4>
+
+<blockquote><p>New feature in 2.0</p></blockquote>
+
+<p>If a method inside a prepended module has the same name
+as one in the original class, it will be invoked instead
+of the original. The prepended module can then call the
+original using <code>super</code>.</p>
+
+<h4>extend</h4>
+
+<p>Add the instance methods to a particular object.If you
+use it in a class definition, the module&rsquo;s methods
+become class methods.</p>
+
+<h4>Refinements</h4>
+
+<blockquote><p>New feature in 2.0</p></blockquote>
+
+<p>A refinement is a way of packaging a set of changes to
+one or more classes. These refinements are defined
+within a module.</p>
+
+<h3>Meta programming Class-Level Macros</h3>
+
+<p>Because of the way they expand into something bigger,
+folks sometimes call these kinds of methods <code>macros</code>.</p>
+
+<p>A <code>class method</code> is defined in the class object&rsquo;s
+singleton class. That means we can call it later in the
+class definition without an explicit receiver.</p>
+
+<p>Use <code>define_method</code> to define a log method on the fly.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Logger</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">add_logging</span><span class="p">(</span><span class="n">id_string</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">define_method</span><span class="p">(</span><span class="ss">:log</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">msg</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">now</span> <span class="o">=</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H:%M:%S&quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="no">STDERR</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;</span><span class="si">#{</span> <span class="n">now</span> <span class="si">}</span><span class="s2">-</span><span class="si">#{</span> <span class="n">id_string</span> <span class="si">}</span><span class="s2">: </span><span class="si">#{</span> <span class="nb">self</span> <span class="si">}</span><span class="s2"> </span><span class="si">#{</span> <span class="n">msg</span> <span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Song</span> <span class="o">&lt;</span> <span class="no">Logger</span>
+</span><span class='line'>  <span class="n">add_logging</span><span class="p">(</span><span class="s1">&#39;Tune&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As well as passing parameters from the class method into
+the body of the method being defined, we can also use
+the parameter to determine the name of the method or
+methods to create.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">AttrLogger</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">attr_logger</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>    <span class="kp">attr_reader</span> <span class="nb">name</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">define_method</span><span class="p">(</span><span class="s2">&quot;@</span><span class="si">#{</span> <span class="nb">name</span> <span class="si">}</span><span class="s2">=&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">val</span><span class="o">|</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;Assigning </span><span class="si">#{</span> <span class="n">val</span><span class="o">.</span><span class="n">inspect</span> <span class="si">}</span><span class="s2"> to </span><span class="si">#{</span> <span class="nb">name</span> <span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>      <span class="nb">instance_variable_set</span><span class="p">(</span><span class="s2">&quot;@</span><span class="si">#{</span> <span class="nb">name</span> <span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We use <code>instance_variable_set</code> to set the value of an
+instance variable. There&rsquo;s a corresponding <code>_get</code> method
+that fetches the value of a named instance variable.</p>
+
+<h4>Class Methods And Modules</h4>
+
+<p>You can use module to hold your meta programming
+implementation. In this case, using <code>extend</code> inside a
+class definition will add the methods in a module as
+class methods to the class being defined.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">AttrLogger</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">attr_logger</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>    <span class="kp">attr_reader</span> <span class="nb">name</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">define_method</span> <span class="s2">&quot;@</span><span class="si">#{</span> <span class="nb">name</span> <span class="si">}</span><span class="s2">&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">val</span><span class="o">|</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;Assigning </span><span class="si">#{</span> <span class="n">val</span><span class="o">.</span><span class="n">inspect</span> <span class="si">}</span><span class="s2">&quot;</span> <span class="n">to</span> <span class="c1">#{ name }</span>
+</span><span class='line'>      <span class="nb">instance_variable_set</span> <span class="s2">&quot;@</span><span class="si">#{</span> <span class="nb">name</span> <span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">val</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Example</span>
+</span><span class='line'>  <span class="kp">extend</span> <span class="no">AttrLogger</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">attr_logger</span> <span class="ss">:value</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here&rsquo;s one technique, make us to add both class methods
+and instance methods into the class being defined.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">GeneralLogger</span>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">ClassMethods</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">attr_logger</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>      <span class="kp">attr_reader</span> <span class="nb">name</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">define_method</span> <span class="s2">&quot;</span><span class="si">#{</span> <span class="nb">name</span> <span class="si">}</span><span class="s2">=&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">val</span><span class="o">|</span>
+</span><span class='line'>        <span class="nb">puts</span> <span class="s2">&quot;Assigning </span><span class="si">#{</span> <span class="n">val</span><span class="o">.</span><span class="n">inspect</span> <span class="si">}</span><span class="s2"> to </span><span class="si">#{</span> <span class="nb">name</span> <span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>        <span class="nb">instance_variable_set</span> <span class="s2">&quot;@</span><span class="si">#{</span> <span class="nb">name</span> <span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">val</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">InstanceMethods</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-%d %H:%M:%S &quot;</span> <span class="o">+</span> <span class="n">msg</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">receiver</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">receiver</span><span class="o">.</span><span class="n">extend</span>         <span class="no">ClassMethods</span>
+</span><span class='line'>    <span class="n">receiver</span><span class="o">.</span><span class="n">send</span> <span class="ss">:include</span><span class="p">,</span> <span class="no">InstanceMethods</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Example</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">GeneralLogger</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">attr_logger</span> <span class="ss">:name</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">ex</span> <span class="o">=</span> <span class="no">Example</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">ex</span><span class="o">.</span><span class="n">log</span> <span class="s2">&quot;A new Example created.&quot;</span>
+</span><span class='line'><span class="c1"># =&gt; 2014-10-31 08:56:56 A new Example created.</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">ex</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Yuez&quot;</span>
+</span><span class='line'><span class="c1"># =&gt; Assigning &quot;Yuez&quot; to name</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">ex</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Lucky&quot;</span>
+</span><span class='line'><span class="c1"># =&gt; Assigning &quot;Lucky&quot; to name</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Creating Singleton Class</h4>
+
+<p>Use <code>Class#new</code> directly to create a singleton class. By
+default this class will be direct decendent of <code>Object</code>.
+You can give them a different parent by passing the
+parent&rsquo;s class as a parameter.</p>
+
+<h3>instance_eval and class_eval</h3>
+
+<ul>
+<li><code>Object#instance_eval</code></li>
+<li><code>Module#class_eval</code></li>
+<li><code>Module#module_eval</code></li>
+</ul>
+
+
+<p><code>instance_eval</code> and <code>class_eval</code> both set <code>self</code> for the
+duration of the block. However, they differ in the way
+they set up the environment for method definition.
+<code>class_eval</code> sets things up as if you were in the body
+of a class definition.</p>
+
+<p>In contrast, calling <code>instance_eval</code> on a class acts as
+if you were working inside the singleton class of <code>self</code></p>
+
+<p>Ruby has variants of these methods.</p>
+
+<ul>
+<li><code>Object#instance_exec</code></li>
+<li><code>Module#class_exec</code></li>
+<li><code>Module#module_exec</code></li>
+</ul>
+
+
+<p>behave identically to there <code>_eval</code> counterparts but take
+only a block(they do not take a string).</p>
+
+<h3>Hook Methods</h3>
+
+<p><code>included</code> is an example of a <em>hood method</em> (sometime
+  called a <em>callback</em>). A hook method is a method that
+  you write but that Ruby calls from within the interpreter
+  when some particular events occurs.</p>
+
+<p>  The interpreter looks for these methods by name&ndash;if
+  you define a method in the right context with an
+  appropriate name, Ruby will call it when the corresponding
+  event happens.</p>
+
+<p>  The methods that can be invoked from within the
+  interpreter are:</p>
+
+<ul>
+<li><p>Method related hooks.</p>
+
+<p><code>method_added</code>, <code>method_missing</code>,  <code>method_removed</code>,
+<code>method_undefined</code>, <code>singleton_method_added</code>,
+<code>singleton_method_removed</code>, <code>singleton_method_undefined</code></p></li>
+<li><p>Class and module related hooks.</p>
+
+<p><code>append_features</code>, <code>const_missing</code>, <code>extend_object</code>,
+<code>extended</code>, <code>included</code>, <code>inherited</code>,
+<code>initialize_clone</code>, <code>initialize_coty</code>,
+<code>initialize_dup</code></p></li>
+<li><p>Object marshaling hooks.</p>
+
+<p><code>marshal_dump</code>, <code>marshal_load</code></p></li>
+<li><p>Coercion hooks.</p>
+
+<p><code>coerce</code>, <code>included_from</code>, <code>to_xxx</code></p></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">乐正</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-11-06T10:05:34+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:05 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ji-zhu/'>技术</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+
+  
+    <div class="bdsharebuttonbox" data-tag="share_1">
+  <a class="fa fa-weibo"  data-cmd="tsina"></a>
+  <a class="fa fa-weixin" data-cmd="weixin"></a>
+  <a class="fa fa-copy"   data-cmd="copy"></a>
+</div>
+<script>
+  window._bd_share_config = {
+    common : {
+      bdText : document.title,
+      bdDesc : (function () {
+        var meta = document.querySelector("meta[name=\'description\']"),
+            description;
+
+        if (meta) meta = meta.getAttribute("content");
+        description = meta || "";
+
+        return description;
+      })(),
+      bdUrl  : document.location.href,
+      bdPic  : (function () {
+        var imgs = document.getElementsByTagName('img'),
+            img_srcs = [];
+
+        for (var i = 0; i < imgs.length; i++) {
+          var img = imgs[i];
+          // 因为使用了延迟加载，图片没有src属性
+          img_srcs.push(window.location.host + img.getAttribute('data-original'));
+        }
+
+        return img_srcs.join("||");
+      })()
+    },
+    share : [{
+      "bdSize" : 32,
+      "bdCustomStyle" : "/stylesheets/screen.css"
+    }],
+  }
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/jun-zi-gu-you-qiong-hu/" title="Previous Post: 君子固有穷乎?">&laquo; 君子固有穷乎?</a>
+      
+      
+        <a class="basic-alignment right" href="/cheng-du-jin-fu-ren-cong-ling-bu-shu-ji-lu/" title="Next Post: 成都金夫人从零部署记录">成都金夫人从零部署记录 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/shen-me-shi-xian-cheng/">什么是线程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/di-yi-ci-yu-arduino-jiao-hu/">第一次与 Arduino 交互</a>
+      </li>
+    
+      <li class="post">
+        <a href="/arduino-xue-xi-bi-ji-led-shan-shuo-shi-yan-zhong-yin-han-de-jian-dan-yuan-li/">Arduino 学习笔记——LED 闪烁实验中隐含的简单原理</a>
+      </li>
+    
+      <li class="post">
+        <a href="/redis-ji-chu-jiao-cheng/">Redis 基础教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/jiang-ni-de-vim-da-zao-cheng-qing-qiao-qiang-da-de-ide/">将你的Vim 打造成轻巧强大的IDE</a>
+      </li>
+    
+      <li class="post">
+        <a href="/jin-cheng-miao-shu-he-kong-zhi/">进程描述和控制</a>
+      </li>
+    
+      <li class="post">
+        <a href="/yi-ming-cai-niao-itxiang-mu-jing-li-de-cheng-chang-bi-ji/">一名菜鸟IT项目经理的成长笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/cong-ling-da-jian-he-pei-zhi-osxkai-fa-huan-jing/">从零搭建和配置OSX开发环境</a>
+      </li>
+    
+      <li class="post">
+        <a href="/tuan-dui-xiao-huo-ban-shang-di-yi-cai-jing/">团队小伙伴上第一财经</a>
+      </li>
+    
+      <li class="post">
+        <a href="/she-and-me/">She and Me</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/ji-zhu/'>技术 (15)</a></li>
+<li class='category'><a href='/blog/categories/sheng-huo/'>生活 (4)</a></li>
+
+  </ul>
+</section>
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/zgs225">@zgs225</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'zgs225',
+            count: 5,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - 乐正 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> -
+  <a href="http://www.miitbeian.gov.cn/" target="_blank">晥ICP备15005635号</a>
+</p>
+
+<script src="/javascripts/dist.min.js" type="text/javascript"></script>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'yuezme';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://yuez.me/the-meta-programming-in-ruby/';
+        var disqus_url = 'http://yuez.me/the-meta-programming-in-ruby/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<!-- 
+ -->
+<!-- 
+ -->
+<!-- 
+ -->
+
+
+
+</body>
+</html>

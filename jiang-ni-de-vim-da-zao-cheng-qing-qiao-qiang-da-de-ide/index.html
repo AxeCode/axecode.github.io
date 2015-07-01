@@ -1,0 +1,736 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="zh-CN"><!--<![endif]-->
+<head>
+  <meta charset="UTF-8">
+  <title>将你的Vim 打造成轻巧强大的IDE - 乐正</title>
+  <meta name="author" content="乐正">
+  <meta name="renderer" content="webkit">
+
+  
+  <meta name="description" content="Vim和Emacs一个称为神之编辑器一个被称为编辑器之神，固然很是夸张，但也足以说明这两
+款软件的优秀和在程序员界的地位。但是它们都已漫长的学习曲线让人望而生畏，阻止了大
+多数人进入。作为一名几乎完全使用Vim写各种代码、文档的人，我想把我自己平时使用的
+插件和配置整理下来，方便自己的总结和归纳， &hellip;">
+  <meta name="keywords" content="Vim插件,Vim技巧,如何使用Vim,Vim IDE">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+
+  <link rel="canonical" href="http://yuez.me/jiang-ni-de-vim-da-zao-cheng-qing-qiao-qiang-da-de-ide/">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="乐正" type="application/atom+xml">
+  <script src="/javascripts/jquery.min.js" type="text/javascript"></script>
+  <meta name="baidu-site-verification" content="jec8U3uPUi" />
+
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+<script>
+  // Jqquery image lazy load
+  $(function () { $('img.lazy').lazyload(); });
+</script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-58537045-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">乐正</a></h1>
+  
+    <h2>Actions speak louder than words.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="yuez.me">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">BLOG</a></li>
+  <li><a href="/blog/archives">ARCHIVES</a></li>
+  <li><a href="/friend-links">FRIENDS</a></li>
+  <li><a href="/read-me">README</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">将你的Vim 打造成轻巧强大的IDE</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-20T21:51:01+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:51 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Vim和Emacs一个称为神之编辑器一个被称为编辑器之神，固然很是夸张，但也足以说明这两
+款软件的优秀和在程序员界的地位。但是它们都已漫长的学习曲线让人望而生畏，阻止了大
+多数人进入。作为一名几乎完全使用Vim写各种代码、文档的人，我想把我自己平时使用的
+插件和配置整理下来，方便自己的总结和归纳，如果能有幸帮助到一些想学习Vim但是又不知
+道如何入门的人来说，那就再荣幸不过了<i class="fa fa fa-heart"></i>。</p>
+
+<p>在下面的内容中，我会介绍我使用的插件、Vim的配置，最后如果你觉得这些配置手动太麻烦
+的话，我推荐你看我的另一篇文章（<a href="/cong-ling-da-jian-he-pei-zhi-osxkai-fa-huan-jing/">从零搭建和配置OSX开发环境</a>），
+在那篇文章的末尾，我给出了一个<strong>自动化配置和管理Vim的方法</strong>。</p>
+
+<p>先贴一张我的Vim的截图：</p>
+
+<p><img class="lazy no-shadow" data-original="/photos/vim-ide.png" width="600" height="240" title="vim as ide" alt="vim as ide"></p>
+
+<h2>你看的到的插件</h2>
+
+<p>从上面那种截图中肉眼能看到的插件说起，把整个界面按照左窗口、主窗口、右窗口和下窗
+口命名，依次介绍出现在这个窗口中的主要插件。</p>
+
+<h4>主窗口</h4>
+
+<p>作为一款主要用于书写代码的文本编辑器，一个足够舒服、靓丽的配色当然是首要考虑的。
+我使用的配色主题是<code>molokai</code>（<a href="https://github.com/tomasr/molokai">官方地址</a>），在
+你安装好了这个插件之后，你需要下面几行配置应用它：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; Switch syntax highlighting on, when the terminal has colors</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nb">t_Co</span> <span class="p">&gt;</span> <span class="m">2</span> <span class="p">||</span> has<span class="p">(</span><span class="s2">&quot;gui_running&quot;</span><span class="p">))</span> &amp;&amp; <span class="p">!</span>exists<span class="p">(</span><span class="s2">&quot;syntax_on&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">syntax</span> <span class="k">on</span>
+</span><span class='line'><span class="k">endif</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Javascript syntax hightlight</span>
+</span><span class='line'><span class="nb">syntax</span> enable
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Set syntax highlighting for specific file types</span>
+</span><span class='line'><span class="k">autocmd</span> <span class="nb">BufRead</span><span class="p">,</span><span class="nb">BufNewFile</span> Appraisals <span class="k">set</span> <span class="k">filetype</span><span class="p">=</span><span class="k">ruby</span>
+</span><span class='line'><span class="k">autocmd</span> <span class="nb">BufRead</span><span class="p">,</span><span class="nb">BufNewFile</span> *.md <span class="k">set</span> <span class="k">filetype</span><span class="p">=</span>markdown
+</span><span class='line'><span class="k">autocmd</span> <span class="nb">Syntax</span> javascript <span class="k">set</span> <span class="nb">syntax</span><span class="p">=</span>jquery
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Color scheme</span>
+</span><span class='line'><span class="k">colorscheme</span> molokai
+</span><span class='line'><span class="nb">highlight</span> NonText guibg<span class="p">=</span><span class="mh">#060606</span>
+</span><span class='line'><span class="nb">highlight</span> Folded  guibg<span class="p">=</span>#<span class="m">0</span>A<span class="m">0</span>A<span class="m">0</span>A guifg<span class="p">=</span>#<span class="m">9090</span>D<span class="m">0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>另外一个推荐的vim主题是<code>solarized</code>(<a href="https://github.com/altercation/vim-colors-solarized">官方地址</a>)。</p>
+
+<p>在选定了一个适合自己的主题之后，就需要一些配置去解决排版的问题，比如字符编码和缩
+进等问题。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; Backspace deletes like most programs in insert mode</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">backspace</span><span class="p">=</span><span class="m">2</span>
+</span><span class='line'><span class="c">&quot; Show the cursor position all the time</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">ruler</span>
+</span><span class='line'><span class="c">&quot; Display incomplete commands</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">showcmd</span>
+</span><span class='line'><span class="c">&quot; Set fileencodings</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">fileencodings</span><span class="p">=</span>utf<span class="m">-8</span><span class="p">,</span>bg18030<span class="p">,</span>gbk<span class="p">,</span>big5
+</span><span class='line'>
+</span><span class='line'><span class="k">filetype</span> plugin indent <span class="k">on</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Softtabs, 2 spaces</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">tabstop</span><span class="p">=</span><span class="m">2</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">shiftwidth</span><span class="p">=</span><span class="m">2</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">shiftround</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">expandtab</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Display extra whitespace</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">list</span> <span class="nb">listchars</span><span class="p">=</span><span class="k">tab</span>:»·<span class="p">,</span>trail:·
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Make it obvious where 80 characters is</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">textwidth</span><span class="p">=</span><span class="m">80</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">colorcolumn</span><span class="p">=+</span><span class="m">1</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Numbers</span>
+</span><span class='line'><span class="k">set</span> <span class="k">number</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">numberwidth</span><span class="p">=</span><span class="m">5</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">set</span> <span class="nb">matchpairs</span><span class="p">+=&lt;</span>:<span class="p">&gt;</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">hlsearch</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在第68行，水平和垂直方向分别有一条高亮条，这是用来表示我当 前光标所处于的行和列
+用的。实现它，只需要几行简单的配置就可以了：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; Highlight current line</span>
+</span><span class='line'><span class="k">au</span> <span class="nb">WinLeave</span> * <span class="k">set</span> <span class="nb">nocursorline</span> <span class="nb">nocursorcolumn</span>
+</span><span class='line'><span class="k">au</span> <span class="nb">WinEnter</span> * <span class="k">set</span> <span class="nb">cursorline</span> <span class="nb">cursorcolumn</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">cursorline</span> <span class="nb">cursorcolumn</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>关于代码补全</h5>
+
+<p>有些人可能已经发现了，在我的主窗口中没有演示代码补全的功能，我需要对此做一个说明。
+我本人不喜欢过于强大的代码补全，所以默认的对于我来说已经完全足够了，如果你需要使
+用更强大的代码补全，我推荐你使用<code>YouCompleteMe</code>（<a href="https://github.com/Valloric/YouCompleteMe">官方地址</a>）。</p>
+
+<p><img class="lazy no-shadow" data-original="/photos/you-complete-me.gif" width="600" height="240" title="YouCompleteMe" alt="YouCompleteMe"></p>
+
+<h4>左窗口</h4>
+
+<p>左窗口是一个用于浏览目录结构的插件<code>nerdtree</code>（<a href="https://github.com/scrooloose/nerdtree">官方地址</a>）。
+同样一些简单的配置之后，它便能为你提供一个方便够用的功能。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; NERD tree</span>
+</span><span class='line'><span class="k">let</span> NERDChristmasTree<span class="p">=</span><span class="m">0</span>
+</span><span class='line'><span class="k">let</span> NERDTreeWinSize<span class="p">=</span><span class="m">35</span>
+</span><span class='line'><span class="k">let</span> NERDTreeChDirMode<span class="p">=</span><span class="m">2</span>
+</span><span class='line'><span class="k">let</span> NERDTreeIgnore<span class="p">=</span>[<span class="s1">&#39;\~$&#39;</span><span class="p">,</span> <span class="s1">&#39;\.pyc$&#39;</span><span class="p">,</span> <span class="s1">&#39;\.swp$&#39;</span>]
+</span><span class='line'><span class="k">let</span> NERDTreeShowBookmarks<span class="p">=</span><span class="m">1</span>
+</span><span class='line'><span class="k">let</span> NERDTreeWinPos<span class="p">=</span><span class="s2">&quot;left&quot;</span>
+</span><span class='line'><span class="c">&quot; Automatically open a NERDTree if no files where specified</span>
+</span><span class='line'><span class="k">autocmd</span> vimenter * <span class="k">if</span> <span class="p">!</span>argc<span class="p">()</span> <span class="p">|</span> NERDTree <span class="p">|</span> <span class="k">endif</span>
+</span><span class='line'><span class="c">&quot; Close vim if the only window left open is a NERDTree</span>
+</span><span class='line'><span class="k">autocmd</span> bufenter * <span class="k">if</span> <span class="p">(</span>winnr<span class="p">(</span><span class="s2">&quot;$&quot;</span><span class="p">)</span> <span class="p">==</span> <span class="m">1</span> &amp;&amp; exists<span class="p">(</span><span class="s2">&quot;b:NERDTreeType&quot;</span><span class="p">)</span> &amp;&amp; <span class="k">b</span>:NERDTreeType <span class="p">==</span> <span class="s2">&quot;primary&quot;</span><span class="p">)</span> <span class="p">|</span> <span class="k">q</span> <span class="p">|</span> <span class="k">endif</span>
+</span><span class='line'><span class="c">&quot; Open a NERDTree</span>
+</span><span class='line'>nmap <span class="p">&lt;</span>F5<span class="p">&gt;</span> :NERDTreeToggle<span class="p">&lt;</span><span class="k">cr</span><span class="p">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>右窗口</h4>
+
+<p>在我的截图中，右窗口陈列出了我当前打开的rb文件中申明的类、变量及方法等等。这是一
+款名叫<code>tagbar</code>的插件，它为我们提供了一个简单的方式去浏览当前文件的结构，并且支持
+在各个标签之间快捷的跳转。同理，安装之后，需要一些配置：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; Tagbar</span>
+</span><span class='line'><span class="k">let</span> <span class="k">g</span>:tagbar_width<span class="p">=</span><span class="m">35</span>
+</span><span class='line'><span class="k">let</span> <span class="k">g</span>:tagbar_autofocus<span class="p">=</span><span class="m">1</span>
+</span><span class='line'>nmap <span class="p">&lt;</span>F6<span class="p">&gt;</span> :TagbarToggle<span class="p">&lt;</span>CR<span class="p">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果你发现默认的<code>Tagbar</code>不能支持你的语言，比如Css, Clojure, Markdown等等，你可以
+参照<a href="https://github.com/majutsushi/tagbar/wiki">这篇文章</a>为它提供额外的支持。</p>
+
+<h4>下窗口</h4>
+
+<p>下窗口包含了两个部分：一个是用于全局搜索的窗口和一个状态条。</p>
+
+<p>全局搜索是一个基于文件名的搜索功能，可以快速定位一个文件。这是<code>ctrlp</code>这个插件提
+供的功能。下面是<code>ctrlp</code>的一些配置：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; ctrap</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">wildignore</span><span class="p">+=</span>*<span class="sr">/tmp/</span>*<span class="p">,</span>*.<span class="k">so</span><span class="p">,</span>*.swp<span class="p">,</span>*.zip<span class="p">,</span>*.png<span class="p">,</span>*.jpg<span class="p">,</span>*.jpeg<span class="p">,</span>*.gif <span class="c">&quot; MacOSX/Linux</span>
+</span><span class='line'><span class="k">let</span> <span class="k">g</span>:ctrlp_custom_ignore <span class="p">=</span> <span class="s1">&#39;\v[\/]\.(git|hg|svn)$&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>ctrlp</code>默认会使用<code>grep</code>进行搜索，效率低且慢。所以，我使用了<code>ag</code>去替换默认的搜索
+功能。ag是一款轻量级的搜索工具，速度非常快。为了集成ag，需要添加下列配置：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="k">if</span> executable<span class="p">(</span><span class="s1">&#39;ag&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="c">  &quot; Use Ag over Grep</span>
+</span><span class='line'>  <span class="k">set</span> <span class="nb">grepprg</span><span class="p">=</span>ag\ <span class="p">--</span>nogroup\ <span class="p">--</span>nocolor
+</span><span class='line'><span class="c">  &quot; Use ag in CtrlP for listing files.</span>
+</span><span class='line'>  <span class="k">let</span> <span class="k">g</span>:ctrlp_user_command <span class="p">=</span> <span class="s1">&#39;ag %s -l --nocolor -g &quot;&quot;&#39;</span>
+</span><span class='line'><span class="c">  &quot; Ag is fast enough that CtrlP doesn&#39;t need to cache</span>
+</span><span class='line'>  <span class="k">let</span> <span class="k">g</span>:ctrlp_use_caching <span class="p">=</span> <span class="m">0</span>
+</span><span class='line'><span class="k">endif</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面状态条中会依次显示：当前模式、Git分支、文件路径、文件是否保存以及当前所载行和
+列的信息。这是通过<code>vim-powerline</code>来实现的。其中显示Git信息需要配合<code>vim-fugitive</code>
+插件一些使用。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="k">set</span> <span class="nb">laststatus</span><span class="p">=</span><span class="m">2</span> <span class="c">&quot; Always display the status line</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">statusline</span><span class="p">+=</span>%{fugitive#<span class="nb">statusline</span><span class="p">()</span>} <span class="c">&quot;  Git Hotness</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>小结</h4>
+
+<p>通过以上的配置，你就可以拥有一些如第一张图所示的那样，看起来还不错的编辑器。当然，
+Vim之所以如此倍受推崇，只是依靠这些还是远远不够的。接下来，我要介绍一些看不见的插
+件来实实在在的提升Vim体验。</p>
+
+<h2>看不见的实用插件</h2>
+
+<h4>现代化的插件管理</h4>
+
+<p>在我的另一篇文章中（<a href="/cong-ling-da-jian-he-pei-zhi-osxkai-fa-huan-jing/">从零搭建和配置OSX开发环境</a>）
+，我已经详细介绍过<code>Vundle</code>这个管理Vim插件的一个软件，这里不做过多介绍。</p>
+
+<h4>在Vim中执行你想要运行的命令</h4>
+
+<p><code>vim-run-interactive</code>让你可以在Vim中执行几乎任何你想要在命令行中执行的命令。举例
+来说，假设你有条<code>git update</code>的自定义命令，你可以通过<code>:RunInInteractiveShell git
+update</code>来执行它，而不需要退出Vim。添加一条配置，可以简化这个步骤：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; Run commands that require an interactive shell</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">r</span> :RunInInteractiveShell<span class="p">&lt;</span>space<span class="p">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如此一来，你可以通过<code>&lt;Leader&gt; + r + 命令</code>键来激活执行命令。如果你不知道什么是<code>Leader</code>
+键，你可以去百度或者Google一下。</p>
+
+<h4>Vim的语法检查</h4>
+
+<p>Vim中有个很强大的语法检查插件，它支持几乎所有常用的语言的语法检测[<code>syntastic</code>(<a href="https://github.com/scrooloose/syntastic">https://github.com/scrooloose/syntastic</a>)]。
+附上一张来自官方的截图：</p>
+
+<p><img class="lazy no-shadow" data-original="/photos/syntastic.png" width="600" height="240" title="syntastic plugin" alt="syntastic plugin"></p>
+
+<p>为了让它更好的工作，同样需要一些配置：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; configure syntastic syntax checking to check on open as well as save</span>
+</span><span class='line'><span class="k">let</span> <span class="k">g</span>:syntastic_check_on_open<span class="p">=</span><span class="m">1</span>
+</span><span class='line'><span class="k">let</span> <span class="k">g</span>:syntastic_html_tidy_ignore_errors<span class="p">=</span>[<span class="s2">&quot; proprietary attribute \&quot;ng-&quot;</span>]
+</span><span class='line'><span class="k">let</span> <span class="k">g</span>:syntastic_always_populate_loc_list <span class="p">=</span> <span class="m">1</span>
+</span><span class='line'><span class="k">let</span> <span class="k">g</span>:syntastic_auto_loc_list <span class="p">=</span> <span class="m">1</span>
+</span><span class='line'><span class="k">let</span> <span class="k">g</span>:syntastic_check_on_wq <span class="p">=</span> <span class="m">0</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">statusline</span><span class="p">+=</span>%#warningmsg#
+</span><span class='line'><span class="k">set</span> <span class="nb">statusline</span><span class="p">+=</span>%{SyntasticStatuslineFlag<span class="p">()</span>}
+</span><span class='line'><span class="k">set</span> <span class="nb">statusline</span><span class="p">+=</span>%*
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Rails集成开发套件</h4>
+
+<p>我是一名Ruby的爱好者，所以Vim中少不了针对Ruby的一系列插件。我作为一名Web开发者，
+Rails这个大名鼎鼎的框架自然也是有所涉猎。所以在我的Vim中有着针对它们开发的一套插
+件。</p>
+
+<p>插件列表：</p>
+
+<ul>
+<li><strong><a href="https://github.com/vim-ruby/vim-ruby">ruby-vim</a></strong>：在快速的在module, class,
+method中跳跃。</li>
+<li><strong><a href="https://github.com/tpope/vim-bundler">vim-bundler</a></strong>：在Vim中集成<code>Bundler</code>。</li>
+<li><strong><a href="https://github.com/tpope/vim-endwise">vim-endwise</a></strong>：自动补全<code>end</code>关键字。</li>
+<li><strong><a href="https://github.com/tpope/vim-rails">vim-rails</a></strong>：它的功能很多，可以说是用
+Vim开发Rails不可缺少的一个插件。更详细的信息，可以前往它的官方网站获取。</li>
+<li><strong><a href="https://github.com/thoughtbot/vim-rspec">vim-rspec</a></strong>：在Vim中执行Rspec测试。</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; Cucumber navigation commands</span>
+</span><span class='line'><span class="k">autocmd</span> <span class="nb">User</span> Rails Rnavcommand step features<span class="sr">/step_definitions -glob=**/</span>* <span class="p">-</span>suffix<span class="p">=</span>_steps.rb
+</span><span class='line'><span class="k">autocmd</span> <span class="nb">User</span> Rails Rnavcommand config config <span class="p">-</span>glob<span class="p">=</span>**/* <span class="p">-</span>suffix<span class="p">=</span>.rb <span class="p">-</span>default<span class="p">=</span>routes
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; RSpec.vim mappings</span>
+</span><span class='line'>map <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">t</span> :<span class="k">call</span> RunCurrentSpecFile<span class="p">()&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'>map <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">s</span> :<span class="k">call</span> RunNearestSpec<span class="p">()&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'>map <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">l</span> :<span class="k">call</span> RunLastSpec<span class="p">()&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'>map <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">a</span> :<span class="k">call</span> RunAllSpecs<span class="p">()&lt;</span>CR<span class="p">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>更多好用的工具</h4>
+
+<p>还有很多好用的插件，如果每个都一一说明，那么篇幅再长一倍怕也是不够。所以，我这里
+就把一些好用的插件列出来，有兴趣的可以自己看看。</p>
+
+<ul>
+<li><a href="https://github.com/danro/rename.vim">rename.vim</a>：在Vim中为文件重命名。</li>
+<li><a href="https://github.com/kchmck/vim-coffee-script">vim-coffee-script</a>：在Vim中舒心
+的编写、编译Coffeescript。</li>
+<li><a href="https://github.com/pbrisbin/vim-mkdir">vim-mkdir</a>：当你在Vim中新建文件的时候，
+自动帮你创建不存在的目录。</li>
+<li><a href="https://github.com/tpope/vim-surround">vim-surround</a>：快速的删除、修改和添加
+括号、引号、XML标签等等。</li>
+<li><a href="https://github.com/tmhedberg/matchit">matchit</a>：用<code>%</code>去在两个对应的字符间跳转。</li>
+<li><a href="https://github.com/vim-scripts/tComment">tComment</a>：快速注释、反注释代码。</li>
+<li><a href="https://github.com/mattn/emmet-vim">emmet-vim</a>：<code>Emmet</code>的Vim版。</li>
+<li><a href="https://github.com/godlygeek/tabular">tabular</a>：快速对齐。</li>
+<li><a href="https://github.com/msanders/snipmate.vim">snipmate.vim</a>：快速的代码片段。</li>
+<li><a href="https://github.com/Lokaltog/vim-easymotion">vim-easymotion</a>：在文件中快速定位。</li>
+<li><a href="https://github.com/suan/vim-instant-markdown">vim-instant-markdown</a>：Vim中对
+Markdown文档的实时预览。</li>
+</ul>
+
+
+<h2>备注</h2>
+
+<p>有更多的一些插件我没有都列出来，它们一般用于特定语法的开发，不一定适合所有人。你
+可以参考<a href="http://yuez.me/cong-ling-da-jian-he-pei-zhi-osxkai-fa-huan-jing/">从零搭建和配置OSX开发环境</a>
+这篇文章，自动管理、配置你的Vim环境。</p>
+
+<p>在上文中，我有一些遗漏的或者错误的地方，希望朋友发现后可以在下方留言指正。如果你
+有一些更好的插件、配置，也恳请你在下方留言。谢谢。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">乐正</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-04-20T21:51:01+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:51 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ji-zhu/'>技术</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+
+  
+    <div class="bdsharebuttonbox" data-tag="share_1">
+  <a class="fa fa-weibo"  data-cmd="tsina"></a>
+  <a class="fa fa-weixin" data-cmd="weixin"></a>
+  <a class="fa fa-copy"   data-cmd="copy"></a>
+</div>
+<script>
+  window._bd_share_config = {
+    common : {
+      bdText : document.title,
+      bdDesc : (function () {
+        var meta = document.querySelector("meta[name=\'description\']"),
+            description;
+
+        if (meta) meta = meta.getAttribute("content");
+        description = meta || "";
+
+        return description;
+      })(),
+      bdUrl  : document.location.href,
+      bdPic  : (function () {
+        var imgs = document.getElementsByTagName('img'),
+            img_srcs = [];
+
+        for (var i = 0; i < imgs.length; i++) {
+          var img = imgs[i];
+          // 因为使用了延迟加载，图片没有src属性
+          img_srcs.push(window.location.host + img.getAttribute('data-original'));
+        }
+
+        return img_srcs.join("||");
+      })()
+    },
+    share : [{
+      "bdSize" : 32,
+      "bdCustomStyle" : "/stylesheets/screen.css"
+    }],
+  }
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/jin-cheng-miao-shu-he-kong-zhi/" title="Previous Post: 进程描述和控制">&laquo; 进程描述和控制</a>
+      
+      
+        <a class="basic-alignment right" href="/redis-ji-chu-jiao-cheng/" title="Next Post: Redis 基础教程">Redis 基础教程 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/shen-me-shi-xian-cheng/">什么是线程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/di-yi-ci-yu-arduino-jiao-hu/">第一次与 Arduino 交互</a>
+      </li>
+    
+      <li class="post">
+        <a href="/arduino-xue-xi-bi-ji-led-shan-shuo-shi-yan-zhong-yin-han-de-jian-dan-yuan-li/">Arduino 学习笔记——LED 闪烁实验中隐含的简单原理</a>
+      </li>
+    
+      <li class="post">
+        <a href="/redis-ji-chu-jiao-cheng/">Redis 基础教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/jiang-ni-de-vim-da-zao-cheng-qing-qiao-qiang-da-de-ide/">将你的Vim 打造成轻巧强大的IDE</a>
+      </li>
+    
+      <li class="post">
+        <a href="/jin-cheng-miao-shu-he-kong-zhi/">进程描述和控制</a>
+      </li>
+    
+      <li class="post">
+        <a href="/yi-ming-cai-niao-itxiang-mu-jing-li-de-cheng-chang-bi-ji/">一名菜鸟IT项目经理的成长笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/cong-ling-da-jian-he-pei-zhi-osxkai-fa-huan-jing/">从零搭建和配置OSX开发环境</a>
+      </li>
+    
+      <li class="post">
+        <a href="/tuan-dui-xiao-huo-ban-shang-di-yi-cai-jing/">团队小伙伴上第一财经</a>
+      </li>
+    
+      <li class="post">
+        <a href="/she-and-me/">She and Me</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/ji-zhu/'>技术 (15)</a></li>
+<li class='category'><a href='/blog/categories/sheng-huo/'>生活 (4)</a></li>
+
+  </ul>
+</section>
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/zgs225">@zgs225</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'zgs225',
+            count: 5,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - 乐正 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> -
+  <a href="http://www.miitbeian.gov.cn/" target="_blank">晥ICP备15005635号</a>
+</p>
+
+<script src="/javascripts/dist.min.js" type="text/javascript"></script>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'yuezme';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://yuez.me/jiang-ni-de-vim-da-zao-cheng-qing-qiao-qiang-da-de-ide/';
+        var disqus_url = 'http://yuez.me/jiang-ni-de-vim-da-zao-cheng-qing-qiao-qiang-da-de-ide/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<!-- 
+ -->
+<!-- 
+ -->
+<!-- 
+ -->
+
+
+
+</body>
+</html>

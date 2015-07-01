@@ -1,0 +1,562 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="zh-CN"><!--<![endif]-->
+<head>
+  <meta charset="UTF-8">
+  <title>成都金夫人从零部署记录 - 乐正</title>
+  <meta name="author" content="乐正">
+  <meta name="renderer" content="webkit">
+
+  
+  <meta name="description" content="成都金夫人香港服务器需要部署网站，记录整个服务器搭建的全部流程，涉及安全、用户、
+系统等综合性管理。 Task List 添加部署用户
+禁止root用户登录
+网站部署
+防火墙
+FTP功能 用户管理 建立deployment用户组，负责项目部署； &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+
+  <link rel="canonical" href="http://yuez.me/cheng-du-jin-fu-ren-cong-ling-bu-shu-ji-lu/">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="乐正" type="application/atom+xml">
+  <script src="/javascripts/jquery.min.js" type="text/javascript"></script>
+  <meta name="baidu-site-verification" content="jec8U3uPUi" />
+
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+<script>
+  // Jqquery image lazy load
+  $(function () { $('img.lazy').lazyload(); });
+</script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-58537045-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">乐正</a></h1>
+  
+    <h2>Actions speak louder than words.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="yuez.me">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">BLOG</a></li>
+  <li><a href="/blog/archives">ARCHIVES</a></li>
+  <li><a href="/friend-links">FRIENDS</a></li>
+  <li><a href="/read-me">README</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">成都金夫人从零部署记录</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-12-02T09:48:59+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2014</span></span> <span class='time'>9:48 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>成都金夫人香港服务器需要部署网站，记录整个服务器搭建的全部流程，涉及安全、用户、
+系统等综合性管理。</p>
+
+<p><strong>Task List</strong></p>
+
+<ul>
+<li>添加部署用户</li>
+<li>禁止root用户登录</li>
+<li>网站部署</li>
+<li>防火墙</li>
+<li>FTP功能</li>
+</ul>
+
+
+<h2>用户管理</h2>
+
+<p>建立<code>deployment</code>用户组，负责项目部署；并且在<code>sudoers</code>文件中添加组<code>deployment</code>为管
+理员组。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>useradd deployment
+</span><span class='line'>
+</span><span class='line'><span class="c"># In /etc/sudoers</span>
+</span><span class='line'><span class="c"># Allows people in group deployment to run all commands</span>
+</span><span class='line'>%deployment <span class="nv">ALL</span><span class="o">=(</span>ALL<span class="o">)</span> ALL
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>禁用<code>root</code>用户远程登录系统</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># In /etc/ssh/sshd_config</span>
+</span><span class='line'>PermitRootLogin no
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>服务器环境搭建</h2>
+
+<ul>
+<li><p>安装<code>lnmp</code>（Linux + Nginx + Mysql + PHP）</p>
+
+<blockquote><p>参考 <a href="http://lnmp.org">LNMP</a>,
+<a href="http://www.vpser.net/manage/lnmp-upgrade-php-script.html">PHP升级</a></p></blockquote></li>
+<li><p>安装<code>git</code></p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>yum install git
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>配置PHP</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ini'><span class='line'><span class="c1"># php.ini 添加或者修改配置</span>
+</span><span class='line'><span class="na">max_post_size</span> <span class="o">=</span> <span class="s">300M</span>
+</span><span class='line'><span class="na">file_upload_size</span> <span class="o">=</span> <span class="s">300M</span>
+</span><span class='line'><span class="na">extension</span> <span class="o">=</span> <span class="s">fileinfo.so</span>
+</span><span class='line'><span class="na">disable_functions</span> <span class="o">=</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>源码迁移与数据库迁移</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># 源码迁移</span>
+</span><span class='line'>zip -r project /path/to/project
+</span><span class='line'>unzip /path/to/source -d /path/to/destination
+</span><span class='line'>
+</span><span class='line'><span class="c"># 数据库迁移</span>
+</span><span class='line'>mysqldump -u username -p db_name &gt; db_name.sql
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>配置Nginx</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+</pre></td><td class='code'><pre><code class='nginx'><span class='line'><span class="c1"># default.conf</span>
+</span><span class='line'><span class="k">server</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kn">listen</span> <span class="mi">80</span> <span class="s">default</span><span class="p">;</span>
+</span><span class='line'>  <span class="kn">server_name</span> <span class="s">_</span><span class="p">;</span>
+</span><span class='line'>  <span class="kn">set</span> <span class="nv">$root_path</span> <span class="s">&#39;/bjdata/bj/golden_ladies/public&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="kn">root</span> <span class="nv">$root_path</span><span class="p">;</span>
+</span><span class='line'>  <span class="kn">index</span> <span class="s">index.php</span> <span class="s">index.html</span> <span class="s">index.htm</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kn">try_files</span> <span class="nv">$uri</span> <span class="nv">$uri/</span> <span class="s">/index.php</span><span class="nv">$is_args$args</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Removes trailing slashes</span>
+</span><span class='line'>  <span class="kn">if</span> <span class="s">(!-d</span> <span class="nv">$request_filename</span><span class="s">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kn">rewrite</span> <span class="s">^/(.+)/</span>$ <span class="s">/</span><span class="nv">$1</span> <span class="s">permanent</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Rewrite to index.php unless the request is for an existing file</span>
+</span><span class='line'>  <span class="kn">(image,</span> <span class="s">js,</span>
+</span><span class='line'><span class="c1"># css, etc.)</span>
+</span><span class='line'>    <span class="s">if</span> <span class="s">(!-e</span> <span class="nv">$request_filename</span><span class="s">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="kn">rewrite</span> <span class="s">^/(.*)</span>$ <span class="s">/index.php?/</span><span class="nv">$1</span> <span class="s">last</span><span class="p">;</span>
+</span><span class='line'>      <span class="kn">break</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kn">error_page</span> <span class="mi">404</span>  <span class="s">/404.html</span><span class="p">;</span>
+</span><span class='line'>  <span class="kn">location</span> <span class="p">=</span> <span class="s">/404.html</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kn">root</span> <span class="s">/bjdata/error_pages/</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kn">error_page</span> <span class="mi">500</span> <span class="mi">502</span> <span class="mi">503</span> <span class="mi">504</span> <span class="s">/500.html</span><span class="p">;</span>
+</span><span class='line'>  <span class="kn">location</span> <span class="p">=</span> <span class="s">/500.html</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kn">root</span> <span class="s">/bjdata/error_pages/</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kn">location</span> <span class="p">~</span> <span class="sr">\.php$</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kn">try_files</span> <span class="nv">$uri</span> <span class="s">/index.php</span> <span class="p">=</span><span class="mi">404</span><span class="p">;</span>
+</span><span class='line'>    <span class="kn">fastcgi_split_path_info</span> <span class="s">^(.+\.php)(/.+)</span>$<span class="p">;</span>
+</span><span class='line'><span class="c1"># fastcgi_pass unix:/var/run/php5-fpm.sock;</span>
+</span><span class='line'>    <span class="kn">fastcgi_pass</span> <span class="s">unix:/tmp/php-cgi.sock</span><span class="p">;</span>
+</span><span class='line'>    <span class="kn">fastcgi_index</span> <span class="s">index.php</span><span class="p">;</span>
+</span><span class='line'>    <span class="kn">fastcgi_param</span> <span class="s">SCRIPT_FILENAME</span> <span class="nv">$document_root$fastcgi_script_name</span><span class="p">;</span>
+</span><span class='line'>    <span class="kn">include</span> <span class="s">fastcgi_params</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># deny access to .htaccess files, if Apache&#39;s document root</span>
+</span><span class='line'><span class="c1"># concurs with nginx&#39;s one</span>
+</span><span class='line'>  <span class="kn">location</span> <span class="p">~</span> <span class="sr">/\.ht</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kn">deny</span> <span class="s">all</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kn">access_log</span> <span class="s">/var/log/nginx/www.cdjfr.com.log</span><span class="p">;</span>
+</span><span class='line'>  <span class="kn">error_log</span>  <span class="s">/var/log/nginx/www.cdjfr.com.error.log</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">乐正</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-12-02T09:48:59+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2014</span></span> <span class='time'>9:48 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ji-zhu/'>技术</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+
+  
+    <div class="bdsharebuttonbox" data-tag="share_1">
+  <a class="fa fa-weibo"  data-cmd="tsina"></a>
+  <a class="fa fa-weixin" data-cmd="weixin"></a>
+  <a class="fa fa-copy"   data-cmd="copy"></a>
+</div>
+<script>
+  window._bd_share_config = {
+    common : {
+      bdText : document.title,
+      bdDesc : (function () {
+        var meta = document.querySelector("meta[name=\'description\']"),
+            description;
+
+        if (meta) meta = meta.getAttribute("content");
+        description = meta || "";
+
+        return description;
+      })(),
+      bdUrl  : document.location.href,
+      bdPic  : (function () {
+        var imgs = document.getElementsByTagName('img'),
+            img_srcs = [];
+
+        for (var i = 0; i < imgs.length; i++) {
+          var img = imgs[i];
+          // 因为使用了延迟加载，图片没有src属性
+          img_srcs.push(window.location.host + img.getAttribute('data-original'));
+        }
+
+        return img_srcs.join("||");
+      })()
+    },
+    share : [{
+      "bdSize" : 32,
+      "bdCustomStyle" : "/stylesheets/screen.css"
+    }],
+  }
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/the-meta-programming-in-ruby/" title="Previous Post: The meta programming in Ruby">&laquo; The meta programming in Ruby</a>
+      
+      
+        <a class="basic-alignment right" href="/http-cache/" title="Next Post: HTTP Cache">HTTP Cache &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/shen-me-shi-xian-cheng/">什么是线程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/di-yi-ci-yu-arduino-jiao-hu/">第一次与 Arduino 交互</a>
+      </li>
+    
+      <li class="post">
+        <a href="/arduino-xue-xi-bi-ji-led-shan-shuo-shi-yan-zhong-yin-han-de-jian-dan-yuan-li/">Arduino 学习笔记——LED 闪烁实验中隐含的简单原理</a>
+      </li>
+    
+      <li class="post">
+        <a href="/redis-ji-chu-jiao-cheng/">Redis 基础教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/jiang-ni-de-vim-da-zao-cheng-qing-qiao-qiang-da-de-ide/">将你的Vim 打造成轻巧强大的IDE</a>
+      </li>
+    
+      <li class="post">
+        <a href="/jin-cheng-miao-shu-he-kong-zhi/">进程描述和控制</a>
+      </li>
+    
+      <li class="post">
+        <a href="/yi-ming-cai-niao-itxiang-mu-jing-li-de-cheng-chang-bi-ji/">一名菜鸟IT项目经理的成长笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/cong-ling-da-jian-he-pei-zhi-osxkai-fa-huan-jing/">从零搭建和配置OSX开发环境</a>
+      </li>
+    
+      <li class="post">
+        <a href="/tuan-dui-xiao-huo-ban-shang-di-yi-cai-jing/">团队小伙伴上第一财经</a>
+      </li>
+    
+      <li class="post">
+        <a href="/she-and-me/">She and Me</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/ji-zhu/'>技术 (15)</a></li>
+<li class='category'><a href='/blog/categories/sheng-huo/'>生活 (4)</a></li>
+
+  </ul>
+</section>
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/zgs225">@zgs225</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'zgs225',
+            count: 5,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - 乐正 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> -
+  <a href="http://www.miitbeian.gov.cn/" target="_blank">晥ICP备15005635号</a>
+</p>
+
+<script src="/javascripts/dist.min.js" type="text/javascript"></script>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'yuezme';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://yuez.me/cheng-du-jin-fu-ren-cong-ling-bu-shu-ji-lu/';
+        var disqus_url = 'http://yuez.me/cheng-du-jin-fu-ren-cong-ling-bu-shu-ji-lu/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<!-- 
+ -->
+<!-- 
+ -->
+<!-- 
+ -->
+
+
+
+</body>
+</html>

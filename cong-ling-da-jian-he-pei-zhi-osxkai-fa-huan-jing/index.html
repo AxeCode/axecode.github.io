@@ -1,0 +1,1475 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="zh-CN"><!--<![endif]-->
+<head>
+  <meta charset="UTF-8">
+  <title>从零搭建和配置OSX开发环境 - 乐正</title>
+  <meta name="author" content="乐正">
+  <meta name="renderer" content="webkit">
+
+  
+  <meta name="description" content="对于每一名开发者来说，更换系统或者更换电脑的时候，都免不了花上不短的时间去折腾开
+发环境的问题。我本人也是三番两次，深知这个过程的繁琐。所有，根据我自己以往的经验，
+以及参考一下他人的意见，整理一下关于在Mac下做各种开发的配置，包含Java, Ruby, Vim,
+git, 数据库等等。 &hellip;">
+  <meta name="keywords" content="Mac开发环境搭建,OSX开发环境搭建,Ruby开发环境搭建,开发环境搭建">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+
+  <link rel="canonical" href="http://yuez.me/cong-ling-da-jian-he-pei-zhi-osxkai-fa-huan-jing/">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="乐正" type="application/atom+xml">
+  <script src="/javascripts/jquery.min.js" type="text/javascript"></script>
+  <meta name="baidu-site-verification" content="jec8U3uPUi" />
+
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+<script>
+  // Jqquery image lazy load
+  $(function () { $('img.lazy').lazyload(); });
+</script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-58537045-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">乐正</a></h1>
+  
+    <h2>Actions speak louder than words.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="yuez.me">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">BLOG</a></li>
+  <li><a href="/blog/archives">ARCHIVES</a></li>
+  <li><a href="/friend-links">FRIENDS</a></li>
+  <li><a href="/read-me">README</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">从零搭建和配置OSX开发环境</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-03T22:52:14+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:52 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>对于每一名开发者来说，更换系统或者更换电脑的时候，都免不了花上不短的时间去折腾开
+发环境的问题。我本人也是三番两次，深知这个过程的繁琐。所有，根据我自己以往的经验，
+以及参考一下他人的意见，整理一下关于在Mac下做各种开发的配置，包含Java, Ruby, Vim,
+git, 数据库等等。欢迎补充与修正。</p>
+
+<h2><i class="fa fa fa-anchor"></i> Terminal篇</h2>
+
+<p>这篇文章包含配置控制台环境，包括包管理工具, zsh, Vim, git的安装配置。</p>
+
+<h4>Homebrew, 你不能错过的包管理工具</h4>
+
+<p>包管理工具已经成为现在操作系统中不可缺少的一个重要工具了，它能大大减轻软件安装的
+负担，节约我们的时间。Linux中常用的有<code>yum</code>和<code>apt-get</code>工具，甚至Windows平台也
+有<code>Chocolatey</code>这样优秀的工具，OSX平台自然有它独有的工具。</p>
+
+<p>在OSX中，有两款大家常用的管理工具：<code>Homebrew</code>或者<code>MacPorts</code>。这两款工具都是为了解决同
+样的问题——为OSX安装常用库和工具。Homebrew与MacPorts的主要区别是Homebrew不会破坏OSX
+原生的环境，这也是我推荐Homebrew的主要原因。同时它安装的所有文件都是在用户独立空间内
+的，这让你安装的所有软件对于该用户来说都是可以访问的，不需要使用<code>sudo</code>命令。</p>
+
+<blockquote><p>在安装Homebrew前，你需要前往AppStore下载并安装Xcode.</p></blockquote>
+
+<p>安装方式：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># OSX系统基本上都自带Ruby1.9</span>
+</span><span class='line'><span class="c"># 所以无需先安装Ruby，但是之后我们需要管理Ruby</span>
+</span><span class='line'>ruby -e <span class="s2">&quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>Homebrew</code>常用命令：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew list                 <span class="c"># 查看已经安装的包</span>
+</span><span class='line'>brew update               <span class="c"># 更新Homebrew自身</span>
+</span><span class='line'>brew doctor               <span class="c"># 诊断关于Homebrew的问题(Homebrew 有问题时请用它)</span>
+</span><span class='line'>brew cleanup              <span class="c"># 清理老版本软件包或者无用的文件</span>
+</span><span class='line'>brew show <span class="k">${</span><span class="nv">formula</span><span class="k">}</span>      <span class="c"># 查看包信息</span>
+</span><span class='line'>brew search <span class="k">${</span><span class="nv">formula</span><span class="k">}</span>    <span class="c"># 按名称搜索</span>
+</span><span class='line'>brew upgrade <span class="k">${</span><span class="nv">formula</span><span class="k">}</span>   <span class="c"># 升级软件包</span>
+</span><span class='line'>brew install <span class="k">${</span><span class="nv">formula</span><span class="k">}</span>   <span class="c"># 按名称安装</span>
+</span><span class='line'>brew uninstall <span class="k">${</span><span class="nv">formula</span><span class="k">}</span> <span class="c"># 按名称卸载</span>
+</span><span class='line'>brew pin/unpin <span class="k">${</span><span class="nv">formula</span><span class="k">}</span> <span class="c"># 锁定或者解锁软件包版本，防止误升级</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>zsh，好用的shell</h4>
+
+<p>Shell程序就是Linux/UNIX系统中的一层外壳，几乎所有的应用程序都可以运行在Shell环境
+下，常用的有bash, csh, zcsh等。在<code>/etc/shells</code>文件中可以查看系统中的各种shell。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>cat /etc/shells
+</span><span class='line'>
+</span><span class='line'><span class="c"># List of acceptable shells for chpass(1).</span>
+</span><span class='line'><span class="c"># Ftpd will not allow users to connect who are not using</span>
+</span><span class='line'><span class="c"># one of these shells.</span>
+</span><span class='line'>
+</span><span class='line'>/bin/bash
+</span><span class='line'>/bin/csh
+</span><span class='line'>/bin/ksh
+</span><span class='line'>/bin/sh
+</span><span class='line'>/bin/tcsh
+</span><span class='line'>/bin/zsh
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>而zsh是OSX系统原生的shell之一，其功能强大，语法相对于bash更加友好和强大，所以推荐
+使用zsh作为默认的shell。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># 切换zsh为默认shell</span>
+</span><span class='line'>chsh -s <span class="k">$(</span>which zsh<span class="k">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果你想使用最新的zsh，你可以使用Homebrew，此方法也会保留原生的zsh，防止你在某个
+时刻需要它。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># 查看最新zsh信息</span>
+</span><span class='line'>brew info zsh
+</span><span class='line'>
+</span><span class='line'><span class="c"># 安装zsh</span>
+</span><span class='line'>brew install --disable-etcdir zsh
+</span><span class='line'>
+</span><span class='line'><span class="c"># 添加shell路径至/etc/shells文件中</span>
+</span><span class='line'><span class="c"># 将 /usr/local/bin/zsh 添加到下面文件中</span>
+</span><span class='line'>sudo vim /etc/shells
+</span><span class='line'>
+</span><span class='line'><span class="c"># 更换默认shell</span>
+</span><span class='line'>chsh -s /usr/local/bin/zsh
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面贴上我的zsh配置以供参考</p>
+
+<figure class='code'><figcaption><span>我的zsh配置  (zshrc)</span> <a href='/downloads/code/zshrc'>download</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># modify the prompt to contain git branch name if applicable</span>
+</span><span class='line'>git_prompt_info<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="nv">ref</span><span class="o">=</span><span class="k">$(</span>git symbolic-ref HEAD 2&gt; /dev/null<span class="k">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="o">[[</span> -n <span class="nv">$ref</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot; %{$fg_bold[green]%}${ref#refs/heads/}%{$reset_color%}&quot;</span>
+</span><span class='line'>  <span class="k">fi</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>setopt promptsubst
+</span><span class='line'><span class="nb">export </span><span class="nv">PS1</span><span class="o">=</span><span class="s1">&#39;${SSH_CONNECTION+&quot;%{$fg_bold[green]%}%n@%m:&quot;}%{$fg_bold[blue]%}%c%{$reset_color%}$(git_prompt_info) %# &#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># load our own completion functions</span>
+</span><span class='line'><span class="nv">fpath</span><span class="o">=(</span>~/.zsh/completion <span class="nv">$fpath</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># completion</span>
+</span><span class='line'>autoload -U compinit
+</span><span class='line'>compinit
+</span><span class='line'>
+</span><span class='line'><span class="c"># load custom executable functions</span>
+</span><span class='line'><span class="k">for</span> <span class="k">function</span> in ~/.zsh/functions/*<span class="p">;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="nb">source</span> <span class="nv">$function</span>
+</span><span class='line'><span class="k">done</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># makes color constants available</span>
+</span><span class='line'>autoload -U colors
+</span><span class='line'>colors
+</span><span class='line'>
+</span><span class='line'><span class="c"># enable colored output from ls, etc</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">CLICOLOR</span><span class="o">=</span>1
+</span><span class='line'>
+</span><span class='line'><span class="c"># history settings</span>
+</span><span class='line'>setopt hist_ignore_all_dups inc_append_history
+</span><span class='line'><span class="nv">HISTFILE</span><span class="o">=</span>~/.zhistory
+</span><span class='line'><span class="nv">HISTSIZE</span><span class="o">=</span>4096
+</span><span class='line'><span class="nv">SAVEHIST</span><span class="o">=</span>4096
+</span><span class='line'>
+</span><span class='line'><span class="c"># awesome cd movements from zshkit</span>
+</span><span class='line'>setopt autocd autopushd pushdminus pushdsilent pushdtohome cdablevars
+</span><span class='line'><span class="nv">DIRSTACKSIZE</span><span class="o">=</span>5
+</span><span class='line'>
+</span><span class='line'><span class="c"># Enable extended globbing</span>
+</span><span class='line'>setopt extendedglob
+</span><span class='line'>
+</span><span class='line'><span class="c"># Allow [ or ] whereever you want</span>
+</span><span class='line'>unsetopt nomatch
+</span><span class='line'>
+</span><span class='line'><span class="c"># vi mode</span>
+</span><span class='line'>bindkey -v
+</span><span class='line'>bindkey <span class="s2">&quot;^F&quot;</span> vi-cmd-mode
+</span><span class='line'>bindkey jj vi-cmd-mode
+</span><span class='line'>
+</span><span class='line'><span class="c"># handy keybindings</span>
+</span><span class='line'>bindkey <span class="s2">&quot;^A&quot;</span> beginning-of-line
+</span><span class='line'>bindkey <span class="s2">&quot;^E&quot;</span> end-of-line
+</span><span class='line'>bindkey <span class="s2">&quot;^R&quot;</span> <span class="nb">history</span>-incremental-search-backward
+</span><span class='line'>bindkey <span class="s2">&quot;^P&quot;</span> <span class="nb">history</span>-search-backward
+</span><span class='line'>bindkey <span class="s2">&quot;^Y&quot;</span> accept-and-hold
+</span><span class='line'>bindkey <span class="s2">&quot;^N&quot;</span> insert-last-word
+</span><span class='line'>bindkey -s <span class="s2">&quot;^T&quot;</span> <span class="s2">&quot;^[Isudo ^[A&quot;</span> <span class="c"># &quot;t&quot; for &quot;toughguy&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># use vim as the visual editor</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">VISUAL</span><span class="o">=</span>vim
+</span><span class='line'><span class="nb">export </span><span class="nv">EDITOR</span><span class="o">=</span><span class="nv">$VISUAL</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># load rbenv if available</span>
+</span><span class='line'><span class="k">if</span> which rbenv <span class="p">&amp;</span>&gt;/dev/null <span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>  <span class="nb">eval</span> <span class="s2">&quot;$(rbenv init - --no-rehash)&quot;</span>
+</span><span class='line'><span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># load thoughtbot/dotfiles scripts</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;$HOME/.bin:$PATH&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># mkdir .git/safe in the root of repositories you trust</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;.git/safe/../../bin:$PATH&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># aliases</span>
+</span><span class='line'><span class="o">[[</span> -f ~/.aliases <span class="o">]]</span> <span class="o">&amp;&amp;</span> <span class="nb">source</span> ~/.aliases
+</span><span class='line'>
+</span><span class='line'><span class="c"># Local config</span>
+</span><span class='line'><span class="o">[[</span> -f ~/.zshrc.local <span class="o">]]</span> <span class="o">&amp;&amp;</span> <span class="nb">source</span> ~/.zshrc.local
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>好用的编辑器 Vim</h4>
+
+<p>对于Vim，无需溢美之词，作为与emacs并列的两大编辑器，早已经被无数人奉为经典。而它却
+又以超长的学习曲线，使得很多人望而却步。长久以来，虽然拥有大量的插件，却缺少一个
+确之有效的插件管理器。所幸，<code>Vundle</code>的出现解决了这个问题。</p>
+
+<p><code>Vundle</code>可以让你在配置文件中管理插件，并且非常方便的查找、安装、更新或者删除插件。
+还可以帮你自动配置插件的执行路径和生成帮助文件。相对于另外一个管理工具<code>pathogen</code>，
+可以说有着巨大的优势。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># vundle 安装和配置</span>
+</span><span class='line'>git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; 将下面配置文件加入到.vimrc文件中</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">nocompatible</span> <span class="c">&quot; 必须</span>
+</span><span class='line'><span class="k">filetype</span> off     <span class="c">&quot; 必须</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; 将Vundle加入运行时路径中(Runtime path)</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">rtp</span><span class="p">+=~</span><span class="sr">/.vim/</span>bundle/Vundle.<span class="k">vim</span>
+</span><span class='line'><span class="k">call</span> vundle#begin<span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; 使用Vundle管理插件，必须</span>
+</span><span class='line'>Plugin <span class="s1">&#39;gmarik/Vundle.vim&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot;</span>
+</span><span class='line'><span class="c">&quot; 其他插件</span>
+</span><span class='line'><span class="c">&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">call</span> vundle#<span class="k">end</span><span class="p">()</span> <span class="c">&quot; 必须</span>
+</span><span class='line'><span class="k">filetype</span> plugin indent <span class="k">on</span> <span class="c">&quot; 必须</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最后，你只需要执行安装命令，即可以安装好所需的插件。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># 在vim中</span>
+</span><span class='line'>:PluginInstall
+</span><span class='line'>
+</span><span class='line'><span class="c"># 在终端</span>
+</span><span class='line'>vim +PluginInstall +qall
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面列出我的Vim插件和配置</p>
+
+<figure class='code'><figcaption><span>Vim插件  (vimrc.bundles)</span> <a href='/downloads/code/vimrc.bundles'>download</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="k">if</span> &amp;<span class="nb">compatible</span>
+</span><span class='line'>  <span class="k">set</span> <span class="nb">nocompatible</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">filetype</span> off
+</span><span class='line'><span class="k">set</span> <span class="nb">rtp</span><span class="p">+=~</span><span class="sr">/.vim/</span>bundle<span class="sr">/vundle/</span>
+</span><span class='line'><span class="k">call</span> vundle#rc<span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Let Vundle manage Vundle</span>
+</span><span class='line'>Bundle <span class="s1">&#39;gmarik/vundle&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Define bundles via Github repos</span>
+</span><span class='line'>Bundle <span class="s1">&#39;christoomey/vim-run-interactive&#39;</span>
+</span><span class='line'>Bundle <span class="s1">&#39;croaky/vim-colors-github&#39;</span>
+</span><span class='line'>Bundle <span class="s1">&#39;danro/rename.vim&#39;</span>
+</span><span class='line'>Bundle <span class="s1">&#39;kchmck/vim-coffee-script&#39;</span>
+</span><span class='line'>Bundle <span class="s1">&#39;kien/ctrlp.vim&#39;</span>
+</span><span class='line'>Bundle <span class="s1">&#39;pbrisbin/vim-mkdir&#39;</span>
+</span><span class='line'>Bundle <span class="s1">&#39;scrooloose/syntastic&#39;</span>
+</span><span class='line'>Bundle <span class="s1">&#39;slim-template/vim-slim&#39;</span>
+</span><span class='line'>Bundle <span class="s1">&#39;thoughtbot/vim-rspec&#39;</span>
+</span><span class='line'>Bundle <span class="s1">&#39;tpope/vim-bundler&#39;</span>
+</span><span class='line'>Bundle <span class="s1">&#39;tpope/vim-endwise&#39;</span>
+</span><span class='line'>Bundle <span class="s1">&#39;tpope/vim-fugitive&#39;</span>
+</span><span class='line'>Bundle <span class="s1">&#39;tpope/vim-rails&#39;</span>
+</span><span class='line'>Bundle <span class="s1">&#39;tpope/vim-surround&#39;</span>
+</span><span class='line'>Bundle <span class="s1">&#39;vim-ruby/vim-ruby&#39;</span>
+</span><span class='line'>Bundle <span class="s1">&#39;vim-scripts/ctags.vim&#39;</span>
+</span><span class='line'>Bundle <span class="s1">&#39;vim-scripts/matchit.zip&#39;</span>
+</span><span class='line'>Bundle <span class="s1">&#39;vim-scripts/tComment&#39;</span>
+</span><span class='line'>Bundle <span class="s2">&quot;mattn/emmet-vim&quot;</span>
+</span><span class='line'>Bundle <span class="s2">&quot;scrooloose/nerdtree&quot;</span>
+</span><span class='line'>Bundle <span class="s2">&quot;Lokaltog/vim-powerline&quot;</span>
+</span><span class='line'>Bundle <span class="s2">&quot;godlygeek/tabular&quot;</span>
+</span><span class='line'>Bundle <span class="s2">&quot;msanders/snipmate.vim&quot;</span>
+</span><span class='line'>Bundle <span class="s2">&quot;jelera/vim-javascript-syntax&quot;</span>
+</span><span class='line'>Bundle <span class="s2">&quot;altercation/vim-colors-solarized&quot;</span>
+</span><span class='line'>Bundle <span class="s2">&quot;othree/html5.vim&quot;</span>
+</span><span class='line'>Bundle <span class="s2">&quot;xsbeats/vim-blade&quot;</span>
+</span><span class='line'>Bundle <span class="s2">&quot;Raimondi/delimitMate&quot;</span>
+</span><span class='line'>Bundle <span class="s2">&quot;groenewege/vim-less&quot;</span>
+</span><span class='line'>Bundle <span class="s2">&quot;evanmiller/nginx-vim-syntax&quot;</span>
+</span><span class='line'>Bundle <span class="s2">&quot;Lokaltog/vim-easymotion&quot;</span>
+</span><span class='line'>Bundle <span class="s2">&quot;tomasr/molokai&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> filereadable<span class="p">(</span>expand<span class="p">(</span><span class="s2">&quot;~/.vimrc.bundles.local&quot;</span><span class="p">))</span>
+</span><span class='line'>  source <span class="p">~</span>/.vimrc.bundles.local
+</span><span class='line'><span class="k">endif</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">filetype</span> <span class="k">on</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span>Vim配置  (vimrc)</span> <a href='/downloads/code/vimrc'>download</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+<span class='line-number'>180</span>
+<span class='line-number'>181</span>
+<span class='line-number'>182</span>
+<span class='line-number'>183</span>
+<span class='line-number'>184</span>
+<span class='line-number'>185</span>
+<span class='line-number'>186</span>
+<span class='line-number'>187</span>
+<span class='line-number'>188</span>
+<span class='line-number'>189</span>
+<span class='line-number'>190</span>
+<span class='line-number'>191</span>
+<span class='line-number'>192</span>
+<span class='line-number'>193</span>
+<span class='line-number'>194</span>
+<span class='line-number'>195</span>
+<span class='line-number'>196</span>
+<span class='line-number'>197</span>
+<span class='line-number'>198</span>
+<span class='line-number'>199</span>
+<span class='line-number'>200</span>
+<span class='line-number'>201</span>
+<span class='line-number'>202</span>
+<span class='line-number'>203</span>
+<span class='line-number'>204</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; Use Vim settings, rather then Vi settings. This setting must be as early as</span>
+</span><span class='line'><span class="c">&quot; possible, as it has side effects.</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">nocompatible</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Highlight current line</span>
+</span><span class='line'><span class="k">au</span> <span class="nb">WinLeave</span> * <span class="k">set</span> <span class="nb">nocursorline</span> <span class="nb">nocursorcolumn</span>
+</span><span class='line'><span class="k">au</span> <span class="nb">WinEnter</span> * <span class="k">set</span> <span class="nb">cursorline</span> <span class="nb">cursorcolumn</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">cursorline</span> <span class="nb">cursorcolumn</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Leader</span>
+</span><span class='line'><span class="k">let</span> mapleader <span class="p">=</span> <span class="s2">&quot;,&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">set</span> <span class="nb">backspace</span><span class="p">=</span><span class="m">2</span>   <span class="c">&quot; Backspace deletes like most programs in insert mode</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">nobackup</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">nowritebackup</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">noswapfile</span>    <span class="c">&quot; http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287</span>
+</span><span class='line'><span class="k">set</span> <span class="k">history</span><span class="p">=</span><span class="m">50</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">ruler</span>         <span class="c">&quot; show the cursor position all the time</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">showcmd</span>       <span class="c">&quot; display incomplete commands</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">incsearch</span>     <span class="c">&quot; do incremental searching</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">laststatus</span><span class="p">=</span><span class="m">2</span>  <span class="c">&quot; Always display the status line</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">autowrite</span>     <span class="c">&quot; Automatically :write before running commands</span>
+</span><span class='line'><span class="k">set</span> <span class="k">confirm</span>       <span class="c">&quot; Need confrimation while exit</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">fileencodings</span><span class="p">=</span>utf<span class="m">-8</span><span class="p">,</span>gb18030<span class="p">,</span>gbk<span class="p">,</span>big5
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Switch syntax highlighting on, when the terminal has colors</span>
+</span><span class='line'><span class="c">&quot; Also switch on highlighting the last used search pattern.</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span>&amp;<span class="nb">t_Co</span> <span class="p">&gt;</span> <span class="m">2</span> <span class="p">||</span> has<span class="p">(</span><span class="s2">&quot;gui_running&quot;</span><span class="p">))</span> &amp;&amp; <span class="p">!</span>exists<span class="p">(</span><span class="s2">&quot;syntax_on&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">syntax</span> <span class="k">on</span>
+</span><span class='line'><span class="k">endif</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> filereadable<span class="p">(</span>expand<span class="p">(</span><span class="s2">&quot;~/.vimrc.bundles&quot;</span><span class="p">))</span>
+</span><span class='line'>  source <span class="p">~</span>/.vimrc.bundles
+</span><span class='line'><span class="k">endif</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">filetype</span> plugin indent <span class="k">on</span>
+</span><span class='line'>
+</span><span class='line'>augroup vimrcEx
+</span><span class='line'>  <span class="k">autocmd</span><span class="p">!</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">  &quot; When editing a file, always jump to the last known cursor position.</span>
+</span><span class='line'><span class="c">  &quot; Don&#39;t do it for commit messages, when the position is invalid, or when</span>
+</span><span class='line'><span class="c">  &quot; inside an event handler (happens when dropping a file on gvim).</span>
+</span><span class='line'>  <span class="k">autocmd</span> <span class="nb">BufReadPost</span> *
+</span><span class='line'>    \ <span class="k">if</span> &amp;<span class="nb">ft</span> <span class="p">!=</span> <span class="s1">&#39;gitcommit&#39;</span> &amp;&amp; line<span class="p">(</span><span class="s2">&quot;&#39;\&quot;&quot;</span><span class="p">)</span> <span class="p">&gt;</span> <span class="m">0</span> &amp;&amp; line<span class="p">(</span><span class="s2">&quot;&#39;\&quot;&quot;</span><span class="p">)</span> <span class="p">&lt;=</span> line<span class="p">(</span><span class="s2">&quot;$&quot;</span><span class="p">)</span> <span class="p">|</span>
+</span><span class='line'>    \   exe <span class="s2">&quot;normal g`\&quot;&quot;</span> <span class="p">|</span>
+</span><span class='line'>    \ <span class="k">endif</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">  &quot; Cucumber navigation commands</span>
+</span><span class='line'>  <span class="k">autocmd</span> <span class="nb">User</span> Rails Rnavcommand step features<span class="sr">/step_definitions -glob=**/</span>* <span class="p">-</span>suffix<span class="p">=</span>_steps.rb
+</span><span class='line'>  <span class="k">autocmd</span> <span class="nb">User</span> Rails Rnavcommand config config <span class="p">-</span>glob<span class="p">=</span>**/* <span class="p">-</span>suffix<span class="p">=</span>.rb <span class="p">-</span>default<span class="p">=</span>routes
+</span><span class='line'>
+</span><span class='line'><span class="c">  &quot; Set syntax highlighting for specific file types</span>
+</span><span class='line'>  <span class="k">autocmd</span> <span class="nb">BufRead</span><span class="p">,</span><span class="nb">BufNewFile</span> Appraisals <span class="k">set</span> <span class="k">filetype</span><span class="p">=</span><span class="k">ruby</span>
+</span><span class='line'>  <span class="k">autocmd</span> <span class="nb">BufRead</span><span class="p">,</span><span class="nb">BufNewFile</span> *.md <span class="k">set</span> <span class="k">filetype</span><span class="p">=</span>markdown
+</span><span class='line'>
+</span><span class='line'><span class="c">  &quot; Enable spellchecking for Markdown</span>
+</span><span class='line'>  <span class="k">autocmd</span> <span class="nb">FileType</span> markdown <span class="k">setlocal</span> <span class="k">spell</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">  &quot; Automatically wrap at 80 characters for Markdown</span>
+</span><span class='line'>  <span class="k">autocmd</span> <span class="nb">BufRead</span><span class="p">,</span><span class="nb">BufNewFile</span> *.md <span class="k">setlocal</span> <span class="nb">textwidth</span><span class="p">=</span><span class="m">80</span>
+</span><span class='line'>augroup END
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Softtabs, 2 spaces</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">tabstop</span><span class="p">=</span><span class="m">2</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">shiftwidth</span><span class="p">=</span><span class="m">2</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">shiftround</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">expandtab</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Display extra whitespace</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">list</span> <span class="nb">listchars</span><span class="p">=</span><span class="k">tab</span>:»·<span class="p">,</span>trail:·
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Use The Silver Searcher https://github.com/ggreer/the_silver_searcher</span>
+</span><span class='line'><span class="k">if</span> executable<span class="p">(</span><span class="s1">&#39;ag&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="c">  &quot; Use Ag over Grep</span>
+</span><span class='line'>  <span class="k">set</span> <span class="nb">grepprg</span><span class="p">=</span>ag\ <span class="p">--</span>nogroup\ <span class="p">--</span>nocolor
+</span><span class='line'>
+</span><span class='line'><span class="c">  &quot; Use ag in CtrlP for listing files. Lightning fast and respects .gitignore</span>
+</span><span class='line'>  <span class="k">let</span> <span class="k">g</span>:ctrlp_user_command <span class="p">=</span> <span class="s1">&#39;ag %s -l --nocolor -g &quot;&quot;&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">  &quot; ag is fast enough that CtrlP doesn&#39;t need to cache</span>
+</span><span class='line'>  <span class="k">let</span> <span class="k">g</span>:ctrlp_use_caching <span class="p">=</span> <span class="m">0</span>
+</span><span class='line'><span class="k">endif</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Color scheme</span>
+</span><span class='line'><span class="k">colorscheme</span> molokai
+</span><span class='line'><span class="nb">highlight</span> NonText guibg<span class="p">=</span><span class="mh">#060606</span>
+</span><span class='line'><span class="nb">highlight</span> Folded  guibg<span class="p">=</span>#<span class="m">0</span>A<span class="m">0</span>A<span class="m">0</span>A guifg<span class="p">=</span>#<span class="m">9090</span>D<span class="m">0</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Make it obvious where 80 characters is</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">textwidth</span><span class="p">=</span><span class="m">80</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">colorcolumn</span><span class="p">=+</span><span class="m">1</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Numbers</span>
+</span><span class='line'><span class="k">set</span> <span class="k">number</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">numberwidth</span><span class="p">=</span><span class="m">5</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Tab completion</span>
+</span><span class='line'><span class="c">&quot; will insert tab at beginning of line,</span>
+</span><span class='line'><span class="c">&quot; will use completion if not at beginning</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">wildmode</span><span class="p">=</span><span class="nb">list</span>:longest<span class="p">,</span><span class="nb">list</span>:full
+</span><span class='line'><span class="k">function</span><span class="p">!</span> InsertTabWrapper<span class="p">()</span>
+</span><span class='line'>    <span class="k">let</span> <span class="k">col</span> <span class="p">=</span> <span class="k">col</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span> <span class="p">-</span> <span class="m">1</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">!</span><span class="k">col</span> <span class="p">||</span> getline<span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>[<span class="k">col</span> <span class="p">-</span> <span class="m">1</span>] <span class="p">!~</span> <span class="s1">&#39;\k&#39;</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s2">&quot;\&lt;tab&gt;&quot;</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s2">&quot;\&lt;c-p&gt;&quot;</span>
+</span><span class='line'>    <span class="k">endif</span>
+</span><span class='line'><span class="k">endfunction</span>
+</span><span class='line'><span class="nb">inoremap</span> <span class="p">&lt;</span>Tab<span class="p">&gt;</span> <span class="p">&lt;</span><span class="k">c</span><span class="p">-</span><span class="k">r</span><span class="p">&gt;=</span>InsertTabWrapper<span class="p">()&lt;</span><span class="k">cr</span><span class="p">&gt;</span>
+</span><span class='line'><span class="nb">inoremap</span> <span class="p">&lt;</span>S<span class="p">-</span>Tab<span class="p">&gt;</span> <span class="p">&lt;</span><span class="k">c</span><span class="p">-</span><span class="k">n</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Exclude Javascript files in :Rtags via rails.vim due to warnings when parsing</span>
+</span><span class='line'><span class="k">let</span> <span class="k">g</span>:Tlist_Ctags_Cmd<span class="p">=</span><span class="s2">&quot;ctags --exclude=&#39;*.js&#39;&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Index ctags from any project, including those outside Rails</span>
+</span><span class='line'>map <span class="p">&lt;</span>Leader<span class="p">&gt;</span>ct :<span class="p">!</span>ctags <span class="p">-</span>R .<span class="p">&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Switch between the last two files</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>leader<span class="p">&gt;&lt;</span>leader<span class="p">&gt;</span> <span class="p">&lt;</span><span class="k">c</span><span class="p">-</span>^<span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Get off my lawn</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>Left<span class="p">&gt;</span> :<span class="k">echoe</span> <span class="s2">&quot;Use h&quot;</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>Right<span class="p">&gt;</span> :<span class="k">echoe</span> <span class="s2">&quot;Use l&quot;</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>Up<span class="p">&gt;</span> :<span class="k">echoe</span> <span class="s2">&quot;Use k&quot;</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>Down<span class="p">&gt;</span> :<span class="k">echoe</span> <span class="s2">&quot;Use j&quot;</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; vim-rspec mappings</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">t</span> :<span class="k">call</span> RunCurrentSpecFile<span class="p">()&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">s</span> :<span class="k">call</span> RunNearestSpec<span class="p">()&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">l</span> :<span class="k">call</span> RunLastSpec<span class="p">()&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Run commands that require an interactive shell</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">r</span> :RunInInteractiveShell<span class="p">&lt;</span>space<span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Treat &lt;li&gt; and &lt;p&gt; tags like the block tags they are</span>
+</span><span class='line'><span class="k">let</span> <span class="k">g</span>:html_indent_tags <span class="p">=</span> <span class="s1">&#39;li\|p&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Open new split panes to right and bottom, which feels more natural</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">splitbelow</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">splitright</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Quicker window movement</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">j</span><span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span><span class="k">j</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">k</span><span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span><span class="k">k</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">h</span><span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span><span class="k">h</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">l</span><span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span><span class="k">l</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; configure syntastic syntax checking to check on open as well as save</span>
+</span><span class='line'><span class="k">let</span> <span class="k">g</span>:syntastic_check_on_open<span class="p">=</span><span class="m">1</span>
+</span><span class='line'><span class="k">let</span> <span class="k">g</span>:syntastic_html_tidy_ignore_errors<span class="p">=</span>[<span class="s2">&quot; proprietary attribute \&quot;ng-&quot;</span>]
+</span><span class='line'>
+</span><span class='line'><span class="k">autocmd</span> <span class="nb">Syntax</span> javascript <span class="k">set</span> <span class="nb">syntax</span><span class="p">=</span>jquery <span class="c">&quot; JQuery syntax support</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">set</span> <span class="nb">matchpairs</span><span class="p">+=&lt;</span>:<span class="p">&gt;</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">statusline</span><span class="p">+=</span>%{fugitive#<span class="nb">statusline</span><span class="p">()</span>} <span class="c">&quot;  Git Hotness</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Nerd Tree</span>
+</span><span class='line'><span class="k">let</span> NERDChristmasTree<span class="p">=</span><span class="m">0</span>
+</span><span class='line'><span class="k">let</span> NERDTreeWinSize<span class="p">=</span><span class="m">40</span>
+</span><span class='line'><span class="k">let</span> NERDTreeChDirMode<span class="p">=</span><span class="m">2</span>
+</span><span class='line'><span class="k">let</span> NERDTreeIgnore<span class="p">=</span>[<span class="s1">&#39;\~$&#39;</span><span class="p">,</span> <span class="s1">&#39;\.pyc$&#39;</span><span class="p">,</span> <span class="s1">&#39;\.swp$&#39;</span>]
+</span><span class='line'><span class="k">let</span> NERDTreeShowBookmarks<span class="p">=</span><span class="m">1</span>
+</span><span class='line'><span class="k">let</span> NERDTreeWinPos<span class="p">=</span><span class="s2">&quot;right&quot;</span>
+</span><span class='line'><span class="k">autocmd</span> vimenter * <span class="k">if</span> <span class="p">!</span>argc<span class="p">()</span> <span class="p">|</span> NERDTree <span class="p">|</span> <span class="k">endif</span> <span class="c">&quot; Automatically open a NERDTree if no files where specified</span>
+</span><span class='line'><span class="k">autocmd</span> bufenter * <span class="k">if</span> <span class="p">(</span>winnr<span class="p">(</span><span class="s2">&quot;$&quot;</span><span class="p">)</span> <span class="p">==</span> <span class="m">1</span> &amp;&amp; exists<span class="p">(</span><span class="s2">&quot;b:NERDTreeType&quot;</span><span class="p">)</span> &amp;&amp; <span class="k">b</span>:NERDTreeType <span class="p">==</span> <span class="s2">&quot;primary&quot;</span><span class="p">)</span> <span class="p">|</span> <span class="k">q</span> <span class="p">|</span> <span class="k">endif</span> <span class="c">&quot; Close vim if the only window left open is a NERDTree</span>
+</span><span class='line'>nmap <span class="p">&lt;</span>F5<span class="p">&gt;</span> :NERDTreeToggle<span class="p">&lt;</span><span class="k">cr</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Emmet</span>
+</span><span class='line'><span class="k">let</span> <span class="k">g</span>:user_emmet_mode<span class="p">=</span><span class="s1">&#39;i&#39;</span> <span class="c">&quot; enable for insert mode</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Search results high light</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">hlsearch</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; nohlsearch shortcut</span>
+</span><span class='line'>nmap <span class="p">-</span><span class="nb">hl</span> :<span class="k">nohlsearch</span><span class="p">&lt;</span><span class="k">cr</span><span class="p">&gt;</span>
+</span><span class='line'>nmap <span class="p">+</span><span class="nb">hl</span> :<span class="k">set</span> <span class="nb">hlsearch</span><span class="p">&lt;</span><span class="k">cr</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Javascript syntax hightlight</span>
+</span><span class='line'><span class="nb">syntax</span> enable
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; ctrap</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">wildignore</span><span class="p">+=</span>*<span class="sr">/tmp/</span>*<span class="p">,</span>*.<span class="k">so</span><span class="p">,</span>*.swp<span class="p">,</span>*.zip     <span class="s2">&quot; MacOSX/Linux&quot;</span>
+</span><span class='line'><span class="k">let</span> <span class="k">g</span>:ctrlp_custom_ignore <span class="p">=</span> <span class="s1">&#39;\v[\/]\.(git|hg|svn)$&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>leader<span class="p">&gt;</span><span class="k">w</span> :<span class="k">w</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>leader<span class="p">&gt;</span><span class="k">q</span> :<span class="k">q</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; RSpec.vim mappings</span>
+</span><span class='line'>map <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">t</span> :<span class="k">call</span> RunCurrentSpecFile<span class="p">()&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'>map <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">s</span> :<span class="k">call</span> RunNearestSpec<span class="p">()&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'>map <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">l</span> :<span class="k">call</span> RunLastSpec<span class="p">()&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'>map <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">a</span> :<span class="k">call</span> RunAllSpecs<span class="p">()&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Vim-instant-markdown doesn&#39;t work in zsh</span>
+</span><span class='line'><span class="k">set</span> <span class="k">shell</span><span class="p">=</span>bash\ <span class="p">-</span><span class="k">i</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Snippets author</span>
+</span><span class='line'><span class="k">let</span> <span class="k">g</span>:snips_author <span class="p">=</span> <span class="s1">&#39;Yuez&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Local config</span>
+</span><span class='line'><span class="k">if</span> filereadable<span class="p">(</span>$HOME . <span class="s2">&quot;/.vimrc.local&quot;</span><span class="p">)</span>
+</span><span class='line'>  source <span class="p">~</span>/.vimrc.local
+</span><span class='line'><span class="k">endif</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>新世代的版本管理工具 git</h4>
+
+<p>Git是一个分散式版本控制软件。最初的目的是为了更好的管理Linux内核开发而设计。与CVS、
+Subversion等集中式版本控制软件不同，Git不需要服务器端软件就可以发挥版本控制的作用。
+使得代码的维护和发布变得非常方便。</p>
+
+<p>Git库目录结构</p>
+
+<ul>
+<li>hooks   : 存储钩子文件夹</li>
+<li>logs    : 存储日志文件夹</li>
+<li>refs    : 存储指向各个分支指针的(SHA-1)的文件夹</li>
+<li>objects : 存储git对象</li>
+<li>config  : 存储配置文件</li>
+<li>HEAD    : 指向当前分支的指针文件路径</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># 安装git</span>
+</span><span class='line'>brew install git
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Git安装完毕后，只需要使用<code>git config</code>简单配置下用户名和邮箱就可以使用了。</p>
+
+<ul>
+<li><a href="http://www.bootcss.com/p/git-guide/">Git中文简易指南</a></li>
+<li><a href="https://help.github.com">Git官网帮助</a></li>
+</ul>
+
+
+<p>为了使Git更好用，对Git做一些配置，<code>.gitconfig</code>文件中可以设置自定义命令等，<code>.gitignore</code>
+文件是默认被忽略版本管理的文件。</p>
+
+<figure class='code'><figcaption><span> (gitconfig)</span> <a href='/downloads/code/gitconfig'>download</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'><span class="k">[push]</span>
+</span><span class='line'>  <span class="na">default</span> <span class="o">=</span> <span class="s">current</span>
+</span><span class='line'><span class="k">[color]</span>
+</span><span class='line'>  <span class="na">ui</span> <span class="o">=</span> <span class="s">auto</span>
+</span><span class='line'><span class="k">[alias]</span>
+</span><span class='line'>  <span class="na">aa</span> <span class="o">=</span> <span class="s">add --all</span>
+</span><span class='line'><span class="s">  ap = add --patch</span>
+</span><span class='line'><span class="s">  ca = commit --amend</span>
+</span><span class='line'><span class="s">  ci = commit -v</span>
+</span><span class='line'><span class="s">  co = checkout</span>
+</span><span class='line'><span class="s">  br = branch</span>
+</span><span class='line'><span class="s">  create-branch = !sh -c &#39;git push origin HEAD:refs/heads/$1 &amp;&amp; git fetch origin &amp;&amp; git branch --track $1 origin/$1 &amp;&amp; cd . &amp;&amp; git checkout $1&#39; -</span>
+</span><span class='line'><span class="s">  delete-branch = !sh -c &#39;git push origin :refs/heads/$1 &amp;&amp; git branch -D $1&#39; -</span>
+</span><span class='line'><span class="s">  merge-branch = !git checkout master &amp;&amp; git merge @{-1}</span>
+</span><span class='line'><span class="s">  pr = !hub pull-request</span>
+</span><span class='line'><span class="s">  st = status</span>
+</span><span class='line'><span class="s">  up = !git fetch origin &amp;&amp; git rebase origin/master</span>
+</span><span class='line'><span class="k">[core]</span>
+</span><span class='line'>  <span class="na">excludesfile</span> <span class="o">=</span> <span class="s">~/.gitignore</span>
+</span><span class='line'><span class="s">  autocrlf = input</span>
+</span><span class='line'><span class="k">[merge]</span>
+</span><span class='line'>  <span class="na">ff</span> <span class="o">=</span> <span class="s">only</span>
+</span><span class='line'><span class="k">[include]</span>
+</span><span class='line'>  <span class="na">path</span> <span class="o">=</span> <span class="s">.gitconfig.local</span>
+</span><span class='line'><span class="k">[commit]</span>
+</span><span class='line'>  <span class="na">template</span> <span class="o">=</span> <span class="s">~/.gitmessage</span>
+</span><span class='line'><span class="k">[fetch]</span>
+</span><span class='line'>  <span class="na">prune</span> <span class="o">=</span> <span class="s">true</span>
+</span><span class='line'><span class="k">[user]</span>
+</span><span class='line'>  <span class="na">name</span> <span class="o">=</span> <span class="s">zgs225</span>
+</span><span class='line'><span class="s">  email = zgs225@gmail.com</span>
+</span><span class='line'><span class="k">[credential]</span>
+</span><span class='line'>  <span class="na">helper</span> <span class="o">=</span> <span class="s">osxkeychain</span>
+</span><span class='line'><span class="k">[github]</span>
+</span><span class='line'>  <span class="na">user</span> <span class="o">=</span> <span class="s">zgs225</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span> (gitignore)</span> <a href='/downloads/code/gitignore'>download</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'><span class="o">*.</span><span class="vg">DS_Store</span>
+</span><span class='line'><span class="o">*.</span><span class="vg">sw</span><span class="p">[</span><span class="vg">nop</span><span class="p">]</span>
+</span><span class='line'><span class="o">.</span><span class="vg">bundle</span>
+</span><span class='line'><span class="o">.</span><span class="vg">env</span>
+</span><span class='line'><span class="vg">db</span><span class="o">/*.</span><span class="vg">sqlite3</span>
+</span><span class='line'><span class="vg">log</span><span class="o">/*.</span><span class="vg">log</span>
+</span><span class='line'><span class="vg">rerun</span><span class="o">.</span><span class="vg">txt</span>
+</span><span class='line'><span class="vg">tags</span>
+</span><span class='line'><span class="vg">tmp</span><span class="o">/**/*</span>
+</span><span class='line'><span class="o">!</span><span class="vg">tmp</span><span class="o">/</span><span class="vg">cache</span><span class="o">/.</span><span class="vg">keep</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>自动集成 ternimal 环境</h4>
+
+<p>感谢<code>thoughtbot</code>组织发布的<a href="https://github.com/thoughtbot/dotfiles">开源项目</a>，可
+以轻松的完成上述配置。这是我fork项目的地址(<a href="https://github.com/zgs225/dotfiles">https://github.com/zgs225/dotfiles</a>)，
+欢迎fork并完善成属于你自己的配置。</p>
+
+<p>安装步骤：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># 更改为zsh, 详细参考上面zsh部分</span>
+</span><span class='line'>chsh -s <span class="k">$(</span>which zsh<span class="k">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># clone 源码</span>
+</span><span class='line'>git clone https://github.com/zgs225/dotfiles.git
+</span><span class='line'>
+</span><span class='line'><span class="c"># 安装rcm</span>
+</span><span class='line'>brew tap thoughtbot/formulae
+</span><span class='line'>brew install rcm
+</span><span class='line'>
+</span><span class='line'><span class="c"># 安装上述环境并且完成配置</span>
+</span><span class='line'>rcup -d dotfiles -x README.md -x LICENSE -x Brewfile
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2><i class="fa fa fa-language"></i> 语言篇</h2>
+
+<p>编程语言五花八门，它们各自的版本也是万别千差。各种语言之间或多或少都存在着向前，
+或者向后的不兼容。因为版本不兼容导致的bug也是格外的招人烦。所以，在语言篇这篇，也
+是侧重与到编程语言版本管理已经环境控制。</p>
+
+<h4>简洁优美的类Lisp语言 Ruby</h4>
+
+<p>以Ruby作为语言篇的开篇，足以看得出来我对Ruby的喜爱。虽然它有着这样或者那样令人诟
+病的缺点，不过作为让我体会到Web世界美妙的第一门语言，我对Ruby一直有着别样的感情。</p>
+
+<p>目前，Ruby的常用版本是1.9，2.1和最新的2.2。最新版本并不是完全向后兼容，所以如果你
+的电脑中存在着老版本的Ruby项目，这时候又想切换到新版本中来，那可就头疼了。好在，
+有像<code>rvm</code>和<code>rbenv</code>这样的Ruby版本管理软件。它们各有优劣，而我喜欢更为自动化的rvm。</p>
+
+<p>一个完整的Ruby环境包括Ruby解释器、安装的RubyGems以及它们的文档。rvm用<code>gemsets</code>的
+概念，为每一个版本的Ruby提供一个独立的RubyGems环境。可以很方便的在不同的Ruby环境
+中切换而不相互影响。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># 安装rvm</span>
+</span><span class='line'><span class="c"># 设置mpapis公钥</span>
+</span><span class='line'>gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+</span><span class='line'>
+</span><span class='line'><span class="c"># 安装稳定版rvm</span>
+</span><span class='line'><span class="se">\c</span>url -sSL https://get.rvm.io <span class="p">|</span> bash -s stable
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>由于网络原因，可以将rvm的Ruby安装源修改为国内淘宝的<a href="http://ruby.taobao.org">Ruby镜像服务器</a>。
+该镜像服务器15分钟以此更新，尽量保证与官方同步。这样能提高安装速度。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># 出自 http://ruby.taobao.org</span>
+</span><span class='line'>sed -i .bak <span class="s1">&#39;s!cache.ruby-lang.org/pub/ruby!ruby.taobao.org/mirrors/ruby!&#39;</span> <span class="nv">$rvm_path</span>/config/db
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>推荐一篇关于rvm的文章: <a href="https://ruby-china.org/wiki/rvm-guide">https://ruby-china.org/wiki/rvm-guide</a></p>
+
+<p>同样，由于网络原因，需要将RubyGems的安装源修改到镜像服务器上。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># 切换源</span>
+</span><span class='line'>gem sources --remove https://rubygems.org/
+</span><span class='line'>gem sources -a https://ruby.taobao.org/
+</span><span class='line'>
+</span><span class='line'><span class="c"># 查看源列表</span>
+</span><span class='line'>gem sources -l
+</span><span class='line'>
+</span><span class='line'>*** CURRENT SOURCES ***
+</span><span class='line'>
+</span><span class='line'>https://rubygems.org/
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上，你就拥有了一个相对舒适的Ruby开发环境，不用为版本和网络问题发愁。啊！天空都
+清净了。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">乐正</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-04-03T22:52:14+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:52 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ji-zhu/'>技术</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+
+  
+    <div class="bdsharebuttonbox" data-tag="share_1">
+  <a class="fa fa-weibo"  data-cmd="tsina"></a>
+  <a class="fa fa-weixin" data-cmd="weixin"></a>
+  <a class="fa fa-copy"   data-cmd="copy"></a>
+</div>
+<script>
+  window._bd_share_config = {
+    common : {
+      bdText : document.title,
+      bdDesc : (function () {
+        var meta = document.querySelector("meta[name=\'description\']"),
+            description;
+
+        if (meta) meta = meta.getAttribute("content");
+        description = meta || "";
+
+        return description;
+      })(),
+      bdUrl  : document.location.href,
+      bdPic  : (function () {
+        var imgs = document.getElementsByTagName('img'),
+            img_srcs = [];
+
+        for (var i = 0; i < imgs.length; i++) {
+          var img = imgs[i];
+          // 因为使用了延迟加载，图片没有src属性
+          img_srcs.push(window.location.host + img.getAttribute('data-original'));
+        }
+
+        return img_srcs.join("||");
+      })()
+    },
+    share : [{
+      "bdSize" : 32,
+      "bdCustomStyle" : "/stylesheets/screen.css"
+    }],
+  }
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/tuan-dui-xiao-huo-ban-shang-di-yi-cai-jing/" title="Previous Post: 团队小伙伴上第一财经">&laquo; 团队小伙伴上第一财经</a>
+      
+      
+        <a class="basic-alignment right" href="/yi-ming-cai-niao-itxiang-mu-jing-li-de-cheng-chang-bi-ji/" title="Next Post: 一名菜鸟IT项目经理的成长笔记">一名菜鸟IT项目经理的成长笔记 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/shen-me-shi-xian-cheng/">什么是线程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/di-yi-ci-yu-arduino-jiao-hu/">第一次与 Arduino 交互</a>
+      </li>
+    
+      <li class="post">
+        <a href="/arduino-xue-xi-bi-ji-led-shan-shuo-shi-yan-zhong-yin-han-de-jian-dan-yuan-li/">Arduino 学习笔记——LED 闪烁实验中隐含的简单原理</a>
+      </li>
+    
+      <li class="post">
+        <a href="/redis-ji-chu-jiao-cheng/">Redis 基础教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/jiang-ni-de-vim-da-zao-cheng-qing-qiao-qiang-da-de-ide/">将你的Vim 打造成轻巧强大的IDE</a>
+      </li>
+    
+      <li class="post">
+        <a href="/jin-cheng-miao-shu-he-kong-zhi/">进程描述和控制</a>
+      </li>
+    
+      <li class="post">
+        <a href="/yi-ming-cai-niao-itxiang-mu-jing-li-de-cheng-chang-bi-ji/">一名菜鸟IT项目经理的成长笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/cong-ling-da-jian-he-pei-zhi-osxkai-fa-huan-jing/">从零搭建和配置OSX开发环境</a>
+      </li>
+    
+      <li class="post">
+        <a href="/tuan-dui-xiao-huo-ban-shang-di-yi-cai-jing/">团队小伙伴上第一财经</a>
+      </li>
+    
+      <li class="post">
+        <a href="/she-and-me/">She and Me</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/ji-zhu/'>技术 (15)</a></li>
+<li class='category'><a href='/blog/categories/sheng-huo/'>生活 (4)</a></li>
+
+  </ul>
+</section>
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/zgs225">@zgs225</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'zgs225',
+            count: 5,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - 乐正 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> -
+  <a href="http://www.miitbeian.gov.cn/" target="_blank">晥ICP备15005635号</a>
+</p>
+
+<script src="/javascripts/dist.min.js" type="text/javascript"></script>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'yuezme';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://yuez.me/cong-ling-da-jian-he-pei-zhi-osxkai-fa-huan-jing/';
+        var disqus_url = 'http://yuez.me/cong-ling-da-jian-he-pei-zhi-osxkai-fa-huan-jing/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<!-- 
+ -->
+<!-- 
+ -->
+<!-- 
+ -->
+
+
+
+</body>
+</html>

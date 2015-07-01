@@ -1,0 +1,978 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 技术 | 乐正]]></title>
+  <link href="http://yuez.me/blog/categories/ji-zhu/atom.xml" rel="self"/>
+  <link href="http://yuez.me/"/>
+  <updated>2015-06-29T19:44:20+08:00</updated>
+  <id>http://yuez.me/</id>
+  <author>
+    <name><![CDATA[乐正]]></name>
+    <email><![CDATA[zgs225@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[什么是线程]]></title>
+    <link href="http://yuez.me/shen-me-shi-xian-cheng/"/>
+    <updated>2015-06-01T21:44:33+08:00</updated>
+    <id>http://yuez.me/shen-me-shi-xian-cheng</id>
+    <content type="html"><![CDATA[<blockquote><p>要成就一个复杂的系统，各部分必须分工明确，各司其职。 —— 《人工科学》</p></blockquote>
+
+<h2>线程和进程</h2>
+
+<p>在上篇文章中（<a href="/jin-cheng-miao-shu-he-kong-zhi/">进程描述和控制</a>），提出的进程概
+念包含两个特点：</p>
+
+<ul>
+<li><p><strong>资源所有权</strong>：一个进程拥有包括一个存放进程映像的虚拟地址空间。一个进程总是拥
+有对于资源的控制或所有权。操作系统提供对于资源访问的保护功能。</p></li>
+<li><p><strong>调度/执行</strong>：一个进程具有一个执行状态和一个被分配的优先级，它是一个可以被操
+作系统调度和分派的实体。</p></li>
+</ul>
+
+
+<p>分派的单位通常称为线程或轻量级进程；而拥有资源所有权的单位通常仍称为进程或者任务。</p>
+
+<h4>多线程</h4>
+
+<p><strong>多线程</strong>是指在操作系统单个进程内支持多个并发执行路径的能力。对应的每个进程只有
+一个线程在执行的称为<strong>单线程方法</strong>。</p>
+
+<p>在多线程环境中，进程被定义成资源分配的单位和一个被保护的单位。在一个进程中，可能
+有一个或者多个线程，每个线程有：</p>
+
+<ul>
+<li>线程执行状态（运行、就绪等）</li>
+<li>在未运行时保存的线程上下文。</li>
+<li>一个执行栈。</li>
+<li>用于每个线程局部变量的静态存储空间。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[第一次与 Arduino 交互]]></title>
+    <link href="http://yuez.me/di-yi-ci-yu-arduino-jiao-hu/"/>
+    <updated>2015-05-31T21:01:21+08:00</updated>
+    <id>http://yuez.me/di-yi-ci-yu-arduino-jiao-hu</id>
+    <content type="html"><![CDATA[<p>这是一个比较简单的实验，不过好歹也是让 Arduino 接受外界电子元件的输入值了。这是
+套互动交通灯的实验，Arduino 等待行人按下按钮，这样行车灯会变红，行人灯会变绿。</p>
+
+<h2>需要的电子元件</h2>
+
+<ul>
+<li>LED 灯（2红，2绿，1黄）</li>
+<li>100Ω 电阻</li>
+<li>10KΩ 高阻值电阻（用于下拉电阻）</li>
+<li>按钮（有时供应商称之为微动开关）</li>
+<li>面包板与导线</li>
+</ul>
+
+
+<h2>代码回顾</h2>
+
+<pre><code class="c">int carRed    = 12;
+int carGreen  = 10;
+int carYellow = 11;
+
+int pedRed    =  8;
+int pedGreen  =  9;
+
+int buttonPin =  2;
+
+int crossTime = 5000;
+unsigned long changeTime; // Time of press button
+
+void setup() {
+  pinMode(carRed,    OUTPUT);
+  pinMode(carGreen,  OUTPUT);
+  pinMode(carYellow, OUTPUT);
+
+  pinMode(pedRed,    OUTPUT);
+  pinMode(pedGreen,  OUTPUT);
+
+  pinMode(buttonPin, INPUT);
+
+  digitalWrite(carGreen, HIGH);
+  digitalWrite(pedRed, HIGH);
+}
+
+void loop() {
+  int state = digitalRead(buttonPin);
+
+  if (state == HIGH &amp;&amp; (millis() - changeTime) &gt; 5000)
+    changeLights();
+}
+
+void changeLights() {
+  digitalWrite(carGreen, LOW);
+  digitalWrite(carYellow, HIGH);
+  delay(2000);
+
+  digitalWrite(carYellow, LOW);
+  digitalWrite(carRed, HIGH);
+  delay(1000);
+
+  digitalWrite(pedRed, LOW);
+  digitalWrite(pedGreen, HIGH);
+  delay(crossTime);
+
+  for (int i = 0; i &lt; 10; i ++) {
+    digitalWrite(pedGreen, HIGH);
+    delay(250);
+    digitalWrite(pedGreen, LOW);
+    delay(250);
+  }
+
+  digitalWrite(pedRed, HIGH);
+  delay(500);
+
+  digitalWrite(carYellow, HIGH);
+  digitalWrite(carRed, LOW);
+  delay(1000);
+  digitalWrite(carGreen, HIGH);
+  digitalWrite(carYellow, LOW);
+
+  changeTime = millis();
+}
+</code></pre>
+
+<p>这次使用了一个能存储大数字的数据类型</p>
+
+<pre><code class="c">unsigned long chageTime;
+</code></pre>
+
+<p>由于 Arduino 使用的 Atemga 32 只有很小的内存，所以合理分配与使用内存在这之上就显
+得非常重要。</p>
+
+<p>接下来就是让 Arduino 读取按钮输出值了，</p>
+
+<pre><code class="c">pinMode(buttonPin, INPUT);
+</code></pre>
+
+<p>这句代码让 Arduino 将按钮所在的引脚设置为 <code>Input</code> 模式。在程序循环中，使用</p>
+
+<pre><code class="c">int state = digitalRead(buttonPin);
+</code></pre>
+
+<p>来检查引脚的状态。</p>
+
+<h2>硬件回顾</h2>
+
+<p>本次与 Arduino 交互的元件是按钮，或者叫开关。按钮不是之间连接在电源线和引脚之间
+的，在按钮和地之间有一个电阻，这个电阻叫<strong>下拉电阻</strong>。对应的还有<strong>上拉电阻</strong>，它
+们对保证按钮正常工作是非常重要的。</p>
+
+<h4>逻辑状态</h4>
+
+<p><strong>逻辑电路</strong>是一种只有开、关两种状态的电路，用布尔数0和1表示。电路处于关状态时，
+输出端的电压接近0V。电路处于开状态时用高电平表示，输出端接近于电源供电电压。</p>
+
+<p>如果不能确定状态接近所需要的电压，这部分电路可以被认为是<strong>浮动的</strong>（既不是高电平
+，也不是低电平。），这种浮动也被称为电子噪声。电子噪声被随即的解释为0或者1。</p>
+
+<p>上拉电阻或下拉电阻可用来保证状态确定为高或低。</p>
+
+<h4>下拉电阻</h4>
+
+<p>如左图：</p>
+
+<p><img class="lazy no-shadow" data-original="/photos/dianzu.png" width="640" height="200" title="下拉电阻和上拉电阻" alt="下拉电阻和上拉电阻"></p>
+
+<p>如果按钮被按下，电流以电阻最小的路径在5V 端与输入引脚之间流过。 当按钮没有被按下
+时，输入引脚通过100KΩ 电阻接地。如果没有这个电阻，当按钮没有被按下时，这个引脚将
+不连接任何东西，因此它的电压是在 0V 和 5V 之间浮动。在这个电路中，当按钮没有被按
+下输入将总是接地的，或者是0V，当按钮被按下时它将指向5V端。</p>
+
+<h4>上拉电阻</h4>
+
+<p>如右图：</p>
+
+<p><img class="lazy no-shadow" data-original="/photos/dianzu.png" width="640" height="200" title="下拉电阻和上拉电阻" alt="下拉电阻和上拉电阻"></p>
+
+<p>交换下拉电阻和开关的位置，现在电阻变成了上拉电阻。当按钮没有被按下时，输入引脚通
+过上拉电阻接到5V端，所以引脚上总是高电平。当按钮被按下时，通过限流电阻的路径引脚
+接地，所以引脚被拉向地或者低电平状态。如果没有5V端和地之间的电阻，电路将被短路，
+这将损坏电路或电源。上拉电阻在数字电路中应用更广泛。</p>
+
+<p>上拉电阻在数字电路中经常用来保证输入保持高电平。</p>
+
+<h4>Arduino 内部的上拉电阻</h4>
+
+<p> Arduino 内部包含了上拉电阻。它连接在引脚上，阻值为20KΩ，使用时需要通过软件激活。</p>
+
+<pre><code class="c">pinMode(pin, INPUT);
+digitalWrite(pin, HIGH);
+</code></pre>
+
+<p>同理，当一个输出脚为 HIGH 时，转换这个引脚到 INPUT 模式，那么内部上拉电阻将激活。</p>
+
+<h2>电位计与从模拟引脚读值</h2>
+
+<h4>电位计</h4>
+
+<p>电位计就是一个可调节电阻，调解范围从0到一个设定的值。电位计有三个引脚。若只连接
+两个引脚，电位计可变为一个可变电阻。通过连接三个引脚，并为其提供电压，它将称为
+一个分压器。</p>
+
+<p>电位计提供了一种在0和设定的最大值之间调整数值的方法。</p>
+
+<h4>模拟引脚读值</h4>
+
+<p>Arduino有6个模拟输入/输出引脚，每个引脚带有一个10位模/数转换器。这意味着模拟引脚
+能够读取0V 到 5V之间的电压，用0到1023之间的正数代表0V 到 5V之间的电压。每个分度
+表示 5V / 1024 电压，即每个分度是4.9mV。</p>
+
+<p>通过直接读取电位计引脚数值到ledDelay这个变量中：</p>
+
+<pre><code class="c">byte potPin = 2; // 电位计连接到的模拟引脚
+int ledDelay = analogRead(potPin);
+</code></pre>
+
+<p>注意：模拟引脚不需要像数字引脚一样设置输入或输出模式。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Arduino 学习笔记——LED 闪烁实验中隐含的简单原理]]></title>
+    <link href="http://yuez.me/arduino-xue-xi-bi-ji-led-shan-shuo-shi-yan-zhong-yin-han-de-jian-dan-yuan-li/"/>
+    <updated>2015-05-27T08:52:24+08:00</updated>
+    <id>http://yuez.me/arduino-xue-xi-bi-ji-led-shan-shuo-shi-yan-zhong-yin-han-de-jian-dan-yuan-li</id>
+    <content type="html"><![CDATA[<p>我是软件出身，但是许久以前便对硬件充满了兴趣，终于在最近买了一套 Arduino 基础开
+发套件，希望能在硬件上学习一些知识。</p>
+
+<p>几乎所有单片机学习的第一个实验都是<code>blink</code>，在这个小小的实验中也蕴含着一些我不知
+道的电子电路知识，所以记录下在这个实验中所学习的知识，方便回顾整理。</p>
+
+<h2>代码回顾</h2>
+
+<pre><code class="c blink.ino">int ledPin = 10
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(ledPin, HIGH);
+  delay(1000);
+  digitalWrite(ledPin, LOW);
+  delay(1000);
+}
+</code></pre>
+
+<p>这一段类似 C 的 Arduino 代码对于软件出身的我来说并不难理解。但是，这里要注意的是
+Arduino 程序必须包含 <code>setup()</code> 和 <code>loop()</code> 两个函数，否则它将不能工作。顾名思义，
+前者只在程序开始时运行一次，一般做初始化用，如设置引脚形式，设置波特率等等。后者
+则是在程序中循环执行的，是主要的过程函数。</p>
+
+<p>在这段代码的 <code>setup()</code> 函数中，只执行了一句代码：<code>pinMode(ledPin, OUTPUT)</code>，它告
+诉 Arduino 设置引脚的模式为输出模式。由此易知，对应的应该还有一个 <code>INPUT</code> 的输入
+模式。</p>
+
+<p>在 <code>loop()</code> 函数中，让 LED 以一秒的频率闪烁，主要依靠 <code>digitalWrite</code> 和 <code>delay</code>
+函数。其中，<code>digitalWrite(ledPin, HIGH)</code> 告诉数字引脚打开电源，<code>delay(1000)</code>让程
+序暂停1秒，而 <code>digitalWrite(ledPin, LOW)</code> 则要求数字引脚关闭电源。</p>
+
+<h2>硬件回顾</h2>
+
+<p>在 LED 闪烁实验中，用到的硬件有：</p>
+
+<ul>
+<li>面包板</li>
+<li>5mm LED</li>
+<li>220Ω 电阻（或者其他适合你 LED 的数值）</li>
+<li>跳线（也称面包线）</li>
+</ul>
+
+
+<h4>面包板</h4>
+
+<p>面包板是一个可重复使用的非焊接单元，用于制作一个电子线路原型或者线路设计实验。这
+个板在一个栅格中有一系列的孔，在板子背面，这些孔通过两条导电金属条相连。 如图：</p>
+
+<p><img class="lazy no-shadow" data-original="/photos/breadboard.jpg" width="640" height="200" title="面包板排列" alt="面包板排列"></p>
+
+<h4>电阻</h4>
+
+<p>电阻会对电流产生一定的阻力，引起它两端的电压下降。在我的 LED 闪烁实验里面，数字
+引脚输出5V、40mA 直流电，而我的 LED 需要的是2V、35mA 电流，因此我需要一个电阻降
+ 低电压和电流。</p>
+
+<p> 计算需要的电阻阻值的公式是：</p>
+
+<p>R = (V<sub>S</sub> - V<sub>L</sub>) / I</p>
+
+<p>就是用电源电压减去 LED 电压除以 LED 电流。</p>
+
+<p>那么怎样找到所需要的阻值的电阻呢？电阻使用色环代码表示电阻阻值的大小。</p>
+
+<table>
+<thead>
+<tr>
+<th>颜色 </th>
+<th> 1st </th>
+<th> 2nd </th>
+<th> 3rd(幂)         </th>
+<th> 4th(误差)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>黑色 </td>
+<td>  0  </td>
+<td>  0  </td>
+<td> x10<sup>0</sup> </td>
+<td></td>
+</tr>
+<tr>
+<td>棕色 </td>
+<td>  1  </td>
+<td>  1  </td>
+<td> x10<sup>1</sup> </td>
+<td> +/- 1%</td>
+</tr>
+<tr>
+<td>红色 </td>
+<td>  2  </td>
+<td>  2  </td>
+<td> x10<sup>2</sup> </td>
+<td> +/- 2%</td>
+</tr>
+<tr>
+<td>橘黄 </td>
+<td>  3  </td>
+<td>  3  </td>
+<td> x10<sup>3</sup> </td>
+<td></td>
+</tr>
+<tr>
+<td>黄色 </td>
+<td>  4  </td>
+<td>  4  </td>
+<td> x10<sup>4</sup> </td>
+<td></td>
+</tr>
+<tr>
+<td>绿色 </td>
+<td>  5  </td>
+<td>  5  </td>
+<td> x10<sup>5</sup> </td>
+<td> +/- 0.5%</td>
+</tr>
+<tr>
+<td>蓝色 </td>
+<td>  6  </td>
+<td>  6  </td>
+<td> x10<sup>6</sup> </td>
+<td> +/- 0.25%</td>
+</tr>
+<tr>
+<td>紫色 </td>
+<td>  7  </td>
+<td>  7  </td>
+<td> x10<sup>7</sup> </td>
+<td> +/- 0.1%</td>
+</tr>
+<tr>
+<td>灰色 </td>
+<td>  8  </td>
+<td>  8  </td>
+<td> x10<sup>8</sup> </td>
+<td> +/- 0.05%</td>
+</tr>
+<tr>
+<td>白色 </td>
+<td>  9  </td>
+<td>  9  </td>
+<td> x10<sup>9</sup> </td>
+<td></td>
+</tr>
+<tr>
+<td>金色 </td>
+<td>     </td>
+<td>     </td>
+<td> x10<sup>-1</sup></td>
+<td> +/- 5%</td>
+</tr>
+<tr>
+<td>银色 </td>
+<td>     </td>
+<td>     </td>
+<td> x10<sup>-2</sup></td>
+<td> +/- 10%</td>
+</tr>
+<tr>
+<td>无   </td>
+<td>     </td>
+<td>     </td>
+<td>                 </td>
+<td> +/- 20%</td>
+</tr>
+</tbody>
+</table>
+
+
+<h4>LED</h4>
+
+<p>LED 是一个标准的发光二极管。二极管是一种器件，值允许电流从一个方向流进。二极管用
+来防止在电路中意外地将电流和地连接以至于损坏其他元件。</p>
+
+<p>LED 的引脚的长度不同，长的一边为正极，需要连接电源；短的一边为负极，需要接地。给
+LED 串联一个电阻是必要的，以确保提供给 LED 正确的电流。</p>
+
+<h2>总结</h2>
+
+<p>实验虽然简单，确也有许多我不曾知道的知识点。希望自己能坚持下去，完成对于 Arduino
+的学习。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Redis 基础教程]]></title>
+    <link href="http://yuez.me/redis-ji-chu-jiao-cheng/"/>
+    <updated>2015-05-26T10:46:25+08:00</updated>
+    <id>http://yuez.me/redis-ji-chu-jiao-cheng</id>
+    <content type="html"><![CDATA[<h2>简介</h2>
+
+<p>Redis 是一个键值存储仓库，经常被称为 NoSQL 数据库。键值存储仓库的本质是有能力按
+照一个键映射一个值的方式存储一些数据，然后你可以只通过这个键寻找到你之前通过这个
+键存储的值。我们可以使用命令<code>SET</code>将值『fido』存储在键『server:name』中：</p>
+
+<pre><code class="ruby">SET server:name "fido"
+</code></pre>
+
+<p>Redis 将会把我们的数据永久存储。于是，我们可以假设这样询问 Redis 数据库：键 server:name
+对应的值是什么？ 然后，Redis 会返回『fido』。</p>
+
+<pre><code>GET server:name # =&gt; "fido"
+</code></pre>
+
+<p>下面列出了一些其他常用的命令：</p>
+
+<ul>
+<li><code>DEL</code>   根据给定的键，删除相应的键值关系</li>
+<li><code>SETNX</code> 当且仅当给定键没有指定值的时候，才设定相应的键值对</li>
+<li><code>INCR</code>  将数字递增</li>
+</ul>
+
+
+<pre><code>SET  connection 10
+INCR connection # =&gt; 11
+INCR connection # =&gt; 12
+DEL  connection
+INCR connection # =&gt; 1
+</code></pre>
+
+<h2>递增</h2>
+
+<p>对于 <code>INCR</code> 命令，我们有一些特别的事情要说明。Redis 为什么会提供一个自己很简单就
+能实现的功能呢？就像下面这么简单：</p>
+
+<pre><code>x = GET count
+x += 1
+SET count x
+</code></pre>
+
+<p>然而问题是，这种递增操作只能用于单客户端上。看一下，如果两个客户端同时执行这样
+的操作会发生什么：</p>
+
+<ol>
+<li>客户端 A 读取值 x 为10</li>
+<li>客户端 B 读取值 x 为10</li>
+<li>客户端 A 写 x 的值为11</li>
+<li>客户端 B 写 x 的值为11</li>
+</ol>
+
+
+<p>我们希望 x 的值为12，但是真实的 x 的值仅仅是11，这是因为你自己定义的递增操作不是
+一个原子性操作。使用 Redis 的 <code>INCR</code> 命令可以防止这样的事情发生， 因为它是一个原
+子性操作。Redis 为许多不同类型的数据提供了类似的原子性操作。</p>
+
+<h2>过期</h2>
+
+<p>Redis 可以使用命令 <code>EXPIRE</code> 和 <code>TTL</code>，能让一个键值对只存在于指定的时间段内。</p>
+
+<pre><code>SET resource:lock "Redis Demo"
+EXPIRE resource:lock 120
+</code></pre>
+
+<p>这会导致键 resource:lock  会在120s 后被删除，你可以使用 <code>TTL</code> 去查看一个键还能存
+在多少时间：</p>
+
+<pre><code>TTL resource:lock # =&gt; 120
+
+# after 122s later
+TTL resource:lock # =&gt; -2
+</code></pre>
+
+<p>这里的 -2 是指 resource:lock 已经不存在了，如果返回值是 -1 说明这个键永远不会过
+期。注意：当你使用 <code>SET</code> 重新设置一个键， 它对应的 <code>TTL</code> 就会被重置。</p>
+
+<pre><code>SET resource:lock "Redis demo 1"
+EXPIRE resource:lock 120
+TTL resource:lock # =&gt; 119
+SET resoource.lock "Redis demo 2"
+TTL resource:lock # =&gt; -1
+</code></pre>
+
+<h2>列表</h2>
+
+<p>此外，Redis 也支持一些更复杂的数据结构。我们第一个会看的是列表。一个列表是一系列
+有序的值。与数组有关的一系列操作是：<code>RPUSH</code>, <code>LPUSH</code>, <code>LLEN</code>, <code>LRANGE</code>, <code>LPOP</code>和
+<code>RPOP</code>。列表和普通的值一样，可以被直接使用。</p>
+
+<ul>
+<li><code>RPUSH</code> 将值添加到列表的末尾</li>
+</ul>
+
+
+<pre><code>RPUSH friends "Alice"
+RPUSH friedns "Joe"
+</code></pre>
+
+<ul>
+<li><code>LPUSH</code> 将值添加到列表的开始</li>
+</ul>
+
+
+<pre><code>LPUSH friends "Sam"
+</code></pre>
+
+<ul>
+<li><code>LRANGE</code>是从列表中去一个指定范围的子集。它通过你想取的范围的第一个元素的下标和
+最后一个元素的下标作为参数。将 -1 作为参数意味着取值到列表的最后。</li>
+</ul>
+
+
+<pre><code>LRANGE friends 0 -1 # =&gt; 1) "Sam", 2) "Alice", 3) "Joe"
+LRANGE friends 0  1 # =&gt; 1) "Sam", 2) "Alice"
+LRANGE friends 1  2 # =&gt; 1) "Alice", 2) "Joe"
+</code></pre>
+
+<ul>
+<li><code>LLEN</code> 返回指定列表的长度</li>
+</ul>
+
+
+<pre><code>LLEN friends # =&gt; 3
+</code></pre>
+
+<ul>
+<li><code>LPOP</code> 从列表中删除第一个元素，并将它作为返回值</li>
+</ul>
+
+
+<pre><code>LPOP friends # =&gt; "Sam"
+</code></pre>
+
+<ul>
+<li><code>RPOP</code> 从列表中删除最后一个元素，并将它作为返回值</li>
+</ul>
+
+
+<pre><code>RPOP friends # =&gt; "Joe"
+</code></pre>
+
+<p>注意看现在的列表：</p>
+
+<pre><code>LLEN friends # =&gt; 1
+LRANGE friends 0 -1 # =&gt; 1) "Alice"
+</code></pre>
+
+<h2>集合</h2>
+
+<p>接下来我们要看的数据结构是集合。集合和列表类似，但是集合中元素是无序且不能重复的。
+和集合有关的一些重要的命令是：<code>SADD</code>, <code>SREM</code>, <code>SISMEMBER</code>, <code>SMEMBERS</code> 和 <code>SUNION</code>.</p>
+
+<ul>
+<li><code>SADD</code> 将给定的值添加到集合中</li>
+</ul>
+
+
+<pre><code>SADD superpowers "flight"
+SADD superpowers "x-ray vision"
+SADD superpowers "reflexes"
+</code></pre>
+
+<ul>
+<li><code>SREM</code> 从集合中移除指定的值</li>
+</ul>
+
+
+<pre><code>SREM superpowers "reflexes"
+</code></pre>
+
+<ul>
+<li><code>SISMEMBER</code> 检查一个值是否在集合中，返回0不在，返回1在。</li>
+</ul>
+
+
+<pre><code>SISMEMBER superpowers "flight" # =&gt; 1
+SISMEMBER superpowers "reflexes" # =&gt; 0
+</code></pre>
+
+<ul>
+<li><code>SMEMBERS</code> 返回集合中所有的元素</li>
+</ul>
+
+
+<pre><code>SMEMBERS superpowers # =&gt; 1) "flight", 2) "x-ray vision"
+</code></pre>
+
+<ul>
+<li><code>SUNION</code> 合并两个或者更多个集合，并且将所有的元素返回。</li>
+</ul>
+
+
+<pre><code>SADD birdpowers "pecking"
+SADD birdpowers "flight"
+SUNION superpowers birdpowers # =&gt; 1) "pecking", 2) "flight", 3) "x-ray vision"
+</code></pre>
+
+<h2>可排序集合</h2>
+
+<p>集合是一个非常有用的数据类型，但是因为它是无序的，所以因此会导致很多的问题。因此
+Redis 1.2 开始添加了可排序集合。可排序集合和标准的集合类似，只是添加了一个分数和
+集合中的元素相关联。这个分数用来给元素排序。</p>
+
+<pre><code>ZADD hackers 1940 "Alan Kay"
+ZADD hackers 1906 "Grace Hopper"
+ZADD hackers 1954 "Wang Zhi He"
+ZADD hackers 1988 "Li Feng"
+
+ZRANGE hackers 1, 3 # =&gt; 1) "Alan Kay", 2) "Grace Hopper", 3) "Wang Zhi He"
+</code></pre>
+
+<h2>哈希表</h2>
+
+<p>除了字符串、列表、集合之外，Redis 还能储存一种类型的数据————哈希表。哈希表将两个
+字符串类型的值映射在一起，它是最好的用来表示对象的数据结构。</p>
+
+<pre><code>HSET user:1000 name "John Smith"
+HSET user:1000 email "john.smith@google.com"
+HSET user:1000 password "public"
+</code></pre>
+
+<p>使用命令 <code>HGETALL</code> 获得保存的数据</p>
+
+<pre><code>HGETALL user:1000
+</code></pre>
+
+<p>我们也可以一起行设置多个域</p>
+
+<pre><code>HMSET user:1001 name "Zack Lee" email "zack.lee@facebook.com" password "public"
+</code></pre>
+
+<p>我们也可以只获取特定域的值：</p>
+
+<pre><code>HGET user:1001 name # =&gt; "Zack Lee"
+</code></pre>
+
+<p>数字类型的值在哈希表里面有一些方便的原子性的递增方法：</p>
+
+<pre><code>HSET user:1000 visits 10
+HINCRBY user:1000 visits 1  # =&gt; 11
+HINCRBY user:1000 visits 10 # =&gt; 21
+HDEL    user:1000 visits
+HINCRBY user:1000 visits 1  # =&gt; 1
+</code></pre>
+
+<p>关于哈希表的完整命令列表，请查看<a href="http://redis.io/commands#hash">官方文档</a></p>
+
+<p>更多关于 Redis 文档:</p>
+
+<ul>
+<li><a href="http://redis.io/documentation">Redis官方文档</a></li>
+<li><a href="http://redis.io/commands">命令参考</a></li>
+<li><a href="http://redis.io/topics/data-types-intro">Redis 中数据类型介绍</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[将你的Vim 打造成轻巧强大的IDE]]></title>
+    <link href="http://yuez.me/jiang-ni-de-vim-da-zao-cheng-qing-qiao-qiang-da-de-ide/"/>
+    <updated>2015-04-20T21:51:01+08:00</updated>
+    <id>http://yuez.me/jiang-ni-de-vim-da-zao-cheng-qing-qiao-qiang-da-de-ide</id>
+    <content type="html"><![CDATA[<p>Vim和Emacs一个称为神之编辑器一个被称为编辑器之神，固然很是夸张，但也足以说明这两
+款软件的优秀和在程序员界的地位。但是它们都已漫长的学习曲线让人望而生畏，阻止了大
+多数人进入。作为一名几乎完全使用Vim写各种代码、文档的人，我想把我自己平时使用的
+插件和配置整理下来，方便自己的总结和归纳，如果能有幸帮助到一些想学习Vim但是又不知
+道如何入门的人来说，那就再荣幸不过了<i class="fa fa fa-heart"></i>。</p>
+
+<p>在下面的内容中，我会介绍我使用的插件、Vim的配置，最后如果你觉得这些配置手动太麻烦
+的话，我推荐你看我的另一篇文章（<a href="/cong-ling-da-jian-he-pei-zhi-osxkai-fa-huan-jing/">从零搭建和配置OSX开发环境</a>），
+在那篇文章的末尾，我给出了一个<strong>自动化配置和管理Vim的方法</strong>。</p>
+
+<p>先贴一张我的Vim的截图：</p>
+
+<p><img class="lazy no-shadow" data-original="/photos/vim-ide.png" width="600" height="240" title="vim as ide" alt="vim as ide"></p>
+
+<h2>你看的到的插件</h2>
+
+<p>从上面那种截图中肉眼能看到的插件说起，把整个界面按照左窗口、主窗口、右窗口和下窗
+口命名，依次介绍出现在这个窗口中的主要插件。</p>
+
+<h4>主窗口</h4>
+
+<p>作为一款主要用于书写代码的文本编辑器，一个足够舒服、靓丽的配色当然是首要考虑的。
+我使用的配色主题是<code>molokai</code>（<a href="https://github.com/tomasr/molokai">官方地址</a>），在
+你安装好了这个插件之后，你需要下面几行配置应用它：</p>
+
+<pre><code class="vim">" Switch syntax highlighting on, when the terminal has colors
+if (t_Co &gt; 2 || has("gui_running")) &amp;&amp; !exists("syntax_on")
+  syntax on
+endif
+
+" Javascript syntax hightlight
+syntax enable
+
+" Set syntax highlighting for specific file types
+autocmd BufRead,BufNewFile Appraisals set filetype=ruby
+autocmd BufRead,BufNewFile *.md set filetype=markdown
+autocmd Syntax javascript set syntax=jquery
+
+" Color scheme
+colorscheme molokai
+highlight NonText guibg=#060606
+highlight Folded  guibg=#0A0A0A guifg=#9090D0
+</code></pre>
+
+<p>另外一个推荐的vim主题是<code>solarized</code>(<a href="https://github.com/altercation/vim-colors-solarized">官方地址</a>)。</p>
+
+<p>在选定了一个适合自己的主题之后，就需要一些配置去解决排版的问题，比如字符编码和缩
+进等问题。</p>
+
+<pre><code class="vim">" Backspace deletes like most programs in insert mode
+set backspace=2
+" Show the cursor position all the time
+set ruler
+" Display incomplete commands
+set showcmd
+" Set fileencodings
+set fileencodings=utf-8,bg18030,gbk,big5
+
+filetype plugin indent on
+
+" Softtabs, 2 spaces
+set tabstop=2
+set shiftwidth=2
+set shiftround
+set expandtab
+
+" Display extra whitespace
+set list listchars=tab:»·,trail:·
+
+" Make it obvious where 80 characters is
+set textwidth=80
+set colorcolumn=+1
+
+" Numbers
+set number
+set numberwidth=5
+
+set matchpairs+=&lt;:&gt;
+set hlsearch
+</code></pre>
+
+<p>在第68行，水平和垂直方向分别有一条高亮条，这是用来表示我当 前光标所处于的行和列
+用的。实现它，只需要几行简单的配置就可以了：</p>
+
+<pre><code class="vim">" Highlight current line
+au WinLeave * set nocursorline nocursorcolumn
+au WinEnter * set cursorline cursorcolumn
+set cursorline cursorcolumn
+</code></pre>
+
+<h5>关于代码补全</h5>
+
+<p>有些人可能已经发现了，在我的主窗口中没有演示代码补全的功能，我需要对此做一个说明。
+我本人不喜欢过于强大的代码补全，所以默认的对于我来说已经完全足够了，如果你需要使
+用更强大的代码补全，我推荐你使用<code>YouCompleteMe</code>（<a href="https://github.com/Valloric/YouCompleteMe">官方地址</a>）。</p>
+
+<p><img class="lazy no-shadow" data-original="/photos/you-complete-me.gif" width="600" height="240" title="YouCompleteMe" alt="YouCompleteMe"></p>
+
+<h4>左窗口</h4>
+
+<p>左窗口是一个用于浏览目录结构的插件<code>nerdtree</code>（<a href="https://github.com/scrooloose/nerdtree">官方地址</a>）。
+同样一些简单的配置之后，它便能为你提供一个方便够用的功能。</p>
+
+<pre><code class="vim">" NERD tree
+let NERDChristmasTree=0
+let NERDTreeWinSize=35
+let NERDTreeChDirMode=2
+let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
+let NERDTreeShowBookmarks=1
+let NERDTreeWinPos="left"
+" Automatically open a NERDTree if no files where specified
+autocmd vimenter * if !argc() | NERDTree | endif
+" Close vim if the only window left open is a NERDTree
+autocmd bufenter * if (winnr("$") == 1 &amp;&amp; exists("b:NERDTreeType") &amp;&amp; b:NERDTreeType == "primary") | q | endif
+" Open a NERDTree
+nmap &lt;F5&gt; :NERDTreeToggle&lt;cr&gt;
+</code></pre>
+
+<h4>右窗口</h4>
+
+<p>在我的截图中，右窗口陈列出了我当前打开的rb文件中申明的类、变量及方法等等。这是一
+款名叫<code>tagbar</code>的插件，它为我们提供了一个简单的方式去浏览当前文件的结构，并且支持
+在各个标签之间快捷的跳转。同理，安装之后，需要一些配置：</p>
+
+<pre><code class="vim">" Tagbar
+let g:tagbar_width=35
+let g:tagbar_autofocus=1
+nmap &lt;F6&gt; :TagbarToggle&lt;CR&gt;
+</code></pre>
+
+<p>如果你发现默认的<code>Tagbar</code>不能支持你的语言，比如Css, Clojure, Markdown等等，你可以
+参照<a href="https://github.com/majutsushi/tagbar/wiki">这篇文章</a>为它提供额外的支持。</p>
+
+<h4>下窗口</h4>
+
+<p>下窗口包含了两个部分：一个是用于全局搜索的窗口和一个状态条。</p>
+
+<p>全局搜索是一个基于文件名的搜索功能，可以快速定位一个文件。这是<code>ctrlp</code>这个插件提
+供的功能。下面是<code>ctrlp</code>的一些配置：</p>
+
+<pre><code class="vim">" ctrap
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.png,*.jpg,*.jpeg,*.gif " MacOSX/Linux
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+</code></pre>
+
+<p><code>ctrlp</code>默认会使用<code>grep</code>进行搜索，效率低且慢。所以，我使用了<code>ag</code>去替换默认的搜索
+功能。ag是一款轻量级的搜索工具，速度非常快。为了集成ag，需要添加下列配置：</p>
+
+<pre><code class="vim">if executable('ag')
+  " Use Ag over Grep
+  set grepprg=ag\ --nogroup\ --nocolor
+  " Use ag in CtrlP for listing files.
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  " Ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+</code></pre>
+
+<p>下面状态条中会依次显示：当前模式、Git分支、文件路径、文件是否保存以及当前所载行和
+列的信息。这是通过<code>vim-powerline</code>来实现的。其中显示Git信息需要配合<code>vim-fugitive</code>
+插件一些使用。</p>
+
+<pre><code class="vim">set laststatus=2 " Always display the status line
+set statusline+=%{fugitive#statusline()} "  Git Hotness
+</code></pre>
+
+<h4>小结</h4>
+
+<p>通过以上的配置，你就可以拥有一些如第一张图所示的那样，看起来还不错的编辑器。当然，
+Vim之所以如此倍受推崇，只是依靠这些还是远远不够的。接下来，我要介绍一些看不见的插
+件来实实在在的提升Vim体验。</p>
+
+<h2>看不见的实用插件</h2>
+
+<h4>现代化的插件管理</h4>
+
+<p>在我的另一篇文章中（<a href="/cong-ling-da-jian-he-pei-zhi-osxkai-fa-huan-jing/">从零搭建和配置OSX开发环境</a>）
+，我已经详细介绍过<code>Vundle</code>这个管理Vim插件的一个软件，这里不做过多介绍。</p>
+
+<h4>在Vim中执行你想要运行的命令</h4>
+
+<p><code>vim-run-interactive</code>让你可以在Vim中执行几乎任何你想要在命令行中执行的命令。举例
+来说，假设你有条<code>git update</code>的自定义命令，你可以通过<code>:RunInInteractiveShell git
+update</code>来执行它，而不需要退出Vim。添加一条配置，可以简化这个步骤：</p>
+
+<pre><code class="vim">" Run commands that require an interactive shell
+nnoremap &lt;Leader&gt;r :RunInInteractiveShell&lt;space&gt;
+</code></pre>
+
+<p>如此一来，你可以通过<code>&lt;Leader&gt; + r + 命令</code>键来激活执行命令。如果你不知道什么是<code>Leader</code>
+键，你可以去百度或者Google一下。</p>
+
+<h4>Vim的语法检查</h4>
+
+<p>Vim中有个很强大的语法检查插件，它支持几乎所有常用的语言的语法检测[<code>syntastic</code>(<a href="https://github.com/scrooloose/syntastic">https://github.com/scrooloose/syntastic</a>)]。
+附上一张来自官方的截图：</p>
+
+<p><img class="lazy no-shadow" data-original="/photos/syntastic.png" width="600" height="240" title="syntastic plugin" alt="syntastic plugin"></p>
+
+<p>为了让它更好的工作，同样需要一些配置：</p>
+
+<pre><code class="vim">" configure syntastic syntax checking to check on open as well as save
+let g:syntastic_check_on_open=1
+let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_wq = 0
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+</code></pre>
+
+<h4>Rails集成开发套件</h4>
+
+<p>我是一名Ruby的爱好者，所以Vim中少不了针对Ruby的一系列插件。我作为一名Web开发者，
+Rails这个大名鼎鼎的框架自然也是有所涉猎。所以在我的Vim中有着针对它们开发的一套插
+件。</p>
+
+<p>插件列表：</p>
+
+<ul>
+<li><strong><a href="https://github.com/vim-ruby/vim-ruby">ruby-vim</a></strong>：在快速的在module, class,
+method中跳跃。</li>
+<li><strong><a href="https://github.com/tpope/vim-bundler">vim-bundler</a></strong>：在Vim中集成<code>Bundler</code>。</li>
+<li><strong><a href="https://github.com/tpope/vim-endwise">vim-endwise</a></strong>：自动补全<code>end</code>关键字。</li>
+<li><strong><a href="https://github.com/tpope/vim-rails">vim-rails</a></strong>：它的功能很多，可以说是用
+Vim开发Rails不可缺少的一个插件。更详细的信息，可以前往它的官方网站获取。</li>
+<li><strong><a href="https://github.com/thoughtbot/vim-rspec">vim-rspec</a></strong>：在Vim中执行Rspec测试。</li>
+</ul>
+
+
+<pre><code class="vim">" Cucumber navigation commands
+autocmd User Rails Rnavcommand step features/step_definitions -glob=**/* -suffix=_steps.rb
+autocmd User Rails Rnavcommand config config -glob=**/* -suffix=.rb -default=routes
+
+" RSpec.vim mappings
+map &lt;Leader&gt;t :call RunCurrentSpecFile()&lt;CR&gt;
+map &lt;Leader&gt;s :call RunNearestSpec()&lt;CR&gt;
+map &lt;Leader&gt;l :call RunLastSpec()&lt;CR&gt;
+map &lt;Leader&gt;a :call RunAllSpecs()&lt;CR&gt;
+</code></pre>
+
+<h4>更多好用的工具</h4>
+
+<p>还有很多好用的插件，如果每个都一一说明，那么篇幅再长一倍怕也是不够。所以，我这里
+就把一些好用的插件列出来，有兴趣的可以自己看看。</p>
+
+<ul>
+<li><a href="https://github.com/danro/rename.vim">rename.vim</a>：在Vim中为文件重命名。</li>
+<li><a href="https://github.com/kchmck/vim-coffee-script">vim-coffee-script</a>：在Vim中舒心
+的编写、编译Coffeescript。</li>
+<li><a href="https://github.com/pbrisbin/vim-mkdir">vim-mkdir</a>：当你在Vim中新建文件的时候，
+自动帮你创建不存在的目录。</li>
+<li><a href="https://github.com/tpope/vim-surround">vim-surround</a>：快速的删除、修改和添加
+括号、引号、XML标签等等。</li>
+<li><a href="https://github.com/tmhedberg/matchit">matchit</a>：用<code>%</code>去在两个对应的字符间跳转。</li>
+<li><a href="https://github.com/vim-scripts/tComment">tComment</a>：快速注释、反注释代码。</li>
+<li><a href="https://github.com/mattn/emmet-vim">emmet-vim</a>：<code>Emmet</code>的Vim版。</li>
+<li><a href="https://github.com/godlygeek/tabular">tabular</a>：快速对齐。</li>
+<li><a href="https://github.com/msanders/snipmate.vim">snipmate.vim</a>：快速的代码片段。</li>
+<li><a href="https://github.com/Lokaltog/vim-easymotion">vim-easymotion</a>：在文件中快速定位。</li>
+<li><a href="https://github.com/suan/vim-instant-markdown">vim-instant-markdown</a>：Vim中对
+Markdown文档的实时预览。</li>
+</ul>
+
+
+<h2>备注</h2>
+
+<p>有更多的一些插件我没有都列出来，它们一般用于特定语法的开发，不一定适合所有人。你
+可以参考<a href="http://yuez.me/cong-ling-da-jian-he-pei-zhi-osxkai-fa-huan-jing/">从零搭建和配置OSX开发环境</a>
+这篇文章，自动管理、配置你的Vim环境。</p>
+
+<p>在上文中，我有一些遗漏的或者错误的地方，希望朋友发现后可以在下方留言指正。如果你
+有一些更好的插件、配置，也恳请你在下方留言。谢谢。</p>
+]]></content>
+  </entry>
+  
+</feed>

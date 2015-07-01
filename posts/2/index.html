@@ -1,0 +1,1362 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="zh-CN"><!--<![endif]-->
+<head>
+  <meta charset="UTF-8">
+  <title>乐正</title>
+  <meta name="author" content="乐正">
+  <meta name="renderer" content="webkit">
+
+  
+  <meta name="description" content="简介 Redis 是一个键值存储仓库，经常被称为 NoSQL 数据库。键值存储仓库的本质是有能力按
+照一个键映射一个值的方式存储一些数据，然后你可以只通过这个键寻找到你之前通过这个
+键存储的值。我们可以使用命令SET将值『fido』存储在键『server:name』中： 1
+SET server: &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+
+  <link rel="canonical" href="http://yuez.me/posts/2/">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="乐正" type="application/atom+xml">
+  <script src="/javascripts/jquery.min.js" type="text/javascript"></script>
+  <meta name="baidu-site-verification" content="jec8U3uPUi" />
+
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+<script>
+  // Jqquery image lazy load
+  $(function () { $('img.lazy').lazyload(); });
+</script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-58537045-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">乐正</a></h1>
+  
+    <h2>Actions speak louder than words.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="yuez.me">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">BLOG</a></li>
+  <li><a href="/blog/archives">ARCHIVES</a></li>
+  <li><a href="/friend-links">FRIENDS</a></li>
+  <li><a href="/read-me">README</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/redis-ji-chu-jiao-cheng/">Redis 基础教程</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-26T10:46:25+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:46 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>简介</h2>
+
+<p>Redis 是一个键值存储仓库，经常被称为 NoSQL 数据库。键值存储仓库的本质是有能力按
+照一个键映射一个值的方式存储一些数据，然后你可以只通过这个键寻找到你之前通过这个
+键存储的值。我们可以使用命令<code>SET</code>将值『fido』存储在键『server:name』中：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">SET</span> <span class="ss">server</span><span class="p">:</span><span class="nb">name</span> <span class="s2">&quot;fido&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Redis 将会把我们的数据永久存储。于是，我们可以假设这样询问 Redis 数据库：键 server:name
+对应的值是什么？ 然后，Redis 会返回『fido』。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">GET</span> <span class="ss">server</span><span class="p">:</span><span class="nb">name</span> <span class="c1"># =&gt; &quot;fido&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面列出了一些其他常用的命令：</p>
+
+<ul>
+<li><code>DEL</code>   根据给定的键，删除相应的键值关系</li>
+<li><code>SETNX</code> 当且仅当给定键没有指定值的时候，才设定相应的键值对</li>
+<li><code>INCR</code>  将数字递增</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">SET</span>  <span class="n">connection</span> <span class="mi">10</span>
+</span><span class='line'><span class="no">INCR</span> <span class="n">connection</span> <span class="c1"># =&gt; 11</span>
+</span><span class='line'><span class="no">INCR</span> <span class="n">connection</span> <span class="c1"># =&gt; 12</span>
+</span><span class='line'><span class="no">DEL</span>  <span class="n">connection</span>
+</span><span class='line'><span class="no">INCR</span> <span class="n">connection</span> <span class="c1"># =&gt; 1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>递增</h2>
+
+<p>对于 <code>INCR</code> 命令，我们有一些特别的事情要说明。Redis 为什么会提供一个自己很简单就
+能实现的功能呢？就像下面这么简单：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">x</span> <span class="o">=</span> <span class="no">GET</span> <span class="n">count</span>
+</span><span class='line'><span class="n">x</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'><span class="no">SET</span> <span class="n">count</span> <span class="n">x</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然而问题是，这种递增操作只能用于单客户端上。看一下，如果两个客户端同时执行这样
+的操作会发生什么：</p>
+
+<ol>
+<li>客户端 A 读取值 x 为10</li>
+<li>客户端 B 读取值 x 为10</li>
+<li>客户端 A 写 x 的值为11</li>
+<li>客户端 B 写 x 的值为11</li>
+</ol>
+
+
+<p>我们希望 x 的值为12，但是真实的 x 的值仅仅是11，这是因为你自己定义的递增操作不是
+一个原子性操作。使用 Redis 的 <code>INCR</code> 命令可以防止这样的事情发生， 因为它是一个原
+子性操作。Redis 为许多不同类型的数据提供了类似的原子性操作。</p>
+
+<h2>过期</h2>
+
+<p>Redis 可以使用命令 <code>EXPIRE</code> 和 <code>TTL</code>，能让一个键值对只存在于指定的时间段内。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">SET</span> <span class="ss">resource</span><span class="p">:</span><span class="n">lock</span> <span class="s2">&quot;Redis Demo&quot;</span>
+</span><span class='line'><span class="no">EXPIRE</span> <span class="ss">resource</span><span class="p">:</span><span class="n">lock</span> <span class="mi">120</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这会导致键 resource:lock  会在120s 后被删除，你可以使用 <code>TTL</code> 去查看一个键还能存
+在多少时间：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">TTL</span> <span class="ss">resource</span><span class="p">:</span><span class="n">lock</span> <span class="c1"># =&gt; 120</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># after 122s later</span>
+</span><span class='line'><span class="no">TTL</span> <span class="ss">resource</span><span class="p">:</span><span class="n">lock</span> <span class="c1"># =&gt; -2</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里的 -2 是指 resource:lock 已经不存在了，如果返回值是 -1 说明这个键永远不会过
+期。注意：当你使用 <code>SET</code> 重新设置一个键， 它对应的 <code>TTL</code> 就会被重置。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">SET</span> <span class="ss">resource</span><span class="p">:</span><span class="n">lock</span> <span class="s2">&quot;Redis demo 1&quot;</span>
+</span><span class='line'><span class="no">EXPIRE</span> <span class="ss">resource</span><span class="p">:</span><span class="n">lock</span> <span class="mi">120</span>
+</span><span class='line'><span class="no">TTL</span> <span class="ss">resource</span><span class="p">:</span><span class="n">lock</span> <span class="c1"># =&gt; 119</span>
+</span><span class='line'><span class="no">SET</span> <span class="n">resoource</span><span class="o">.</span><span class="n">lock</span> <span class="s2">&quot;Redis demo 2&quot;</span>
+</span><span class='line'><span class="no">TTL</span> <span class="ss">resource</span><span class="p">:</span><span class="n">lock</span> <span class="c1"># =&gt; -1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>列表</h2>
+
+<p>此外，Redis 也支持一些更复杂的数据结构。我们第一个会看的是列表。一个列表是一系列
+有序的值。与数组有关的一系列操作是：<code>RPUSH</code>, <code>LPUSH</code>, <code>LLEN</code>, <code>LRANGE</code>, <code>LPOP</code>和
+<code>RPOP</code>。列表和普通的值一样，可以被直接使用。</p>
+
+<ul>
+<li><code>RPUSH</code> 将值添加到列表的末尾</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">RPUSH</span> <span class="n">friends</span> <span class="s2">&quot;Alice&quot;</span>
+</span><span class='line'><span class="no">RPUSH</span> <span class="n">friedns</span> <span class="s2">&quot;Joe&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>LPUSH</code> 将值添加到列表的开始</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">LPUSH</span> <span class="n">friends</span> <span class="s2">&quot;Sam&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>LRANGE</code>是从列表中去一个指定范围的子集。它通过你想取的范围的第一个元素的下标和
+最后一个元素的下标作为参数。将 -1 作为参数意味着取值到列表的最后。</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">LRANGE</span> <span class="n">friends</span> <span class="mi">0</span> <span class="o">-</span><span class="mi">1</span> <span class="c1"># =&gt; 1) &quot;Sam&quot;, 2) &quot;Alice&quot;, 3) &quot;Joe&quot;</span>
+</span><span class='line'><span class="no">LRANGE</span> <span class="n">friends</span> <span class="mi">0</span>  <span class="mi">1</span> <span class="c1"># =&gt; 1) &quot;Sam&quot;, 2) &quot;Alice&quot;</span>
+</span><span class='line'><span class="no">LRANGE</span> <span class="n">friends</span> <span class="mi">1</span>  <span class="mi">2</span> <span class="c1"># =&gt; 1) &quot;Alice&quot;, 2) &quot;Joe&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>LLEN</code> 返回指定列表的长度</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">LLEN</span> <span class="n">friends</span> <span class="c1"># =&gt; 3</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>LPOP</code> 从列表中删除第一个元素，并将它作为返回值</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">LPOP</span> <span class="n">friends</span> <span class="c1"># =&gt; &quot;Sam&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>RPOP</code> 从列表中删除最后一个元素，并将它作为返回值</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">RPOP</span> <span class="n">friends</span> <span class="c1"># =&gt; &quot;Joe&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意看现在的列表：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">LLEN</span> <span class="n">friends</span> <span class="c1"># =&gt; 1</span>
+</span><span class='line'><span class="no">LRANGE</span> <span class="n">friends</span> <span class="mi">0</span> <span class="o">-</span><span class="mi">1</span> <span class="c1"># =&gt; 1) &quot;Alice&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>集合</h2>
+
+<p>接下来我们要看的数据结构是集合。集合和列表类似，但是集合中元素是无序且不能重复的。
+和集合有关的一些重要的命令是：<code>SADD</code>, <code>SREM</code>, <code>SISMEMBER</code>, <code>SMEMBERS</code> 和 <code>SUNION</code>.</p>
+
+<ul>
+<li><code>SADD</code> 将给定的值添加到集合中</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">SADD</span> <span class="n">superpowers</span> <span class="s2">&quot;flight&quot;</span>
+</span><span class='line'><span class="no">SADD</span> <span class="n">superpowers</span> <span class="s2">&quot;x-ray vision&quot;</span>
+</span><span class='line'><span class="no">SADD</span> <span class="n">superpowers</span> <span class="s2">&quot;reflexes&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>SREM</code> 从集合中移除指定的值</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">SREM</span> <span class="n">superpowers</span> <span class="s2">&quot;reflexes&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>SISMEMBER</code> 检查一个值是否在集合中，返回0不在，返回1在。</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">SISMEMBER</span> <span class="n">superpowers</span> <span class="s2">&quot;flight&quot;</span> <span class="c1"># =&gt; 1</span>
+</span><span class='line'><span class="no">SISMEMBER</span> <span class="n">superpowers</span> <span class="s2">&quot;reflexes&quot;</span> <span class="c1"># =&gt; 0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>SMEMBERS</code> 返回集合中所有的元素</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">SMEMBERS</span> <span class="n">superpowers</span> <span class="c1"># =&gt; 1) &quot;flight&quot;, 2) &quot;x-ray vision&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>SUNION</code> 合并两个或者更多个集合，并且将所有的元素返回。</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">SADD</span> <span class="n">birdpowers</span> <span class="s2">&quot;pecking&quot;</span>
+</span><span class='line'><span class="no">SADD</span> <span class="n">birdpowers</span> <span class="s2">&quot;flight&quot;</span>
+</span><span class='line'><span class="no">SUNION</span> <span class="n">superpowers</span> <span class="n">birdpowers</span> <span class="c1"># =&gt; 1) &quot;pecking&quot;, 2) &quot;flight&quot;, 3) &quot;x-ray vision&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>可排序集合</h2>
+
+<p>集合是一个非常有用的数据类型，但是因为它是无序的，所以因此会导致很多的问题。因此
+Redis 1.2 开始添加了可排序集合。可排序集合和标准的集合类似，只是添加了一个分数和
+集合中的元素相关联。这个分数用来给元素排序。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ZADD</span> <span class="n">hackers</span> <span class="mi">1940</span> <span class="s2">&quot;Alan Kay&quot;</span>
+</span><span class='line'><span class="no">ZADD</span> <span class="n">hackers</span> <span class="mi">1906</span> <span class="s2">&quot;Grace Hopper&quot;</span>
+</span><span class='line'><span class="no">ZADD</span> <span class="n">hackers</span> <span class="mi">1954</span> <span class="s2">&quot;Wang Zhi He&quot;</span>
+</span><span class='line'><span class="no">ZADD</span> <span class="n">hackers</span> <span class="mi">1988</span> <span class="s2">&quot;Li Feng&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">ZRANGE</span> <span class="n">hackers</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span> <span class="c1"># =&gt; 1) &quot;Alan Kay&quot;, 2) &quot;Grace Hopper&quot;, 3) &quot;Wang Zhi He&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>哈希表</h2>
+
+<p>除了字符串、列表、集合之外，Redis 还能储存一种类型的数据————哈希表。哈希表将两个
+字符串类型的值映射在一起，它是最好的用来表示对象的数据结构。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">HSET</span> <span class="ss">user</span><span class="p">:</span><span class="mi">1000</span> <span class="nb">name</span> <span class="s2">&quot;John Smith&quot;</span>
+</span><span class='line'><span class="no">HSET</span> <span class="ss">user</span><span class="p">:</span><span class="mi">1000</span> <span class="n">email</span> <span class="s2">&quot;john.smith@google.com&quot;</span>
+</span><span class='line'><span class="no">HSET</span> <span class="ss">user</span><span class="p">:</span><span class="mi">1000</span> <span class="n">password</span> <span class="s2">&quot;public&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用命令 <code>HGETALL</code> 获得保存的数据</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">HGETALL</span> <span class="ss">user</span><span class="p">:</span><span class="mi">1000</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们也可以一起行设置多个域</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">HMSET</span> <span class="ss">user</span><span class="p">:</span><span class="mi">1001</span> <span class="nb">name</span> <span class="s2">&quot;Zack Lee&quot;</span> <span class="n">email</span> <span class="s2">&quot;zack.lee@facebook.com&quot;</span> <span class="n">password</span> <span class="s2">&quot;public&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们也可以只获取特定域的值：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">HGET</span> <span class="ss">user</span><span class="p">:</span><span class="mi">1001</span> <span class="nb">name</span> <span class="c1"># =&gt; &quot;Zack Lee&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>数字类型的值在哈希表里面有一些方便的原子性的递增方法：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">HSET</span> <span class="ss">user</span><span class="p">:</span><span class="mi">1000</span> <span class="n">visits</span> <span class="mi">10</span>
+</span><span class='line'><span class="no">HINCRBY</span> <span class="ss">user</span><span class="p">:</span><span class="mi">1000</span> <span class="n">visits</span> <span class="mi">1</span>  <span class="c1"># =&gt; 11</span>
+</span><span class='line'><span class="no">HINCRBY</span> <span class="ss">user</span><span class="p">:</span><span class="mi">1000</span> <span class="n">visits</span> <span class="mi">10</span> <span class="c1"># =&gt; 21</span>
+</span><span class='line'><span class="no">HDEL</span>    <span class="ss">user</span><span class="p">:</span><span class="mi">1000</span> <span class="n">visits</span>
+</span><span class='line'><span class="no">HINCRBY</span> <span class="ss">user</span><span class="p">:</span><span class="mi">1000</span> <span class="n">visits</span> <span class="mi">1</span>  <span class="c1"># =&gt; 1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>关于哈希表的完整命令列表，请查看<a href="http://redis.io/commands#hash">官方文档</a></p>
+
+<p>更多关于 Redis 文档:</p>
+
+<ul>
+<li><a href="http://redis.io/documentation">Redis官方文档</a></li>
+<li><a href="http://redis.io/commands">命令参考</a></li>
+<li><a href="http://redis.io/topics/data-types-intro">Redis 中数据类型介绍</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/jiang-ni-de-vim-da-zao-cheng-qing-qiao-qiang-da-de-ide/">将你的Vim 打造成轻巧强大的IDE</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-20T21:51:01+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:51 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Vim和Emacs一个称为神之编辑器一个被称为编辑器之神，固然很是夸张，但也足以说明这两
+款软件的优秀和在程序员界的地位。但是它们都已漫长的学习曲线让人望而生畏，阻止了大
+多数人进入。作为一名几乎完全使用Vim写各种代码、文档的人，我想把我自己平时使用的
+插件和配置整理下来，方便自己的总结和归纳，如果能有幸帮助到一些想学习Vim但是又不知
+道如何入门的人来说，那就再荣幸不过了<i class="fa fa fa-heart"></i>。</p>
+
+<p>在下面的内容中，我会介绍我使用的插件、Vim的配置，最后如果你觉得这些配置手动太麻烦
+的话，我推荐你看我的另一篇文章（<a href="/cong-ling-da-jian-he-pei-zhi-osxkai-fa-huan-jing/">从零搭建和配置OSX开发环境</a>），
+在那篇文章的末尾，我给出了一个<strong>自动化配置和管理Vim的方法</strong>。</p>
+
+<p>先贴一张我的Vim的截图：</p>
+
+<p><img class="lazy no-shadow" data-original="/photos/vim-ide.png" width="600" height="240" title="vim as ide" alt="vim as ide"></p>
+
+<h2>你看的到的插件</h2>
+
+<p>从上面那种截图中肉眼能看到的插件说起，把整个界面按照左窗口、主窗口、右窗口和下窗
+口命名，依次介绍出现在这个窗口中的主要插件。</p>
+
+<h4>主窗口</h4>
+
+<p>作为一款主要用于书写代码的文本编辑器，一个足够舒服、靓丽的配色当然是首要考虑的。
+我使用的配色主题是<code>molokai</code>（<a href="https://github.com/tomasr/molokai">官方地址</a>），在
+你安装好了这个插件之后，你需要下面几行配置应用它：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; Switch syntax highlighting on, when the terminal has colors</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nb">t_Co</span> <span class="p">&gt;</span> <span class="m">2</span> <span class="p">||</span> has<span class="p">(</span><span class="s2">&quot;gui_running&quot;</span><span class="p">))</span> &amp;&amp; <span class="p">!</span>exists<span class="p">(</span><span class="s2">&quot;syntax_on&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">syntax</span> <span class="k">on</span>
+</span><span class='line'><span class="k">endif</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Javascript syntax hightlight</span>
+</span><span class='line'><span class="nb">syntax</span> enable
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Set syntax highlighting for specific file types</span>
+</span><span class='line'><span class="k">autocmd</span> <span class="nb">BufRead</span><span class="p">,</span><span class="nb">BufNewFile</span> Appraisals <span class="k">set</span> <span class="k">filetype</span><span class="p">=</span><span class="k">ruby</span>
+</span><span class='line'><span class="k">autocmd</span> <span class="nb">BufRead</span><span class="p">,</span><span class="nb">BufNewFile</span> *.md <span class="k">set</span> <span class="k">filetype</span><span class="p">=</span>markdown
+</span><span class='line'><span class="k">autocmd</span> <span class="nb">Syntax</span> javascript <span class="k">set</span> <span class="nb">syntax</span><span class="p">=</span>jquery
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Color scheme</span>
+</span><span class='line'><span class="k">colorscheme</span> molokai
+</span><span class='line'><span class="nb">highlight</span> NonText guibg<span class="p">=</span><span class="mh">#060606</span>
+</span><span class='line'><span class="nb">highlight</span> Folded  guibg<span class="p">=</span>#<span class="m">0</span>A<span class="m">0</span>A<span class="m">0</span>A guifg<span class="p">=</span>#<span class="m">9090</span>D<span class="m">0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>另外一个推荐的vim主题是<code>solarized</code>(<a href="https://github.com/altercation/vim-colors-solarized">官方地址</a>)。</p>
+
+<p>在选定了一个适合自己的主题之后，就需要一些配置去解决排版的问题，比如字符编码和缩
+进等问题。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; Backspace deletes like most programs in insert mode</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">backspace</span><span class="p">=</span><span class="m">2</span>
+</span><span class='line'><span class="c">&quot; Show the cursor position all the time</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">ruler</span>
+</span><span class='line'><span class="c">&quot; Display incomplete commands</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">showcmd</span>
+</span><span class='line'><span class="c">&quot; Set fileencodings</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">fileencodings</span><span class="p">=</span>utf<span class="m">-8</span><span class="p">,</span>bg18030<span class="p">,</span>gbk<span class="p">,</span>big5
+</span><span class='line'>
+</span><span class='line'><span class="k">filetype</span> plugin indent <span class="k">on</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Softtabs, 2 spaces</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">tabstop</span><span class="p">=</span><span class="m">2</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">shiftwidth</span><span class="p">=</span><span class="m">2</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">shiftround</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">expandtab</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Display extra whitespace</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">list</span> <span class="nb">listchars</span><span class="p">=</span><span class="k">tab</span>:»·<span class="p">,</span>trail:·
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Make it obvious where 80 characters is</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">textwidth</span><span class="p">=</span><span class="m">80</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">colorcolumn</span><span class="p">=+</span><span class="m">1</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Numbers</span>
+</span><span class='line'><span class="k">set</span> <span class="k">number</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">numberwidth</span><span class="p">=</span><span class="m">5</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">set</span> <span class="nb">matchpairs</span><span class="p">+=&lt;</span>:<span class="p">&gt;</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">hlsearch</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在第68行，水平和垂直方向分别有一条高亮条，这是用来表示我当 前光标所处于的行和列
+用的。实现它，只需要几行简单的配置就可以了：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; Highlight current line</span>
+</span><span class='line'><span class="k">au</span> <span class="nb">WinLeave</span> * <span class="k">set</span> <span class="nb">nocursorline</span> <span class="nb">nocursorcolumn</span>
+</span><span class='line'><span class="k">au</span> <span class="nb">WinEnter</span> * <span class="k">set</span> <span class="nb">cursorline</span> <span class="nb">cursorcolumn</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">cursorline</span> <span class="nb">cursorcolumn</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>关于代码补全</h5>
+
+<p>有些人可能已经发现了，在我的主窗口中没有演示代码补全的功能，我需要对此做一个说明。
+我本人不喜欢过于强大的代码补全，所以默认的对于我来说已经完全足够了，如果你需要使
+用更强大的代码补全，我推荐你使用<code>YouCompleteMe</code>（<a href="https://github.com/Valloric/YouCompleteMe">官方地址</a>）。</p>
+
+<p><img class="lazy no-shadow" data-original="/photos/you-complete-me.gif" width="600" height="240" title="YouCompleteMe" alt="YouCompleteMe"></p>
+
+<h4>左窗口</h4>
+
+<p>左窗口是一个用于浏览目录结构的插件<code>nerdtree</code>（<a href="https://github.com/scrooloose/nerdtree">官方地址</a>）。
+同样一些简单的配置之后，它便能为你提供一个方便够用的功能。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; NERD tree</span>
+</span><span class='line'><span class="k">let</span> NERDChristmasTree<span class="p">=</span><span class="m">0</span>
+</span><span class='line'><span class="k">let</span> NERDTreeWinSize<span class="p">=</span><span class="m">35</span>
+</span><span class='line'><span class="k">let</span> NERDTreeChDirMode<span class="p">=</span><span class="m">2</span>
+</span><span class='line'><span class="k">let</span> NERDTreeIgnore<span class="p">=</span>[<span class="s1">&#39;\~$&#39;</span><span class="p">,</span> <span class="s1">&#39;\.pyc$&#39;</span><span class="p">,</span> <span class="s1">&#39;\.swp$&#39;</span>]
+</span><span class='line'><span class="k">let</span> NERDTreeShowBookmarks<span class="p">=</span><span class="m">1</span>
+</span><span class='line'><span class="k">let</span> NERDTreeWinPos<span class="p">=</span><span class="s2">&quot;left&quot;</span>
+</span><span class='line'><span class="c">&quot; Automatically open a NERDTree if no files where specified</span>
+</span><span class='line'><span class="k">autocmd</span> vimenter * <span class="k">if</span> <span class="p">!</span>argc<span class="p">()</span> <span class="p">|</span> NERDTree <span class="p">|</span> <span class="k">endif</span>
+</span><span class='line'><span class="c">&quot; Close vim if the only window left open is a NERDTree</span>
+</span><span class='line'><span class="k">autocmd</span> bufenter * <span class="k">if</span> <span class="p">(</span>winnr<span class="p">(</span><span class="s2">&quot;$&quot;</span><span class="p">)</span> <span class="p">==</span> <span class="m">1</span> &amp;&amp; exists<span class="p">(</span><span class="s2">&quot;b:NERDTreeType&quot;</span><span class="p">)</span> &amp;&amp; <span class="k">b</span>:NERDTreeType <span class="p">==</span> <span class="s2">&quot;primary&quot;</span><span class="p">)</span> <span class="p">|</span> <span class="k">q</span> <span class="p">|</span> <span class="k">endif</span>
+</span><span class='line'><span class="c">&quot; Open a NERDTree</span>
+</span><span class='line'>nmap <span class="p">&lt;</span>F5<span class="p">&gt;</span> :NERDTreeToggle<span class="p">&lt;</span><span class="k">cr</span><span class="p">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>右窗口</h4>
+
+<p>在我的截图中，右窗口陈列出了我当前打开的rb文件中申明的类、变量及方法等等。这是一
+款名叫<code>tagbar</code>的插件，它为我们提供了一个简单的方式去浏览当前文件的结构，并且支持
+在各个标签之间快捷的跳转。同理，安装之后，需要一些配置：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; Tagbar</span>
+</span><span class='line'><span class="k">let</span> <span class="k">g</span>:tagbar_width<span class="p">=</span><span class="m">35</span>
+</span><span class='line'><span class="k">let</span> <span class="k">g</span>:tagbar_autofocus<span class="p">=</span><span class="m">1</span>
+</span><span class='line'>nmap <span class="p">&lt;</span>F6<span class="p">&gt;</span> :TagbarToggle<span class="p">&lt;</span>CR<span class="p">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果你发现默认的<code>Tagbar</code>不能支持你的语言，比如Css, Clojure, Markdown等等，你可以
+参照<a href="https://github.com/majutsushi/tagbar/wiki">这篇文章</a>为它提供额外的支持。</p>
+
+<h4>下窗口</h4>
+
+<p>下窗口包含了两个部分：一个是用于全局搜索的窗口和一个状态条。</p>
+
+<p>全局搜索是一个基于文件名的搜索功能，可以快速定位一个文件。这是<code>ctrlp</code>这个插件提
+供的功能。下面是<code>ctrlp</code>的一些配置：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; ctrap</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">wildignore</span><span class="p">+=</span>*<span class="sr">/tmp/</span>*<span class="p">,</span>*.<span class="k">so</span><span class="p">,</span>*.swp<span class="p">,</span>*.zip<span class="p">,</span>*.png<span class="p">,</span>*.jpg<span class="p">,</span>*.jpeg<span class="p">,</span>*.gif <span class="c">&quot; MacOSX/Linux</span>
+</span><span class='line'><span class="k">let</span> <span class="k">g</span>:ctrlp_custom_ignore <span class="p">=</span> <span class="s1">&#39;\v[\/]\.(git|hg|svn)$&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>ctrlp</code>默认会使用<code>grep</code>进行搜索，效率低且慢。所以，我使用了<code>ag</code>去替换默认的搜索
+功能。ag是一款轻量级的搜索工具，速度非常快。为了集成ag，需要添加下列配置：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="k">if</span> executable<span class="p">(</span><span class="s1">&#39;ag&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="c">  &quot; Use Ag over Grep</span>
+</span><span class='line'>  <span class="k">set</span> <span class="nb">grepprg</span><span class="p">=</span>ag\ <span class="p">--</span>nogroup\ <span class="p">--</span>nocolor
+</span><span class='line'><span class="c">  &quot; Use ag in CtrlP for listing files.</span>
+</span><span class='line'>  <span class="k">let</span> <span class="k">g</span>:ctrlp_user_command <span class="p">=</span> <span class="s1">&#39;ag %s -l --nocolor -g &quot;&quot;&#39;</span>
+</span><span class='line'><span class="c">  &quot; Ag is fast enough that CtrlP doesn&#39;t need to cache</span>
+</span><span class='line'>  <span class="k">let</span> <span class="k">g</span>:ctrlp_use_caching <span class="p">=</span> <span class="m">0</span>
+</span><span class='line'><span class="k">endif</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面状态条中会依次显示：当前模式、Git分支、文件路径、文件是否保存以及当前所载行和
+列的信息。这是通过<code>vim-powerline</code>来实现的。其中显示Git信息需要配合<code>vim-fugitive</code>
+插件一些使用。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="k">set</span> <span class="nb">laststatus</span><span class="p">=</span><span class="m">2</span> <span class="c">&quot; Always display the status line</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">statusline</span><span class="p">+=</span>%{fugitive#<span class="nb">statusline</span><span class="p">()</span>} <span class="c">&quot;  Git Hotness</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>小结</h4>
+
+<p>通过以上的配置，你就可以拥有一些如第一张图所示的那样，看起来还不错的编辑器。当然，
+Vim之所以如此倍受推崇，只是依靠这些还是远远不够的。接下来，我要介绍一些看不见的插
+件来实实在在的提升Vim体验。</p>
+
+<h2>看不见的实用插件</h2>
+
+<h4>现代化的插件管理</h4>
+
+<p>在我的另一篇文章中（<a href="/cong-ling-da-jian-he-pei-zhi-osxkai-fa-huan-jing/">从零搭建和配置OSX开发环境</a>）
+，我已经详细介绍过<code>Vundle</code>这个管理Vim插件的一个软件，这里不做过多介绍。</p>
+
+<h4>在Vim中执行你想要运行的命令</h4>
+
+<p><code>vim-run-interactive</code>让你可以在Vim中执行几乎任何你想要在命令行中执行的命令。举例
+来说，假设你有条<code>git update</code>的自定义命令，你可以通过<code>:RunInInteractiveShell git
+update</code>来执行它，而不需要退出Vim。添加一条配置，可以简化这个步骤：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; Run commands that require an interactive shell</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">r</span> :RunInInteractiveShell<span class="p">&lt;</span>space<span class="p">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如此一来，你可以通过<code>&lt;Leader&gt; + r + 命令</code>键来激活执行命令。如果你不知道什么是<code>Leader</code>
+键，你可以去百度或者Google一下。</p>
+
+<h4>Vim的语法检查</h4>
+
+<p>Vim中有个很强大的语法检查插件，它支持几乎所有常用的语言的语法检测[<code>syntastic</code>(<a href="https://github.com/scrooloose/syntastic">https://github.com/scrooloose/syntastic</a>)]。
+附上一张来自官方的截图：</p>
+
+<p><img class="lazy no-shadow" data-original="/photos/syntastic.png" width="600" height="240" title="syntastic plugin" alt="syntastic plugin"></p>
+
+<p>为了让它更好的工作，同样需要一些配置：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; configure syntastic syntax checking to check on open as well as save</span>
+</span><span class='line'><span class="k">let</span> <span class="k">g</span>:syntastic_check_on_open<span class="p">=</span><span class="m">1</span>
+</span><span class='line'><span class="k">let</span> <span class="k">g</span>:syntastic_html_tidy_ignore_errors<span class="p">=</span>[<span class="s2">&quot; proprietary attribute \&quot;ng-&quot;</span>]
+</span><span class='line'><span class="k">let</span> <span class="k">g</span>:syntastic_always_populate_loc_list <span class="p">=</span> <span class="m">1</span>
+</span><span class='line'><span class="k">let</span> <span class="k">g</span>:syntastic_auto_loc_list <span class="p">=</span> <span class="m">1</span>
+</span><span class='line'><span class="k">let</span> <span class="k">g</span>:syntastic_check_on_wq <span class="p">=</span> <span class="m">0</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">statusline</span><span class="p">+=</span>%#warningmsg#
+</span><span class='line'><span class="k">set</span> <span class="nb">statusline</span><span class="p">+=</span>%{SyntasticStatuslineFlag<span class="p">()</span>}
+</span><span class='line'><span class="k">set</span> <span class="nb">statusline</span><span class="p">+=</span>%*
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Rails集成开发套件</h4>
+
+<p>我是一名Ruby的爱好者，所以Vim中少不了针对Ruby的一系列插件。我作为一名Web开发者，
+Rails这个大名鼎鼎的框架自然也是有所涉猎。所以在我的Vim中有着针对它们开发的一套插
+件。</p>
+
+<p>插件列表：</p>
+
+<ul>
+<li><strong><a href="https://github.com/vim-ruby/vim-ruby">ruby-vim</a></strong>：在快速的在module, class,
+method中跳跃。</li>
+<li><strong><a href="https://github.com/tpope/vim-bundler">vim-bundler</a></strong>：在Vim中集成<code>Bundler</code>。</li>
+<li><strong><a href="https://github.com/tpope/vim-endwise">vim-endwise</a></strong>：自动补全<code>end</code>关键字。</li>
+<li><strong><a href="https://github.com/tpope/vim-rails">vim-rails</a></strong>：它的功能很多，可以说是用
+Vim开发Rails不可缺少的一个插件。更详细的信息，可以前往它的官方网站获取。</li>
+<li><strong><a href="https://github.com/thoughtbot/vim-rspec">vim-rspec</a></strong>：在Vim中执行Rspec测试。</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; Cucumber navigation commands</span>
+</span><span class='line'><span class="k">autocmd</span> <span class="nb">User</span> Rails Rnavcommand step features<span class="sr">/step_definitions -glob=**/</span>* <span class="p">-</span>suffix<span class="p">=</span>_steps.rb
+</span><span class='line'><span class="k">autocmd</span> <span class="nb">User</span> Rails Rnavcommand config config <span class="p">-</span>glob<span class="p">=</span>**/* <span class="p">-</span>suffix<span class="p">=</span>.rb <span class="p">-</span>default<span class="p">=</span>routes
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; RSpec.vim mappings</span>
+</span><span class='line'>map <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">t</span> :<span class="k">call</span> RunCurrentSpecFile<span class="p">()&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'>map <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">s</span> :<span class="k">call</span> RunNearestSpec<span class="p">()&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'>map <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">l</span> :<span class="k">call</span> RunLastSpec<span class="p">()&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'>map <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">a</span> :<span class="k">call</span> RunAllSpecs<span class="p">()&lt;</span>CR<span class="p">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>更多好用的工具</h4>
+
+<p>还有很多好用的插件，如果每个都一一说明，那么篇幅再长一倍怕也是不够。所以，我这里
+就把一些好用的插件列出来，有兴趣的可以自己看看。</p>
+
+<ul>
+<li><a href="https://github.com/danro/rename.vim">rename.vim</a>：在Vim中为文件重命名。</li>
+<li><a href="https://github.com/kchmck/vim-coffee-script">vim-coffee-script</a>：在Vim中舒心
+的编写、编译Coffeescript。</li>
+<li><a href="https://github.com/pbrisbin/vim-mkdir">vim-mkdir</a>：当你在Vim中新建文件的时候，
+自动帮你创建不存在的目录。</li>
+<li><a href="https://github.com/tpope/vim-surround">vim-surround</a>：快速的删除、修改和添加
+括号、引号、XML标签等等。</li>
+<li><a href="https://github.com/tmhedberg/matchit">matchit</a>：用<code>%</code>去在两个对应的字符间跳转。</li>
+<li><a href="https://github.com/vim-scripts/tComment">tComment</a>：快速注释、反注释代码。</li>
+<li><a href="https://github.com/mattn/emmet-vim">emmet-vim</a>：<code>Emmet</code>的Vim版。</li>
+<li><a href="https://github.com/godlygeek/tabular">tabular</a>：快速对齐。</li>
+<li><a href="https://github.com/msanders/snipmate.vim">snipmate.vim</a>：快速的代码片段。</li>
+<li><a href="https://github.com/Lokaltog/vim-easymotion">vim-easymotion</a>：在文件中快速定位。</li>
+<li><a href="https://github.com/suan/vim-instant-markdown">vim-instant-markdown</a>：Vim中对
+Markdown文档的实时预览。</li>
+</ul>
+
+
+<h2>备注</h2>
+
+<p>有更多的一些插件我没有都列出来，它们一般用于特定语法的开发，不一定适合所有人。你
+可以参考<a href="http://yuez.me/cong-ling-da-jian-he-pei-zhi-osxkai-fa-huan-jing/">从零搭建和配置OSX开发环境</a>
+这篇文章，自动管理、配置你的Vim环境。</p>
+
+<p>在上文中，我有一些遗漏的或者错误的地方，希望朋友发现后可以在下方留言指正。如果你
+有一些更好的插件、配置，也恳请你在下方留言。谢谢。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/jin-cheng-miao-shu-he-kong-zhi/">进程描述和控制</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-16T15:16:59+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:16 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>进程概念是现在操作系统的基本概念，已经成为计算机科学中的一大成就。</p></blockquote>
+
+<h2>什么是进程？</h2>
+
+<p>进程的出现，是为了是操作系统可以以一种有序的方式管理应用的执行，以达到以下目的：</p>
+
+<ul>
+<li>资源对多个应用程序是可用的</li>
+<li>物理处理器在多个应用程序之间切换以保证所有程序都在执行中</li>
+<li>处理器和I/O设备能得到充分利用</li>
+</ul>
+
+
+<p>所有现在操作系统采用的方法都是依据一个或者多个进程存在的应用程序执行的一种模型。
+到底什么是进程呢？</p>
+
+<p>进程是一组元素组成的实体，它可以是一个正在执行中的程序，也可以是一个能分配给处理
+器并由处理器执行的实体。进程的两个基本元素是：<strong>程序代码(program code)</strong>和代码相
+关联的<strong>数据集(set of data)</strong>。在进程执行时，任意给定一个时间，进程都可以唯一地
+表征为以下元素：</p>
+
+<ul>
+<li><strong>标识符</strong>：进程的唯一标识符，用来区别其他进程</li>
+<li><strong>状态</strong>：进程在不同的生命周期有着不同的状态</li>
+<li><strong>优先级</strong>：相对于其他进程的优先级</li>
+<li><strong>程序计数器</strong>：程序中即将被执行的下一条指令的地址</li>
+<li><strong>内存指针</strong>：包含程序代码和进程相关数据的指针，还有和其他进程共享内存块的指针</li>
+<li><strong>I/O状态信息</strong>：包括显示的I/O请求、分配给进程的I/O设备和被进程使用的文件列表等</li>
+<li><strong>记账信息</strong>：可能包括处理器时间总和、使用的时钟数总和、时间限制、记账号等</li>
+</ul>
+
+
+<p>上述的列表信息被存放在一个称为<strong>进程控制块</strong>的数据结构中，该控制块由操作系统创建
+和管理。</p>
+
+<h2>进程状态</h2>
+
+<p>在任何时刻，进程可以处于以下两种状态之一：运行态和未运行态，这是最简单的两状态模
+型。在这个模型中，会有一个<strong>调度器(dispatcher)</strong>，使处理器从一个进程切换到另外一
+个进程。</p>
+
+<p><img class="lazy no-shadow" data-original="/photos/state-transition.jpg" width="640" height="200" title="'内存状态转换'" alt="'内存状态转换'"></p>
+
+<p>由于存在着一些处于非运行状态但已经就绪等待执行的进程，而同时存在另外一些处于堵塞
+状态等待I/O操作结束的进程。因此，解决这一问题比较自然的方法是使用五状态模型： <strong>
+运行态、就绪态、堵塞/等待态、新建态和退出态</strong>。</p>
+
+<p><img class="lazy no-shadow" data-original="/photos/five-state-process-model.jpg" width="640" height="200" title="'五状态模型'" alt="'五状态模型'"></p>
+
+<h4>被挂起的进程</h4>
+
+<p>上述的基本状态提供了一种为进程建立系统模型的方法，并指导系统的实现。但是，往这个
+模型中添加其他状态也是合理的。</p>
+
+<p>由于处理器的运行速度远大于I/O，以至于内存中所有的进程都在等待I/O的情况也是很常见
+的。因此，即使是多道程序设计，大多数处理器仍然可能处于空闲状态。</p>
+
+<p>一种解决方案是增大内存，使得内存中可以存在更多的进程。然而这种方案显然是治标不治
+本的。</p>
+
+<p>另外一种解决方案是<strong>交换(swapping)</strong>。当内存中没有处于就绪状态的进程时，操作系统
+就把被阻塞的进程换出到磁盘中的<strong>挂起队列(suspend queue)</strong>。操作系统在此之后取出
+挂起队列中的另一个进程，或者接受一个新进程，将其加载到内存中运行。这时，在进程状
+态模型中添加了另外一个状态：<strong>挂起态</strong>。</p>
+
+<p><img class="lazy no-shadow" data-original="/photos/one-suspend-state.jpg" width="640" height="200" title="'单挂起态模型'" alt="'单挂起态模型'"></p>
+
+<p>当操作系统从挂起队列中取出一个依然阻塞的进程是毫无意义的，因为它仍然没有准备好执
+行。所以为了区分被挂起的进程哪些是可以取出的，需要设计另外一种挂起模型：</p>
+
+<p><img class="lazy no-shadow" data-original="/photos/with-two-suspend-state.jpg" width="640" height="200" title="'双挂起态模型'" alt="'双挂起态模型'"></p>
+
+<p>为了区分，需要四个状态：</p>
+
+<ul>
+<li><strong>就绪态</strong>：进程在内存中并可以执行</li>
+<li><strong>阻塞态</strong>：进程在进程中并等待一个事件</li>
+<li><strong>阻塞/挂起态</strong>：进程在外存中并等待一个事件</li>
+<li><strong>就绪/挂起态</strong>：进程在外存中，但是只要被载入内存就可以执行</li>
+</ul>
+
+
+<p>总结一下挂起的进程的概念：</p>
+
+<ol>
+<li>进程不能被立即执行。</li>
+<li>进程可能是或不是正在等待一个事件。如果是，阻塞条件不依赖于挂起条件，阻塞事件的
+的发生不会使进程立即执行。</li>
+<li>为组织进程的执行，可以通过代理把这个进程置于挂起状态，代理可以是进程自己，也
+可以是父进程或者操作系统。</li>
+<li>除非代理显示的命令操作系统进行状态转换，否则进程无法从这个状态中转移。</li>
+</ol>
+
+
+<p>除了因为提供更多的内存空间，进程还会因为什么原因被挂起呢？</p>
+
+<table>
+<thead>
+<tr>
+<th>事件        </th>
+<th>  说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>交换        </td>
+<td>  操作系统需要释放更多的内存空间，以调入并执行处于就绪状态的进程</td>
+</tr>
+<tr>
+<td>其他OS原因  </td>
+<td>  操作系统可能挂起后台进程或工具程序进程，或者怀疑导致问题的进程</td>
+</tr>
+<tr>
+<td>用户请求    </td>
+<td>  用户可能希望挂起一个程序的执行，目的是为了调试或者与一个资源连接</td>
+</tr>
+<tr>
+<td>定时        </td>
+<td>  一个进程可能会周期性的执行，而且可能在等待下一个时间间隔时被挂起</td>
+</tr>
+<tr>
+<td>父进程请求  </td>
+<td>  父进程请求挂起后代进程，以检查或者修改挂起的进程</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>在所有这些导致进程挂起的情况中，挂起进程的活动都是由最初请求挂起的代理请求的。</p>
+
+<h2>进程描述</h2>
+
+<p>操作系统控制计算机系统内部的事件，它为处理器执行进程而进行调度「schedule」和分派
+「dispatch」，给进程分配资源，并响应用户程序的基本服务请求。因此，操作系统可以被
+视为管理系统资源的实体。</p>
+
+<p>操作系统为了控制进程和管理资源需要哪些信息呢？</p>
+
+<h4>操作系统的控制结构</h4>
+
+<p>为了管理进程和资源，操作系统构造并维护它所管理的每个实体的信息表。</p>
+
+<p><img class="lazy no-shadow" data-original="/photos/control-tables.jpg" width="640" height="200" title="'操作系统控制表的通用结构'" alt="'操作系统控制表的通用结构'"></p>
+
+<p>操作系统维护四种不同类型的表：<strong>内存、I/O、文件和进程</strong>。</p>
+
+<p>内存表「memory tables」用于跟踪内存和外存。内存表必须包括一下信息：</p>
+
+<ul>
+<li>分配给进程的内存</li>
+<li>分配给进程的外存</li>
+<li>内存块或者虚拟内存块的保护属性</li>
+<li>管理虚拟内存所需要的任何信息</li>
+</ul>
+
+
+<p>I/O表「I/O tables」用于管理计算机系统中的I/O设备和通道。在任何给定的时刻，一个I/O
+设备或者是可用的，或者是已分配给某个特定的进程。如果正在进行I/O操作，则操作系统需
+要知道I/O操作的状态和作为I/O传送的源与目标的内存单元。</p>
+
+<p>文件表「file tables」用于提供关于文件是否存在、文件在外存中的位置、当前状态和属性
+的信息。</p>
+
+<p>进程表「process tables」为了管理和操作进程所必须使用的表。</p>
+
+<h4>进程控制结构</h4>
+
+<p>操作系统在管理和控制进程时，首先必须知道进程的位置，然后，它必须知道在管理时所必
+需的进程的属性（如进程ID、进程状态）。</p>
+
+<h5>进程位置</h5>
+
+<p>想一个最基本的问题：进程的物理表示是什么？</p>
+
+<p>回想之前关于进程的定义，进程至少包括一个或者一组被执行的程序，与这些程序相关联的
+局部变量、全局变量和任何已定义常量的数据单元。因此，一个进程至少包括足够的内存空
+间，以保存该进程的程序和数据；此外，程序的执行通常设计用于跟踪过程调用和过程间参
+数传递的栈。最后，与每个进程相关联的还有操作系统用于控制进程的许多属性，也就是进
+程控制块。程序、数据、栈和属性的集合称为<strong>进程映像「process image」</strong>。</p>
+
+<p>在最简单的情况下，进程映像保存在邻近的活连续的存储块中。因此，操作系统必须知道每
+个进程在磁盘中的位置；对于在内存中的进程，需要知道其在内存中的位置。</p>
+
+<p>现代操作系统嘉定分页硬件允许用不连续的物理内存来支持部分常驻内存的程序。在任何给
+定的时刻，进程映像的一部分可以在内存中，剩余部分可以在外存中。因此，操作系统维护
+的进程表必须表明每个进程映像中每页的位置。</p>
+
+<h5>进程属性</h5>
+
+<p>操作系统所需要的每个进程信息的简单分类：</p>
+
+<ul>
+<li>进程标识信息</li>
+<li>进程状态信息</li>
+<li>进程控制信息</li>
+</ul>
+
+
+<p><img class="lazy no-shadow" data-original="/photos/user-processes-in-virtual-memory.jpg" width="640" height="200" title="'虚拟内存中的用户进程'" alt="'虚拟内存中的用户进程'"></p>
+
+<p>所有的操作系统中，每个进程都分配了唯一的一个数字来表示<strong>进程标识符</strong>。除此之外，
+还分配一个用户标识符，用于表明拥有该进程的用户。</p>
+
+<p><strong>处理器状态信息</strong>包括处理器寄存器的内容。当进程被中断时，所有寄存器中的信息必须
+被保存起来，使得进程恢复执行时，这些信息可以被恢复。</p>
+
+<p>进程控制块中的第三类主要信息是<strong>进程控制信息</strong>，用于操作系统控制和协调各种活动进
+程所需要的额外信息。</p>
+
+<p>进程控制块中可能还包含构造信息，包括将进程控制块链接起来的指针。</p>
+
+<p><img class="lazy no-shadow" data-original="/photos/process-list-structures.jpg" width="640" height="200" title="'进程链表结构'" alt="'进程链表结构'"></p>
+
+<h5>进程控制块的作用</h5>
+
+<p>进程控制块是操作系统中最重要的数据结构。操作系统中的每个模块，包括那些设计调度、
+资源分配、中断处理、性能检测和分析的模块，都可能读取或者修改进程控制块。</p>
+
+<h2>进程控制</h2>
+
+<h4>执行模式</h4>
+
+<p>为了保护操作系统和重要的操作系统表不受用户程序的干涉，操作系统通常使用两种模式管
+理进程：特权模式『也称为系统模式(system mode)、控制模式(control mode)或者内核模式
+(kernel mode)』，和用户模式。</p>
+
+<p>在内核模式下，软件具有对处理器及所有指令、寄存器和内存的控制能力，这一级的控制对
+用户程序不是必需的，并且为了安全也不是用户程序可以访问的。</p>
+
+<h4>进程创建</h4>
+
+<p>操作系统一般安装以下步骤创建进程：</p>
+
+<ol>
+<li>给进程分配一个唯一的进程标识符。此时，主进程表中增加一条新表项，其对应该进程。</li>
+<li>给进程分配空间。包括进程映像中的所有元素。</li>
+<li>初始化进程控制块。进程控制信息部分的初始化基于标准默认值和为该进程所请求的属
+性。</li>
+<li>设置正确的连接。</li>
+<li>创建或者扩充其他数据结构。</li>
+</ol>
+
+
+<h4>进程切换</h4>
+
+<p>关于进程切换，有着一些问题。</p>
+
+<ul>
+<li>进程什么时候进程切换？</li>
+<li>执行模式切换和进程切换之间有什么区别？</li>
+<li>进程切换时，操作系统必须对它控制的各种数据结构做什么？</li>
+</ul>
+
+
+<h5>何时切换进程</h5>
+
+<p>通常，下列原因可能造成进程切换。</p>
+
+<table>
+<thead>
+<tr>
+<th>机制      </th>
+<th>  原因  </th>
+<th>  用例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>中断      </td>
+<td>  当前指令的外部执行    </td>
+<td>  对异步外部事件的反映</td>
+</tr>
+<tr>
+<td>陷阱      </td>
+<td>  与当前指令的执行有关  </td>
+<td>  处理一个错误或者异常</td>
+</tr>
+<tr>
+<td>系统调用  </td>
+<td>  显式请求              </td>
+<td>  调用操作系统函数</td>
+</tr>
+</tbody>
+</table>
+
+
+<h5>模式切换</h5>
+
+<p>如果存在一个未处理的中断，处理器会做以下工作：</p>
+
+<ul>
+<li>把程序计数器置成中断处理程序的开始地址。</li>
+<li>从用户模式切换到特权模式，使得中断处理代码可以包含有特权的指令。</li>
+</ul>
+
+
+<h5>进程的状态变化</h5>
+
+<p>如果当前正在运行的进程被转换到另外一个状态（就绪、挂起等），则操作系统必须使其环
+境发生实质性的变化：</p>
+
+<ol>
+<li>保存处理器的上下文环境，包括程序计数器和其他寄存器。</li>
+<li>更新当前处于运行态进程的进程控制块，包括将进程状态改变到另外一个状态。</li>
+<li>将进程的进程控制块移到相应的队列。</li>
+<li>选择另一个进程执行。</li>
+<li>更新所算则进程的进程控制块。</li>
+<li>更新内存管理的数据结构。</li>
+<li>恢复处理器在被选择的进程最近一次切换出运行状态时的上下文环境。</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/posts/3">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/index.html">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/shen-me-shi-xian-cheng/">什么是线程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/di-yi-ci-yu-arduino-jiao-hu/">第一次与 Arduino 交互</a>
+      </li>
+    
+      <li class="post">
+        <a href="/arduino-xue-xi-bi-ji-led-shan-shuo-shi-yan-zhong-yin-han-de-jian-dan-yuan-li/">Arduino 学习笔记——LED 闪烁实验中隐含的简单原理</a>
+      </li>
+    
+      <li class="post">
+        <a href="/redis-ji-chu-jiao-cheng/">Redis 基础教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/jiang-ni-de-vim-da-zao-cheng-qing-qiao-qiang-da-de-ide/">将你的Vim 打造成轻巧强大的IDE</a>
+      </li>
+    
+      <li class="post">
+        <a href="/jin-cheng-miao-shu-he-kong-zhi/">进程描述和控制</a>
+      </li>
+    
+      <li class="post">
+        <a href="/yi-ming-cai-niao-itxiang-mu-jing-li-de-cheng-chang-bi-ji/">一名菜鸟IT项目经理的成长笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/cong-ling-da-jian-he-pei-zhi-osxkai-fa-huan-jing/">从零搭建和配置OSX开发环境</a>
+      </li>
+    
+      <li class="post">
+        <a href="/tuan-dui-xiao-huo-ban-shang-di-yi-cai-jing/">团队小伙伴上第一财经</a>
+      </li>
+    
+      <li class="post">
+        <a href="/she-and-me/">She and Me</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/ji-zhu/'>技术 (15)</a></li>
+<li class='category'><a href='/blog/categories/sheng-huo/'>生活 (4)</a></li>
+
+  </ul>
+</section>
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/zgs225">@zgs225</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'zgs225',
+            count: 5,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+</section>
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - 乐正 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> -
+  <a href="http://www.miitbeian.gov.cn/" target="_blank">晥ICP备15005635号</a>
+</p>
+
+<script src="/javascripts/dist.min.js" type="text/javascript"></script>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'yuezme';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<!-- 
+ -->
+<!-- 
+ -->
+<!-- 
+ -->
+
+
+
+</body>
+</html>
